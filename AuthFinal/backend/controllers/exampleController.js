@@ -70,9 +70,9 @@ try {
     //add more validations
 
     //find the user in the db
-    const user= await User.findOne({line});
+    let user= await User.findOne({email:line});
     if(!user){
-        // user=await User.findOne({line});
+        user=await User.findOne({userhandle:line});
         if(!user){
             return res.status(404).send("User not found");
         }
@@ -85,7 +85,7 @@ try {
     }
 
     //token creation
-    const token=jwt.sign({id:user._id},procees.env.SECRET_KEY,{
+    const token=jwt.sign({id:user._id},process.env.SECRET_KEY,{
         expiresIn:"1h"
     });
     user.token=token;
