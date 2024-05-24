@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const cookieParser=require("cookie-parser");
 // const cors = require('cors');
 
 // Load environment variables
@@ -12,7 +13,7 @@ const app = express();
 // app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-
+app.use(cookieParser());
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
 });
