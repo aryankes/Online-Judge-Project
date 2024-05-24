@@ -79,7 +79,7 @@ try {
     }
      
     //comparing the password
-    const enteredPassword=bcrypt.compare(password,user.password);
+    const enteredPassword= await bcrypt.compare(password,user.password);
     if(!enteredPassword){
         return res.status(404).send("Password does not match");
     }
