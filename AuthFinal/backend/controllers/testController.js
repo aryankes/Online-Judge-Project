@@ -76,6 +76,12 @@ exports.update=async(req,res)=>{
         if(!test){
             return res.status(404).send("No Such Test Exists");
         }
+        let temp=await Test.findOne({TID:TID});
+        if(temp){
+            if(temp.TID!==initialID){
+                return res.status(404).send("A Testcase with the given updated TID already Exists");
+            }
+        }
         test.TID=TID;
         test.PID=PID;
         test.Input=Input;
@@ -105,7 +111,7 @@ exports.deletesingle= async(req,res)=>{
         console.log(error);
     }
 }
-exports.deleteall= async(req,res)=>{
+exports.deleteAllbyPID= async(req,res)=>{
     try {
         const{ID}=req.body;
         if(!ID){

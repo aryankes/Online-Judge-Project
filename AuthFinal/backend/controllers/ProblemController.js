@@ -49,10 +49,7 @@ exports.read=async(req,res)=>{
 
         let problem= await Problem.findOne({PID:line});
         if(!problem){
-            // problem=await Problem.findOne({ProblemName:line});
-            // if(!problem){
-                return res.status(404).send("No Such Problem Exists");
-            // }
+            return res.status(404).send("No Such Problem Exists");
         }
         res.status(200).send(problem);
     } catch (error) {
@@ -72,10 +69,17 @@ exports.update=async(req,res)=>{
                 return res.status(404).send("No Such Problem Exists");
             // }
         }
+        let temp=await Problem.findOne({PID:PID});
+        if(temp){
+            if(temp.PID!==initialID){
+                return res.status(404).send("A problem with the given updated PID already Exists");
+            }
+        }
         // let z=problem._id;
         // problem={
         //     PID,ProblemName,ProblemDescription,ProblemLevel
         // };//this method don't works because isme id and __v change ho jati hai
+        
         problem.PID=PID;
         problem.ProblemName=ProblemName;
         problem.ProblemDescription=ProblemDescription;

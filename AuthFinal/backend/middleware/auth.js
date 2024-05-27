@@ -1,29 +1,63 @@
-// middleware/auth.js
+// const jwt = require('jsonwebtoken');
+// const dotenv = require('dotenv');
+// dotenv.config();
+// const secret = process.env.SECRET_KEY; 
+// // const auth_page(permissions) => {
+
+// // }
+// const auth = (permissions,req, res, next) => {
+//     // Get token from cookies
+//     const token = req.cookies.token;
+//     // Check if not token
+//     if (!token) {
+//         return res.status(401).json({ message: 'No token, authorization denied' });
+//     }
+//     // Verify token
+//     try {
+//         const decoded = jwt.verify(token, secret);
+//         req.user = decoded.user;
+//         if(permissions.includes(req.user.role)){
+//             next();
+//         }
+//         else{
+//             return res.status(401).json({ message: "You Don't have authorization to access this page" });
+//         }
+//     } 
+//     catch (err) {
+//         res.status(401).json({ message: 'Token is not valid' });
+//     }
+// };
+
+// module.exports = auth;
+const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
-const jwt = require('jsonwebtoken');
 
-const auth = (role) => {
+const secret = process.env.SECRET_KEY;
+
+const auth = (permissions) => {
     return (req, res, next) => {
-        // Extract token from the cookie
+        // Get token from cookies
         const token = req.cookies.token;
 
+        // Check if not token
         if (!token) {
-            return res.status(401).send('Access denied. No token provided.');
+            return res.status(401).json({ message: 'No token, authorization denied' });
         }
 
+        // Verify token
         try {
-            // Verify the token
-            const decoded = jwt.verify(token, process.env.SECRET_KEY);
+            const decoded = jwt.verify(token, secret);
             req.user = decoded;
-            // Check for required role, if specified
-            if (role && req.user.role !== role) {
-                return res.status(403).send('Access denied. You do not have the required role.');
-            }
 
-            next();
-        } catch (error) {
-            res.status(400).send('Invalid token.');
+            // Check if the user's role is authorized
+            if (permissions.includes(req.user.role)) {
+                next();
+            } else {
+                return res.status(403).json({ message: "You don't have authorization to access this page" });
+            }
+        } catch (err) {
+            res.status(401).json({ message: 'Token is not valid' });
         }
     };
 };
