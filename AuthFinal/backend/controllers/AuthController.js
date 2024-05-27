@@ -58,7 +58,93 @@ catch (error) {
     console.log(error);
 }
 };
+exports.updateEmailPass = async (req, res) => {
+  
+    try {
+      //get all the data from the frontend
+      const {userhandle,firstName,lastName,email,password}=req.body;
+  
+      //check that all the data should exist
+      if(!(userhandle&&firstName&&lastName&&email&&password)){
+          return res.status(400).send("Please enter all the information");
+      }
+  
+      const existingUser=await User.findOne({ userhandle });
+      if(!existingUser){
+          return res.status(400).send("No such user exists with this handle");
+      }
+      const existingUser2=await User.findOne({ email });
+      if(existingUser2){
+        if(existingUser.email!==email){
+            return res.status(400).send("the new email already has a user registered to it");
+        }   
+      }
+      
+      //creating a hashed password
+    const hashedPassword= await bcrypt.hash(password,10);
+    existingUser.firstName=firstName;
+    existingUser.lastName=lastName;
+    existingUser.email=email;
+    existingUser.password=hashedPassword;
+    const updateduser = await existingUser.save();
 
+      //generate a token for the user and send it
+    //   const token=jwt.sign({id:user._id,userhandle,role},process.env.SECRET_KEY,{
+    //       expiresIn: '1h',
+    //   });
+      //passing the token to user
+    //   user.token=token;
+    //   user.password=undefined;
+      res.status(200).json({message: "You have succesfully updated your information !",updateduser})
+  } 
+  catch (error) {
+      console.log(error);
+  }
+  };
+exports.updatewhole = async (req, res) => {
+    try {
+      //get all the data from the frontend
+      const {beforehandle,newhandle,firstName,lastName,email,password,role}=req.body;
+  
+      //check that all the data should exist
+      if(!(beforehandle&&newhandle&&firstName&&lastName&&email&&password&&role)){
+          return res.status(400).send("Please enter all the information");
+      }
+  
+      const existingUser=await User.findOne({ userhandle:beforehandle });
+    //   console.log(existingUser);
+
+    if(!existingUser){
+        return res.status(400).send("No such user exists with this handle");
+    }
+
+    let existingUser2=await User.findOne({ email });
+      if(existingUser2){
+        if(existingUser.email!==email){
+            return res.status(400).send("the new email already has a user registered to it");
+        }   
+      }
+      existingUser2=await User.findOne({ userhandle:newhandle });
+      if(existingUser2){
+        if(beforehandle!==newhandle){
+            return res.status(400).send("the new handle already has a user registered to it");
+        }   
+      }
+      //creating a hashed password
+    const hashedPassword= await bcrypt.hash(password,10);
+    existingUser.userhandle=newhandle;
+    existingUser.firstName=firstName;
+    existingUser.lastName=lastName;
+    existingUser.email=email;
+    existingUser.password=hashedPassword;
+    existingUser.role=role;
+    const updateduser = await existingUser.save();
+      res.status(200).json({message: "You have succesfully updated your information !",updateduser})
+  } 
+  catch (error) {
+      console.log(error);
+  }
+  };
 exports.login= async(req,res)=>{
 try {
     //get all the data from frontend
