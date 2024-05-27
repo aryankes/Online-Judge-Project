@@ -145,7 +145,7 @@ exports.updatewhole = async (req, res) => {
       console.log(error);
   }
   };
-  exports.delete = async (req, res) => {
+exports.delete = async (req, res) => {
     try {
       //get all the data from the frontend
       const {handle}=req.body;
@@ -216,4 +216,6 @@ try {
 }
     
 }
-
+exports.logout = (req, res) => {
+    res.clearCookie('token'); 
+};

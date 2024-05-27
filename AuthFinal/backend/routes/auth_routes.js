@@ -10,5 +10,6 @@ router.post('/login', exampleController.login);
 router.put('/updateEmailPass',auth(["user","admin"]),exampleController.updateEmailPass);
 router.put('/updatewhole',auth(["admin"]),exampleController.updatewhole);
 router.delete('/delete',auth(["admin"]),exampleController.delete);
+router.get('/logout', exampleController.logout);
 
 module.exports = router;
