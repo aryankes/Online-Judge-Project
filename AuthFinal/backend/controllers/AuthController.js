@@ -145,6 +145,28 @@ exports.updatewhole = async (req, res) => {
       console.log(error);
   }
   };
+  exports.delete = async (req, res) => {
+    try {
+      //get all the data from the frontend
+      const {handle}=req.body;
+  
+      //check that all the data should exist
+      if(!(handle)){
+          return res.status(400).send("Please enter all the information");
+      }
+  
+      const existingUser=await User.findOneAndDelete({ userhandle:handle });
+    //   console.log(existingUser);
+
+    if(!existingUser){
+        return res.status(400).send("No such user exists with this handle");
+    }
+      res.status(200).json({message: "You have succesfully deleted this handle !",existingUser})
+  } 
+  catch (error) {
+      console.log(error);
+  }
+  };
 exports.login= async(req,res)=>{
 try {
     //get all the data from frontend
