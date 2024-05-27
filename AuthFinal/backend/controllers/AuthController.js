@@ -14,10 +14,10 @@ exports.register = async (req, res) => {
   
   try {
     //get all the data from the frontend
-    const {firstName,lastName,userhandle,email,password}=req.body;
+    const {firstName,lastName,userhandle,email,password,role}=req.body;
 
     //check that all the data should exist
-    if(!(firstName&&lastName&&userhandle&&email&&password)){
+    if(!(firstName&&lastName&&userhandle&&email&&password&&role)){
         return res.status(400).send("Please enter all the information");
     }
 
@@ -43,10 +43,10 @@ exports.register = async (req, res) => {
         userhandle,
         email,
         password: hashedPassword,//saving hashed password for increasing security
+        role,
     });
-
     //generate a token for the user and send it
-    const token=jwt.sign({id:user._id,userhandle},process.env.SECRET_KEY,{
+    const token=jwt.sign({id:user._id,userhandle,role},process.env.SECRET_KEY,{
         expiresIn: '1h',
     });
     //passing the token to user
@@ -85,7 +85,7 @@ try {
     }
 
     //token creation
-    const token=jwt.sign({id:user._id},process.env.SECRET_KEY,{
+    const token=jwt.sign({id:user._id, role:user.role},process.env.SECRET_KEY,{
         expiresIn:"1h"
     });
     user.token=token;
@@ -93,7 +93,7 @@ try {
 
     //storing token in cookies with option
     const options={
-        expiresIn:new Date(Date.now()+1*24*60*60*1000),
+        expiresIn:new Date(Date.now()+60*60*1000),
         httpOnly: true,//only manipulted by server not by your client/frontend 
     }
 

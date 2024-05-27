@@ -27,8 +27,9 @@ db.once('open', () => {
 // Routes
 const exampleRouter = require('./routes/auth_routes');
 app.use('/api/example', exampleRouter);
+app.use('/api/problems', require('./routes/problemRoutes'));
 // app.use('/api', require('./routes/solutionRoutes'));
-// app.use('/api', require('./routes/problemRoutes'));
+
 // app.use('/api', require('./routes/testCaseRoutes'));
 // app.use('/api', require('./routes/submissionRoutes'));
 
