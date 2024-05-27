@@ -1,6 +1,6 @@
 const Problem = require('../models/problems');
-const bcrypt=require('bcryptjs')
-const jwt=require("jsonwebtoken");
+// const bcrypt=require('bcryptjs')
+// const jwt=require("jsonwebtoken");
 const dotenv = require('dotenv');
 
 
@@ -20,11 +20,11 @@ exports.create = async (req, res) => {
         return res.status(400).send("PID is not unique");
     }
     
-    const existingProblemName=await Problem.findOne({ ProblemName });
+    // const existingProblemName=await Problem.findOne({ ProblemName });
     
-    if(existingProblemName){
-        return res.status(400).send("Problem Name is not unique");
-    }
+    // if(existingProblemName){
+    //     return res.status(400).send("Problem Name is not unique");
+    // }
 
     //creatnig the problem
     const problem=await Problem.create({
@@ -48,10 +48,10 @@ exports.read=async(req,res)=>{
 
         let problem= await Problem.findOne({PID:line});
         if(!problem){
-            problem=await Problem.findOne({ProblemName:line});
-            if(!problem){
+            // problem=await Problem.findOne({ProblemName:line});
+            // if(!problem){
                 return res.status(404).send("No Such Problem Exists");
-            }
+            // }
         }
         res.status(200).send(problem);
     } catch (error) {
@@ -61,15 +61,15 @@ exports.read=async(req,res)=>{
 exports.update=async(req,res)=>{
     try {
         const{initialID, PID,ProblemName,ProblemDescription,ProblemLevel}=req.body;
-        if(!initialID){
+        if(!(initialID&&PID&&ProblemName&&ProblemDescription&&ProblemLevel)){
             return res.status(400).send("Please enter the information");
         }
         let problem= await Problem.findOne({PID:initialID});
         if(!problem){
-            problem=await Problem.findOne({ProblemName:initialID});
-            if(!problem){
+            // problem=await Problem.findOne({ProblemName:initialID});
+            // if(!problem){
                 return res.status(404).send("No Such Problem Exists");
-            }
+            // }
         }
         // let z=problem._id;
         // problem={
@@ -97,10 +97,10 @@ exports.delete= async(req,res)=>{
         let problem= await Problem.findOneAndDelete({PID:ID});
         // console.log(problem);
         if(!problem){
-            problem=await Problem.findOneAndDelete({ProblemName:ID});
-            if(!problem){
+            // problem=await Problem.findOneAndDelete({ProblemName:ID});
+            // if(!problem){
                 return res.status(404).send("No Such Problem Exists");
-            }
+            // }
         }
         res.status(200).send({message:` ${ID} Problem-Deleted->`,problem});
     } catch (error) {

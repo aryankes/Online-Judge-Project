@@ -28,9 +28,9 @@ db.once('open', () => {
 const exampleRouter = require('./routes/auth_routes');
 app.use('/api/example', exampleRouter);
 app.use('/api/problems', require('./routes/problemRoutes'));
-// app.use('/api', require('./routes/solutionRoutes'));
+app.use('/api/tests', require('./routes/testCaseRoutes'));
 
-// app.use('/api', require('./routes/testCaseRoutes'));
+// app.use('/api', require('./routes/solutionRoutes'));
 // app.use('/api', require('./routes/submissionRoutes'));
 
 // Start the server

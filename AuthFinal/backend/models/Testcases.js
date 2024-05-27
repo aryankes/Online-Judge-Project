@@ -1,26 +1,26 @@
 const mongoose=require('mongoose');
-const ProblemSchema=new mongoose.Schema({
+const TestSchema=new mongoose.Schema({
+    TID:{
+        type:String,
+        default:null,
+        required:true,
+        unique:true,
+    },
     PID:{
         type:String,
         default:null,
         required:true,
-        unique:true,
-    },
-    ProblemName:{
-        type:String,
-        required:true,
-        default:null,
         // unique:true,
     },
-    ProblemDescription:{
+    Input:{
+        type:String,
+        required:true,
+        default:null,
+    },
+    Solution:{
         type:String,
         default:null,
         unique:true,
     },
-    ProblemLevel:{
-        type:String,
-        default:null,
-        required:true,
-    },
 });
-module.exports=mongoose.model("Problems",ProblemSchema);
+module.exports=mongoose.model("TestCases",TestSchema);
