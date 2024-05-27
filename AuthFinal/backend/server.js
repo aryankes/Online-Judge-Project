@@ -29,9 +29,9 @@ const exampleRouter = require('./routes/auth_routes');
 app.use('/api/example', exampleRouter);
 app.use('/api/problems', require('./routes/problemRoutes'));
 app.use('/api/tests', require('./routes/testCaseRoutes'));
+app.use('/api/submissions', require('./routes/submissionRoutes'));
 
 // app.use('/api', require('./routes/solutionRoutes'));
-// app.use('/api', require('./routes/submissionRoutes'));
 
 // Start the server
 const PORT = process.env.PORT || 5001;

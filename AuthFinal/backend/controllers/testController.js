@@ -54,12 +54,15 @@ exports.readbyPID=async(req,res)=>{
         if(!line){
             return res.status(400).send("Please enter all the information");
         }
-        let test= await Test.find({PID:line});
+        
+        let test= await Test.findOne({PID:line});
         if(!test){
-            return res.status(404).send("No Such Test Exists");
+            return res.status(404).send("No Test Exists related to this PID");
         }
+        test= await Test.find({PID:line});
         res.status(200).send(test);
-    } catch (error) {
+    } 
+    catch (error) {
         console.log(error);
     }
 }

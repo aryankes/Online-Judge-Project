@@ -1,4 +1,5 @@
 const Problem = require('../models/problems');
+const Test = require('../models/Testcases');
 // const bcrypt=require('bcryptjs')
 // const jwt=require("jsonwebtoken");
 const dotenv = require('dotenv');
@@ -93,7 +94,6 @@ exports.delete= async(req,res)=>{
             return res.status(400).send("Please enter the information");
         }
         // console.log(ID);
-
         let problem= await Problem.findOneAndDelete({PID:ID});
         // console.log(problem);
         if(!problem){
@@ -102,7 +102,7 @@ exports.delete= async(req,res)=>{
                 return res.status(404).send("No Such Problem Exists");
             // }
         }
-        res.status(200).send({message:` ${ID} Problem-Deleted->`,problem});
+        res.status(200).send({message:` ${ID} Problem-and-Testcases-Deleted->`,problem});
     } catch (error) {
         console.log(error);
     }
