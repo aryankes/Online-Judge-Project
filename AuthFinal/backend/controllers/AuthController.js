@@ -211,10 +211,10 @@ try {
         success: true,
         token,
     });
-} catch (error) {
+} 
+catch (error) {
     console.log(error);
 }
-    
 }
 exports.logout = (req, res) => {
     res.clearCookie('token'); 
