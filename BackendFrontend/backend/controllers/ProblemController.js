@@ -42,12 +42,12 @@ exports.b = async (req, res) => {
 };
 exports.read=async(req,res)=>{
     try {
-        const{line} =req.body;
-        if(!line){
+        const{id} =req.params;
+        if(!id){
             return res.status(400).send("Please enter the information");
         }
 
-        let problem= await Problem.findOne({PID:line});
+        let problem= await Problem.findOne({PID:id});
         if(!problem){
             return res.status(404).send("No Such Problem Exists");
         }
@@ -56,22 +56,36 @@ exports.read=async(req,res)=>{
         console.log(error);
     }
 }
+exports.readall=async(req,res)=>{
+    try {
+        const problem =await Problem.find({});
+        if(!problem){
+            return res.status(404).send("The Database is empty");
+        }
+        res.status(200).send(problem);
+    } 
+    catch (error) {
+        console.log("error in reading all problems");
+        console.log("error");
+    }
+}
 exports.update=async(req,res)=>{
     try {
-        const{initialID, PID,ProblemName,ProblemDescription,ProblemLevel}=req.body;
-        if(!(initialID&&PID&&ProblemName&&ProblemDescription&&ProblemLevel)){
+        const{id} =req.params;
+        const{PID,ProblemName,ProblemDescription,ProblemLevel}=req.body;
+        if(!(id&&PID&&ProblemName&&ProblemDescription&&ProblemLevel)){
             return res.status(400).send("Please enter the information");
         }
-        let problem= await Problem.findOne({PID:initialID});
+        let problem= await Problem.findOne({PID:id});
         if(!problem){
-            // problem=await Problem.findOne({ProblemName:initialID});
+            // problem=await Problem.findOne({ProblemName:id});
             // if(!problem){
                 return res.status(404).send("No Such Problem Exists");
             // }
         }
         let temp=await Problem.findOne({PID:PID});
         if(temp){
-            if(temp.PID!==initialID){
+            if(temp.PID!==id){
                 return res.status(404).send("A problem with the given updated PID already Exists");
             }
         }
@@ -85,7 +99,8 @@ exports.update=async(req,res)=>{
         problem.ProblemDescription=ProblemDescription;
         problem.ProblemLevel=ProblemLevel;
         const updatedproblem = await problem.save();
-        res.status(200).send(updatedproblem);
+        res.status(200).json({message: "You have succesfully updated the problem!",problem});
+        
         // res.status(200).send(p1roblem);
     } catch (error) {
         console.log(error);
@@ -93,20 +108,20 @@ exports.update=async(req,res)=>{
 }
 exports.delete= async(req,res)=>{
     try {
-        const{ID}=req.body;
-        if(!ID){
+        const{id}=req.params;
+        if(!id){
             return res.status(400).send("Please enter the information");
         }
-        // console.log(ID);
-        let problem= await Problem.findOneAndDelete({PID:ID});
+        // console.log(id);
+        let problem= await Problem.findOneAndDelete({PID:id});
         // console.log(problem);
         if(!problem){
-            // problem=await Problem.findOneAndDelete({ProblemName:ID});
+            // problem=await Problem.findOneAndDelete({ProblemName:id});
             // if(!problem){
                 return res.status(404).send("No Such Problem Exists");
             // }
         }
-        res.status(200).send({message:` ${ID} Problem-and-Testcases-Deleted->`,problem});
+        res.status(200).send({message:` ${id} Problem-and-Testcases-Deleted`,problem});
     } catch (error) {
         console.log(error);
     }

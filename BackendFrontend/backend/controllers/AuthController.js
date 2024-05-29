@@ -210,7 +210,9 @@ try {
         message:"You have succeddfully logged in!",
         success: true,
         token,
+        role:user.role,
     });
+    // res.status(200).send(user.role);
 } 
 catch (error) {
     console.log(error);
