@@ -43,8 +43,8 @@ function TestcasesSet() {
         //refreshing the list of problems
         setTestcases(Testcases.filter(Testcase => Testcase.TID !== TID));
       } catch (error) {
-        console.error('Error deleting problem:', error);
-        alert('Error deleting problem. Please try again.');
+        console.error('Error deleting testcase:', error);
+        alert('Error deleting testcase. Please try again.');
       }
     }
   };
