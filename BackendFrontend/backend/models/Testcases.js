@@ -20,7 +20,8 @@ const TestSchema=new mongoose.Schema({
     Solution:{
         type:String,
         default:null,
-        unique:true,
+        required:true,
+        // unique:true,
     },
 });
 module.exports=mongoose.model("TestCases",TestSchema);

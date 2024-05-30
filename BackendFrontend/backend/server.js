@@ -33,7 +33,7 @@ app.use('/api/example', exampleRouter);
 app.use('/api/problems', require('./routes/problemRoutes'));
 app.use('/api/tests', require('./routes/testCaseRoutes'));
 app.use('/api/submissions', require('./routes/submissionRoutes'));
-
+app.use('/api/compiler', require('./routes/compilerRoutes'));
 // app.use('/api', require('./routes/solutionRoutes'));
 
 // Start the server

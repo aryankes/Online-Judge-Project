@@ -39,7 +39,8 @@ function CreateProblem(){
                 console.error('Response data:', error.response.data);
                 console.error('Response status:', error.response.status);
                 console.error('Response headers:', error.response.headers);
-                alert(`Error: ${error.response.data}`); // Include server error response in alert message
+                alert(`Error: ${error.response.data.message}`); // Include server error response in alert message
+
               } 
               else if (error.request) {
                 console.error('Request data:', error.request);

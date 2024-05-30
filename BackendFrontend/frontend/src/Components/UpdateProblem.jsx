@@ -9,7 +9,7 @@ function UpdateProblem(){
     const {id:PID}=useParams();
     const navigate = useNavigate();
     const[formData,setData]=useState({
-        PID:"",
+        PID:PID,
         ProblemName:"",
         ProblemDescription:"",
         ProblemLevel:"",
@@ -52,7 +52,7 @@ function UpdateProblem(){
                 console.error('Response data:', error.response.data);
                 console.error('Response status:', error.response.status);
                 console.error('Response headers:', error.response.headers);
-                alert(`Error: ${error.response.data}`); // Include server error response in alert message
+                alert(`Error: ${error.response.data.message}`); // Include server error response in alert message
               } 
               else if (error.request) {
                 console.error('Request data:', error.request);
@@ -71,12 +71,12 @@ function UpdateProblem(){
             <Navbar/>
             <form onSubmit={handleSubmit}>
                 <h2>Update Problem {PID}</h2>
-                <div>
+                {/* <div>
                     <label >
                         PID:
                         <input type="text" name="PID" value={formData.PID} onChange={handleChange} required  />
                     </label>
-                </div>
+                </div> */}
                 <br />
                 <div>
                     <label >

@@ -19,7 +19,8 @@ function TestcasesSet() {
     async function fetchTestcases() {
       try {
         const response = await axios.get(`http://localhost:5000/api/tests/readbyPID/${PID}`);
-        setTestcases(response.data);
+        // setTestcases(response.data);
+        setTestcases(response.data.sort((a,b) => a.TID.localeCompare(b.TID)));
       } 
       catch (error) {
         console.error('Error fetching Testcases:', error);
@@ -44,7 +45,8 @@ function TestcasesSet() {
         setTestcases(Testcases.filter(Testcase => Testcase.TID !== TID));
       } catch (error) {
         console.error('Error deleting testcase:', error);
-        alert('Error deleting testcase. Please try again.');
+        alert(`Error: ${error.response.data.message}`); // Include server error response in alert message
+        
       }
     }
   };

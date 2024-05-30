@@ -17,7 +17,7 @@ function ProblemSet() {
     async function fetchProblems() {
       try {
         const response = await axios.get('http://localhost:5000/api/problems/readall');
-        setProblems(response.data);
+        setProblems(response.data.sort((a,b) => a.PID.localeCompare(b.PID)));
       } 
       catch (error) {
         console.error('Error fetching problems:', error);
@@ -42,7 +42,8 @@ function ProblemSet() {
         setProblems(problems.filter(problem => problem.PID !== PID));
       } catch (error) {
         console.error('Error deleting problem:', error);
-        alert('Error deleting problem. Please try again.');
+        alert(`Error: ${error.response.data.message}`); // Include server error response in alert message
+
       }
     }
   };
