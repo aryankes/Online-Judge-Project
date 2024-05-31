@@ -9,20 +9,20 @@ dotenv.config();
 // GET all examples
 exports.create = async (req, res) => {
   try {
-    const{ TID,PID,Input,Solution}=req.body;
-    if(!(TID&&PID&&Input&&Solution)){
+    const{ PID,Input,Solution}=req.body;
+    if(!(PID&&Input&&Solution)){
         return res.status(400).send("Please enter all the Test information");
     }
     
-    const existingTID=await Test.findOne({TID});
+    // const existingTID=await Test.findOne({TID});
     
-    if(existingTID){
-        return res.status(400).send("TID is not unique");
-    }
+    // if(existingTID){
+    //     return res.status(400).send("TID is not unique");
+    // }
     
     //creating the testcase
     const testcase=await Test.create({
-        TID,PID,Input,Solution
+        PID,Input,Solution
     });
     res.status(200).json({message: "You have succesfully created the testcase!",testcase});
   } 
@@ -39,10 +39,10 @@ exports.readbyTID=async(req,res)=>{
         if(!id){
             return res.status(400).send("Please enter all the information");
         }
-        let test= await Test.findOne({TID:id});
-        if(!test){
-            return res.status(404).send("No Such Test Exists");
-        }
+        let test= await Test.findOne({_id:id});
+        // if(!test){
+        //     return res.status(404).send("No Such Test Exists");
+        // }
         res.status(200).send(test);
     } catch (error) {
         console.log(error);
@@ -59,7 +59,7 @@ exports.readbyPID=async(req,res)=>{
         // if(!test){
         //     return res.status(404).send("No Test Exists related to this PID");
         // }
-        test= await Test.find({PID:id});
+        let test= await Test.find({PID:id});
         res.status(200).send(test);
     } 
     catch (error) {
@@ -69,21 +69,21 @@ exports.readbyPID=async(req,res)=>{
 exports.update=async(req,res)=>{
     try {
         const {id}=req.params;
-        const{TID,PID,Input,Solution}=req.body;
-        if(!(id&&TID&&PID&&Input&&Solution)){
+        const{PID,Input,Solution}=req.body;
+        if(!(id&&PID&&Input&&Solution)){
             return res.status(400).send("Please enter all the information");
         }
-        let test= await Test.findOne({TID:id});
-        if(!test){
-            return res.status(404).send("No Such Test Exists");
-        }
-        let temp=await Test.findOne({TID:TID});
-        if(temp){
-            if(temp.TID!==id){
-                return res.status(404).send("A Testcase with the given updated TID already Exists");
-            }
-        }
-        test.TID=id;
+        let test= await Test.findOne({_id:id});
+        // if(!test){
+        //     return res.status(404).send("No Such Test Exists");
+        // }
+        // let temp=await Test.findOne({_id:id});
+        // if(temp){
+        //     if(temp.TID!==id){
+        //         return res.status(404).send("A Testcase with the given updated TID already Exists");
+        //     }
+        // }
+        // test.TID=id;
         test.PID=PID;
         test.Input=Input;
         test.Solution=Solution;
@@ -105,7 +105,7 @@ exports.deletesingle= async(req,res)=>{
         }
         // console.log(id);
 
-        let test= await Test.findOneAndDelete({TID:id});
+        let test= await Test.findOneAndDelete({_id:id});
         // console.log(test);
         if(!test){
             return res.status(404).send("No Such Test Exists");

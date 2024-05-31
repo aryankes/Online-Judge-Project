@@ -219,5 +219,12 @@ catch (error) {
 }
 }
 exports.logout = (req, res) => {
-    res.clearCookie('token'); 
+    try {
+        res.clearCookie('token');
+        res.status(200).send({ message: 'Logout successful' })
+    } catch (error) {
+        console.log(error);
+        res.status(200).send({message:"Logout Failed"});
+    }
+     
 };

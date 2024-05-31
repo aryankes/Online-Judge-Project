@@ -11,7 +11,6 @@ function CreateTestcase(){
     // console.log("PID is ",PID);
     const navigate = useNavigate();
     const[formData,setData]=useState({
-        TID:"",
         PID:PID,
         Input:"",
         Solution:"",
@@ -27,15 +26,11 @@ function CreateTestcase(){
     
     const handleSubmit= async(e)=>{
         e.preventDefault();
-        // if(formData.password!==formData.confirm_password){
-        //     alert('Password not match with confirmPassword');
-        //     return ;
-        // }
         try{
             const response= await axios.post('http://localhost:5000/api/tests/create',formData);
             alert(`Success: ${response.data.message}`);
             // console.log(formData);
-            navigate(`/TestcaseDescription/${formData.TID}`);
+            navigate(`/TestcaseDescription/${response.data.testcase._id}`);
         }
         catch(error){
             console.log("error in submitting while creating testcase");
@@ -63,12 +58,12 @@ function CreateTestcase(){
             <form onSubmit={handleSubmit}>
                 <h2>Create a New Test</h2>
                 {/* {console.log(formData)} */}
-                <div>
+                {/* <div>
                     <label >
                         TID:
                         <input type="text" name="TID" value={formData.TID} onChange={handleChange} required  />
                     </label>
-                </div>
+                </div> */}
                 <br /><div>
                     <label >
                         Input:

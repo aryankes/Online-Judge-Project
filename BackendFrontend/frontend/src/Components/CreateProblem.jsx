@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 import Navbar from './Navbar';
-
 import { useNavigate } from 'react-router-dom';
 
 function CreateProblem(){
@@ -20,7 +19,6 @@ function CreateProblem(){
             [name]: value
         }));
     };
-    
     const handleSubmit= async(e)=>{
         e.preventDefault();
         // if(formData.password!==formData.confirm_password){

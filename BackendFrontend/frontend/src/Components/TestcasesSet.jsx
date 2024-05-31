@@ -20,29 +20,28 @@ function TestcasesSet() {
       try {
         const response = await axios.get(`http://localhost:5000/api/tests/readbyPID/${PID}`);
         // setTestcases(response.data);
-        setTestcases(response.data.sort((a,b) => a.TID.localeCompare(b.TID)));
+        setTestcases(response.data.sort((a,b) => a._id.localeCompare(b._id)));
       } 
       catch (error) {
         console.error('Error fetching Testcases:', error);
       }
     }
-
     fetchTestcases();
   }, []);
   const handleCreateTestcase=(PID)=>{
     navigate(`/CreateTestcase/${PID}`);
   };
-  const handleUpdateTestcase=(TID)=>{
-    navigate(`/UpdateTestcase/${PID}/${TID}`);
+  const handleUpdateTestcase=(_id)=>{
+    navigate(`/UpdateTestcase/${PID}/${_id}`);
   };
-  const handleDeleteTestcase =async (TID) => {
+  const handleDeleteTestcase =async (_id) => {
     if (window.confirm('Do you really want to delete?')) {
-      console.log('Deleting Testcase with ID:', TID);
+      console.log('Deleting Testcase with ID:', _id);
       try {
-        const response = await axios.delete(`http://localhost:5000/api/tests/deletesingle/${TID}`);
+        const response = await axios.delete(`http://localhost:5000/api/tests/deletesingle/${_id}`);
         alert(`Success: ${response.data.message}`);
         //refreshing the list of problems
-        setTestcases(Testcases.filter(Testcase => Testcase.TID !== TID));
+        setTestcases(Testcases.filter(Testcase => Testcase._id !== _id));
       } catch (error) {
         console.error('Error deleting testcase:', error);
         alert(`Error: ${error.response.data.message}`); // Include server error response in alert message
@@ -61,11 +60,11 @@ function TestcasesSet() {
         ):(<></>)}
       <ul>
         {Testcases.map((Testcase) => (
-          <li key={Testcase.TID}>
-            <Link to={`/TestcaseDescription/${Testcase.TID}`}>{`${Testcase.TID}`}</Link>
+          <li key={Testcase._id}>
+            <Link to={`/TestcaseDescription/${Testcase._id}`}>{`${Testcase._id}`}</Link>
             {userRole==='admin'?(
               <><span style={{ marginRight: '10px' }}></span>
-                <button onClick={()=>handleUpdateTestcase(Testcase.TID)}>Update</button> <span style={{ marginRight: '10px' }}></span><button onClick={()=>handleDeleteTestcase(Testcase.TID)}>Delete</button>
+                <button onClick={()=>handleUpdateTestcase(Testcase._id)}>Update</button> <span style={{ marginRight: '10px' }}></span><button onClick={()=>handleDeleteTestcase(Testcase._id)}>Delete</button>
               </>
             ):(<></>)}
           </li>

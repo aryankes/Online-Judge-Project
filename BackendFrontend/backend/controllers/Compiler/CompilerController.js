@@ -25,10 +25,8 @@ exports.run=async(req,res)=>{
             const output=await executepy(filePath);
             res.json({filePath,output});
         }
-
-        
     } 
     catch (error) {
-        res.status(400).json({success:false, error: {message: "cannot generate file",error:error}});
+        res.status(400).json({success:false, error: {message: "cannot submit code ",error:error}});
     }
 }

@@ -6,11 +6,10 @@ import { useParams } from 'react-router-dom';
 import Navbar from './Navbar';
 
 function UpdateTestcase(){
-    const {id1:PID,id:TID}=useParams();
+    const {id1:PID,id:_id}=useParams();
     
     const navigate = useNavigate();
     const[formData,setData]=useState({
-        TID:TID,
         PID:PID,
         Input:"",
         Solution:"",
@@ -18,7 +17,7 @@ function UpdateTestcase(){
     useEffect(() => {
         async function fetchTests() {
           try {
-            const response = await axios.get(`http://localhost:5000/api/tests/readbyTID/${TID}`);
+            const response = await axios.get(`http://localhost:5000/api/tests/readbyTId/${_id}`);
             setData(response.data);
           } 
           catch (error) {
@@ -41,12 +40,12 @@ function UpdateTestcase(){
         e.preventDefault();
         
         try{
-            console.log(formData);
+            // console.log(formData);
 
-            const response= await axios.put(`http://localhost:5000/api/tests/update/${TID}`,formData);
+            const response= await axios.put(`http://localhost:5000/api/tests/update/${_id}`,formData);
             alert(`Success: ${response.data.message}`);
             // navigate('/homepage');
-            navigate(`/TestcaseDescription/${formData.TID}`);
+            navigate(`/TestcaseDescription/${formData._id}`);
 
         }
         catch(error){
@@ -73,7 +72,7 @@ function UpdateTestcase(){
         <div>
             <Navbar/>
             <form onSubmit={handleSubmit}>
-                <h2>Update Testcase {TID}</h2>
+                <h2>Update Testcase {_id}</h2>
                 <div>
                     <label >
                         Input:
