@@ -8,22 +8,23 @@ if(!fs.existsSync(outputPath)){
     fs.mkdirSync(outputPath,{recursive:true});
 }
 
-const executepy=(filepath)=>{
+const executepy=(filepath,InputFilePath)=>{
     const uniqID= path.basename(filepath).split(".")[0];
     const outPath=path.join(outputPath,`${uniqID}.exe`);
     // console.log(outPath);
-    // const timeoutSeconds = 5;
+    const timeoutSeconds = 5;
     return new Promise((resolve,reject)=>{
         exec(
-            `python ${filepath}`,
+            `python ${filepath} < ${InputFilePath}`,
+            {timeout: timeoutSeconds*1000},
             (error,stdout,stderr)=>{
                if(error){
-                // if(error.killed){
-                //     reject({ error: "Process terminated due to timeout", stderr });
-                // }
-                // else{
+                if(error.killed){
+                    reject({ error: "sigterm", stderr });
+                }
+                else{
                     reject({error,stderr});
-                // }
+                }
                 
                } 
                if(stderr){

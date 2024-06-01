@@ -19,9 +19,10 @@ int main()
 
     return 0;
 }`,
+    input:"",
   });
   const [output, setOutput] = useState('');
-
+const[Test,setTest]=useState('');
   useEffect(() => {
     async function fetchDescription() {
       try {
@@ -46,7 +47,7 @@ int main()
     }));
   };
 
-  const handleSubmit= async(e)=>{
+  const handleRun= async(e)=>{
     e.preventDefault();
     try{
         const response= await axios.post('http://localhost:5000/api/compiler/run',code);
@@ -63,9 +64,16 @@ int main()
             console.error('Response data:', error.response.data);
             console.error('Response status:', error.response.status);
             console.error('Response headers:', error.response.headers);
-            alert(`Compilation failed`); 
-            setOutput(error.response.data.error.error.stderr);
-
+            if(error.response.data.error.error.stderr){
+              alert(`Compilation failed`); 
+              setOutput(error.response.data.error.error.stderr);
+            }
+            else if(error.response.data.error.error.error==="sigterm"){
+              setOutput(error.response.data.error.error.error);
+            }
+            else{
+              alert(`Compilation failed`); 
+            }
           } 
           else if (error.request) {
             console.error('Request data:', error.request);
@@ -74,6 +82,42 @@ int main()
             console.error('Error message:', error.message);
           }
     }
+};
+const handleSubmit= async(e)=>{
+  e.preventDefault();
+  try{
+      const response= await axios.post(`http://localhost:5000/api/execution/submit/${PID}`,code,{timeout:100000});
+      // alert(`Successfully Submitted`);
+      const data=response.data;
+      // console.log(response.data);
+      setOutput(data.message);
+      // navigate('/homepage')
+  }
+  catch(error){
+      console.log("error in submitting code");
+      console.log(error);
+      if (error.response) {
+          console.error('Response data:', error.response.data);
+          console.error('Response status:', error.response.status);
+          console.error('Response headers:', error.response.headers);
+          // if(error.response.data.error.error.stderr){
+          //   alert(`Compilation failed`); 
+          //   setOutput(error.response.data.error.error.stderr);
+          // }
+          // else if(error.response.data.error.error.error==="sigterm"){
+          //   setOutput(error.response.data.error.error.error);
+          // }
+          // else{
+          //   alert(`Compilation failed`); 
+          // }
+        } 
+        else if (error.request) {
+          console.error('Request data:', error.request);
+        } 
+        else {
+          console.error('Error message:', error.message);
+        }
+  }
 };
   return (
     <div>
@@ -85,7 +129,7 @@ int main()
       <br />
       <br />
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleRun}>
         <label for="language">Select Your Language:</label>
         <select name="language" id="language" value={code.language} onChange={handleChange}>
           <option value="cpp">C++</option>
@@ -102,7 +146,20 @@ int main()
           onChange={handleChange}
         ></textarea>
       <br />
-      <button type="submit">Submit</button>
+      <label for="input">Input: </label><br />
+      <textarea
+          rows="10"
+          cols="50"
+          name="input"
+          placeholder="Enter your input here"
+          value={code.input}
+          onChange={handleChange}
+        ></textarea>
+      <br />
+      <br />
+      <button type="submit">Run</button>&nbsp;&nbsp;&nbsp;&nbsp;
+      <button onClick={handleSubmit}>Submit</button>
+
       <br />
       <label htmlFor="output">Output</label>
       <br />

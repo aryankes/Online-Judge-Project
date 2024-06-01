@@ -8,22 +8,24 @@ if(!fs.existsSync(outputPath)){
     fs.mkdirSync(outputPath,{recursive:true});
 }
 
-const executeC=(filepath)=>{
+const executeC=(filepath,InputFilePath)=>{
     const uniqID= path.basename(filepath).split(".")[0];
     const outPath=path.join(outputPath,`${uniqID}.exe`);
     // console.log(outPath);
-    // const timeoutSeconds = 5;
+    const timeoutSeconds = 5;
     return new Promise((resolve,reject)=>{
         exec(
-            `gcc ${filepath} -o ${outPath}  &&cd ${outputPath} && .\\${uniqID}.exe`,
+            `gcc ${filepath} -o ${outPath}  &&cd ${outputPath} && .\\${uniqID}.exe <${InputFilePath}`,
+            // `g++ ${filepath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out < ${inputPath}`
+            {timeout: timeoutSeconds*1000},
             (error,stdout,stderr)=>{
                if(error){
-                // if(error.killed){
-                //     reject({ error: "Process terminated due to timeout", stderr });
-                // }
-                // else{
+                if(error.killed){
+                    reject({ error: "sigterm", stderr });
+                }
+                else{
                     reject({error,stderr});
-                // }
+                }
                 
                } 
                if(stderr){
