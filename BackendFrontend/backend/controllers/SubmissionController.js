@@ -8,26 +8,22 @@ dotenv.config();
 // GET all examples
 exports.create = async (req, res) => {
   try {
-    const{ SID,PID,userhandle,Status}=req.body;
-    // console.log(Status);
-    if(!(SID&&PID&&userhandle&&Status)){
+    const lastSubmission = await Submission.findOne().sort({ DateTime: -1 });
+
+    let lastSID;
+    if (!lastSubmission || !lastSubmission.SID) {
+      lastSID = 1; // Start with 1 if there are no previous submissions
+    } else {
+      lastSID = parseInt(lastSubmission.SID) + 1; // Increment SID
+    }
+
+    const{ PID,language,Status}=req.body;
+    if(!(lastSID&&PID&&language&&Status)){
         return res.status(400).send("Please enter all the submission information");
     }
-    const existingSID=await Submission.findOne({SID});
-    if(existingSID){
-        return res.status(400).send("SID is not unique");
-    }
-    const existingPID=await Problem.findOne({PID});
-    if(!existingPID){
-        return res.status(400).send("No such PID exists");
-    }
-    const existinguserhandle=await User.findOne({userhandle});
-    if(!existinguserhandle){
-        return res.status(400).send("No such user with this handle exists");
-    }
-    //creating the submission
+    const userhandle=req.signedCookies.token.userhandle;
     const submission=await Submission.create({
-        SID,PID,userhandle,Status,
+        SID:lastSID,userhandle,PID,language,Status,
     });
     res.status(200).json({message: "You have succesfully created the submission!",submission});
   } 
@@ -56,16 +52,11 @@ exports.readbySID=async(req,res)=>{
 }
 exports.readbyPID=async(req,res)=>{
     try {
-        const{line} =req.body;
-        if(!line){
-            return res.status(400).send("Please enter the information");
+        const {id:PID}=req.params;
+        if(!PID){
+            return res.status(400).send("No parametre Attached in read by PID");
         }
-        let submission= await Submission.findOne({PID:line});
-        if(!submission){
-            return res.status(404).send("No Such submission Exists corresponding to this SID exists");
-        }
-        submission= await Submission.find({PID:line});
-
+        let submission= await Submission.find({PID:PID}).sort({DateTime:-1});
         res.status(200).send(submission);
     } 
     catch (error) {
@@ -74,15 +65,11 @@ exports.readbyPID=async(req,res)=>{
 }
 exports.readbyhandle=async(req,res)=>{
     try {
-        const{line} =req.body;
-        if(!line){
-            return res.status(400).send("Please enter the information");
+        const userhandle=req.signedCookies.token.userhandle;
+        if(!userhandle){
+            return res.status(400).send("No such handle ");
         }
-        let submission= await Submission.findOne({userhandle:line});
-        if(!submission){
-            return res.status(404).send("No Such submission Exists corresponding to this handle exists");
-        }
-        submission= await Submission.find({userhandle:line});
+        let submission= await Submission.find({userhandle:userhandle}).sort({DateTime:-1});
 
         res.status(200).send(submission);
     } 

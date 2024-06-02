@@ -10,6 +10,8 @@ function Navbar() {
       const response=await axios.get('http://localhost:5000/api/example/logout');
       // console.log("logout function triggered");
       alert(`You have successfully logged out`);
+      localStorage.clear();
+
       navigate('/');
     } catch (error) {
       console.log("Error in logging out");
@@ -38,6 +40,9 @@ function Navbar() {
         </li>
         <li>
           <Link to="/ProblemSet">Problem Set</Link>
+        </li>
+        <li>
+          <Link to="/SubmissionsByHandle">My Submissions</Link>
         </li>
       </ul>
     </nav>

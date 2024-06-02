@@ -203,14 +203,16 @@ try {
     const options={
         expiresIn:new Date(Date.now()+60*60*1000),
         httpOnly: true,//only manipulted by server not by your client/frontend 
+        signed:true,
     }
 
     //send the token
-    res.status(200).cookie("token",token,options).json({
+    res.status(200).cookie("token",{jwtToken:token,userhandle:user.userhandle},options).json({
         message:"You have succeddfully logged in!",
         success: true,
         token,
         role:user.role,
+        userhandle:user.userhandle
     });
     // res.status(200).send(user.role);
 } 

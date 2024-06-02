@@ -38,7 +38,7 @@ const secret = process.env.SECRET_KEY;
 const auth = (permissions) => {
     return (req, res, next) => {
         // Get token from cookies
-        const token = req.cookies.token;
+        const token = req.signedCookies.token.jwtToken;
 
         // Check if not token
         if (!token) {
@@ -54,7 +54,7 @@ const auth = (permissions) => {
             if (permissions.includes(req.user.role)) {
                 next();
             } else {
-                return res.status(403).json({ message: "You don't have authorization to access this page" });
+                return res.status(403).json({ message: `You don't have authorization to access this page ` });
             }
         } catch (err) {
             res.status(401).json({ message: 'Token is not valid' });

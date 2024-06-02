@@ -9,6 +9,7 @@ dotenv.config({path: '../../.env'});
 
 // Initialize Express
 const app = express();
+app.use(cookieParser(process.env.CookieSecret));
 // Middleware
 app.use(cors({
   origin: 'http://localhost:5173',
@@ -34,7 +35,7 @@ app.use('/api/problems', require('./routes/problemRoutes'));
 app.use('/api/tests', require('./routes/testCaseRoutes'));
 app.use('/api/submissions', require('./routes/submissionRoutes'));
 app.use('/api/compiler', require('./routes/compilerRoutes'));
-app.use('/api/execution', require('./routes/ProblemExecutionRoutes'));
+// app.use('/api/execution', require('./routes/ProblemExecutionRoutes'));
 
 // app.use('/api', require('./routes/solutionRoutes'));
 

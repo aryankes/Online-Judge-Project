@@ -12,9 +12,13 @@ import ProblemDescription from './Components/ProblemDescription';
 import UpdateProblem from './Components/UpdateProblem';
 import CreateProblem from './Components/CreateProblem';
 import TestcasesSet from './Components/TestcasesSet';
+
 import TestcaseDescription from './Components/TestcaseDescription';
 import CreateTestcase from './Components/CreateTestcase';
 import UpdateTestcase from './Components/UpdateTestcase';
+
+import SubmissionsByHandle from './Components/SubmissionsByHandle';
+import SubmissionsByPID from './Components/SubmissionsByPID';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -33,9 +37,14 @@ function App() {
             
             <Route path="/UpdateProblem/:id" element={<UpdateProblem/>}/>
             <Route path="/TestcasesSet/:id" element={<TestcasesSet/>} />
+
             <Route path="/TestcaseDescription/:id" element={<TestcaseDescription/>}/>
             <Route path="/CreateTestcase/:id" element={<CreateTestcase/>}/>
             <Route path="/UpdateTestcase/:id1/:id" element={<UpdateTestcase/>}/>
+
+            <Route path="/SubmissionsByPID/:id" element={<SubmissionsByPID/>} />
+            <Route path="/SubmissionsByHandle" element={<SubmissionsByHandle/>} />
+
           </Routes>
         </Router>
       // </AuthProvider>

@@ -1,22 +1,49 @@
 const {exec} = require("child_process");
-const fs =require("fs")
-const path= require("path");
+// const fs =require("fs")
 
-const outputPath=path.join(__dirname,"outputs");
-// console.log(outputPath);
-if(!fs.existsSync(outputPath)){
-    fs.mkdirSync(outputPath,{recursive:true});
-}
+// const outputPath=path.join(__dirname,"outputs");
+// // console.log(outputPath);
+// if(!fs.existsSync(outputPath)){
+//     fs.mkdirSync(outputPath,{recursive:true});
+// }
 
-const executeC=(filepath,InputFilePath)=>{
-    const uniqID= path.basename(filepath).split(".")[0];
-    const outPath=path.join(outputPath,`${uniqID}.exe`);
+const executeC=(filepath,InputFilePath,outPath)=>{
+    // const outPath=path.join(outputPath,`${uniqID}.exe`);
     // console.log(outPath);
     const timeoutSeconds = 5;
     return new Promise((resolve,reject)=>{
         exec(
-            `gcc ${filepath} -o ${outPath}  &&cd ${outputPath} && .\\${uniqID}.exe <${InputFilePath}`,
+            // `gcc ${filepath} -o ${outPath}  &&cd ${outputPath} && .\\${uniqID}.exe <${InputFilePath}`,
             // `g++ ${filepath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out < ${inputPath}`
+            `gcc ${filepath} -o ${outPath} && ${outPath} < ${InputFilePath}`,
+            {timeout: timeoutSeconds*1000},
+            (error,stdout,stderr)=>{
+               if(error){
+                if(error.killed){
+                    reject({ error: "sigterm", stderr });
+                }
+                else{
+                    reject({error,stderr});
+                }
+                
+               } 
+               if(stderr){
+                reject(stderr);
+               }
+               resolve(stdout);
+            }
+        );
+    })
+}
+const executeC2=(InputFilePath,outPath)=>{
+    // console.log(outPath);
+    const timeoutSeconds = 5;
+    return new Promise((resolve,reject)=>{
+        exec(
+            // `gcc ${filepath} -o ${outPath}  &&cd ${outputPath} && .\\${uniqID}.exe <${InputFilePath}`,
+            // `g++ ${filepath} -o ${outPath} && cd ${outputPath} && ./${jobId}.out < ${inputPath}`
+            `${outPath} < ${InputFilePath}`,
+
             {timeout: timeoutSeconds*1000},
             (error,stdout,stderr)=>{
                if(error){
@@ -37,5 +64,5 @@ const executeC=(filepath,InputFilePath)=>{
     })
 }
 module.exports ={
-    executeC,
+    executeC,executeC2,
 };

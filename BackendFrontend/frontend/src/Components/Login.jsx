@@ -30,6 +30,7 @@ function Login(){
             // console.log(response);
             alert(`Success: ${response.data.message}`);
             localStorage.setItem('userRole', response.data.role);
+            localStorage.setItem('userhandle', response.data.userhandle);
             navigate('/homepage');
 
         }

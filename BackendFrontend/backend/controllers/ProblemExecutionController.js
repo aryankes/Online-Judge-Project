@@ -6,7 +6,7 @@ const {executeCpp }=require('./Compiler/executeCpp');
 const {executeC }=require('./Compiler/executeC');
 const {executepy }=require('./Compiler/executepy');
 
-exports.submit= async (req,res)=>{
+exports.submitAll= async (req,res)=>{
     const{id:PID} =req.params;
     const {language,code}=req.body;
     if(!(code&&language&&PID)){
