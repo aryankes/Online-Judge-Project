@@ -89,6 +89,15 @@ exports.read=async(req,res)=>{
         console.log("error fetching the User ",error)
     }
 };
+exports.readAll=async(req,res)=>{
+    try {
+        const Users=await User.find();
+        res.status(200).send(Users);
+    } catch (error) {
+        res.status(400).send("error fetching the UsersList");
+        console.log("error fetching the UsersList ",error)
+    }
+};
 exports.update=async(req,res)=>{
     try {
         const userhandle=req.signedCookies.token.userhandle;
@@ -134,6 +143,42 @@ exports.update=async(req,res)=>{
         res.status(200).send({message:"Succesfully Updated",user});
     } catch (error) {
         console.log("error fetching the User ",error)
+        return res.status(400).send("Updation Failed");
+
+    }
+    
+};
+exports.updateAdmin=async(req,res)=>{
+    try {
+        const {id:userhandle}=req.params;
+        const {handle,firstName,lastName,email}=req.body;
+        if(!(handle&&firstName&&lastName&&email)){
+            return res.status(400).send("Enter Complete Information");
+        }
+        const user=await User.findOne({userhandle});
+        if(!user){
+            return res.status(400).send("No User exists with this handle");
+        }
+        const existingUser2=await User.findOne({ email });
+        if(existingUser2){
+            if(existingUser2.userhandle!==userhandle){
+                return res.status(400).send("User already exists with the same email");
+            }
+        }
+        const existingUser=await User.findOne({ handle });
+        if(existingUser){
+            if(handle!==userhandle){
+                return res.status(400).send("User already exists with the same handle");
+            }
+        }
+        user.userhandle=handle
+        user.firstName=firstName;
+        user.lastName=lastName;
+        user.email=email;
+        await user.save();
+        res.status(200).send({message:`Succesfully Updated ${userhandle}`,user});
+    } catch (error) {
+        console.log("error updating the User ",error)
         return res.status(400).send("Updation Failed");
 
     }

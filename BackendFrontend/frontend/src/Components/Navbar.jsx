@@ -47,6 +47,9 @@ function Navbar() {
         <li>
           <Link to={`/Profile/${localStorage.userhandle}`}>My Profile</Link>
         </li>
+        <li>
+          <Link to="/Userlist">Users</Link>
+        </li>
       </ul>
     </nav>
   );

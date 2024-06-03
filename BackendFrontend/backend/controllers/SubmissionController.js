@@ -42,22 +42,6 @@ exports.create = async (req, res) => {
 exports.b = async (req, res) => {
   res.send("Hello,world! b");
 };
-exports.readbySID=async(req,res)=>{
-    try {
-        const{line} =req.body;
-        if(!line){
-            return res.status(400).send("Please enter the information");
-        }
-        let submission= await Submission.findOne({SID:line});
-        if(!submission){
-            return res.status(404).send("No Such submission Exists corresponding to this SID exists");
-        }
-        res.status(200).send(submission);
-    } 
-    catch(error){
-        console.log(error);
-    }
-}
 exports.readbyPID=async(req,res)=>{
     try {
         const {id:PID}=req.params;

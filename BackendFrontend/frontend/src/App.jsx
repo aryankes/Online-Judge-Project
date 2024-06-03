@@ -6,16 +6,20 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import Login from './Components/Login';
 import Profile from './Components/Profile';
 import ProfileSettings from './Components/ProfileSettings';
+import Userlist from './Components/Userlist';
+import UpdateUser from './Components/UpdateUser';
 
 
 import RegisterPage from './Components/RegisterPage';
+
 import Homepage from './Components/Homepage';
+
 import ProblemSet from './Components/ProblemSet';
 import ProblemDescription from './Components/ProblemDescription';
 import UpdateProblem from './Components/UpdateProblem';
 import CreateProblem from './Components/CreateProblem';
-import TestcasesSet from './Components/TestcasesSet';
 
+import TestcasesSet from './Components/TestcasesSet';
 import TestcaseDescription from './Components/TestcaseDescription';
 import CreateTestcase from './Components/CreateTestcase';
 import UpdateTestcase from './Components/UpdateTestcase';
@@ -34,21 +38,24 @@ function App() {
             <Route path="/" element={<RegisterPage />} />
             <Route path="/homepage" element={<Homepage />} />
 
+            <Route path="/Profile/:id" element={<Profile/>} />
+            <Route path="/ProfileSettings/:id" element={<ProfileSettings/>} />
+            <Route path="/Userlist" element={<Userlist/>} />
+            <Route path="/UpdateUser/:id" element={<UpdateUser/>}/>
+            
             <Route path="/ProblemSet" element={<ProblemSet />} />
             <Route path="/ProblemDescription/:id" element={<ProblemDescription/>}/>
             <Route path="/CreateProblem" element={<CreateProblem/>}/>
-            
             <Route path="/UpdateProblem/:id" element={<UpdateProblem/>}/>
+            
             <Route path="/TestcasesSet/:id" element={<TestcasesSet/>} />
-
             <Route path="/TestcaseDescription/:id" element={<TestcaseDescription/>}/>
             <Route path="/CreateTestcase/:id" element={<CreateTestcase/>}/>
             <Route path="/UpdateTestcase/:id1/:id" element={<UpdateTestcase/>}/>
 
             <Route path="/SubmissionsByPID/:id" element={<SubmissionsByPID/>} />
             <Route path="/SubmissionsByHandle" element={<SubmissionsByHandle/>} />
-            <Route path="/Profile/:id" element={<Profile/>} />
-            <Route path="/ProfileSettings/:id" element={<ProfileSettings/>} />
+            
 
 
           </Routes>

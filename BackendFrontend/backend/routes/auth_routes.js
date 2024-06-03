@@ -8,7 +8,9 @@ router.get('/b', exampleController.b);
 router.post('/register', exampleController.register);
 router.post('/login', exampleController.login);
 router.get('/read/:id',exampleController.read);
-router.put('/update/:id',exampleController.update);
+router.get('/readAll',exampleController.readAll);
+
+router.put('/updateAdmin/:id',exampleController.updateAdmin);
 
 router.delete('/delete',auth(["admin"]),exampleController.delete);
 router.get('/logout', exampleController.logout);
