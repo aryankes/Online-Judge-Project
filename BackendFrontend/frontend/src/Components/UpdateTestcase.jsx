@@ -49,7 +49,7 @@ function UpdateTestcase(){
 
         }
         catch(error){
-            console.log("error in submitting while registering");
+            console.log("error in submitting while updation of testcase");
             if (error.response) {
                 console.error('Response data:', error.response.data);
                 console.error('Response status:', error.response.status);

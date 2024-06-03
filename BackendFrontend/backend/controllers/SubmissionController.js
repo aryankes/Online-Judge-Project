@@ -1,6 +1,5 @@
 const Submission = require('../models/submissions');
 const User = require('../models/User');
-const Problem = require('../models/problems');
 const dotenv = require('dotenv');
 // const mongoose=require('mongoose');
 
@@ -8,8 +7,9 @@ dotenv.config();
 // GET all examples
 exports.create = async (req, res) => {
   try {
+    const userhandle=req.signedCookies.token.userhandle;
+    const user=await User.findOne({userhandle:userhandle});
     const lastSubmission = await Submission.findOne().sort({ DateTime: -1 });
-
     let lastSID;
     if (!lastSubmission || !lastSubmission.SID) {
       lastSID = 1; // Start with 1 if there are no previous submissions
@@ -21,7 +21,15 @@ exports.create = async (req, res) => {
     if(!(lastSID&&PID&&language&&Status)){
         return res.status(400).send("Please enter all the submission information");
     }
-    const userhandle=req.signedCookies.token.userhandle;
+    user.TotalSubmissions=user.TotalSubmissions+1;
+    if(Status==="Accepted"){
+        const uniqSubmission=await Submission.findOne({userhandle:userhandle,PID:PID,Status:Status});
+        if(!uniqSubmission){
+            user.TotalAccepted++;
+        }
+    }
+    await user.save();
+
     const submission=await Submission.create({
         SID:lastSID,userhandle,PID,language,Status,
     });
@@ -77,46 +85,3 @@ exports.readbyhandle=async(req,res)=>{
         console.log(error);
     }
 }
-// exports.update=async(req,res)=>{
-//     try {
-//         const{initialID, SID,PID,userhandle,status}=req.body;
-//         if(!(initialID&&SID&&PID&&userhandle&Status)){
-//             return res.status(400).send("Please enter the information");
-//         }
-//         let submission= await submission.findOne({SID:initialID});
-//         if(!submission){
-//             return res.status(404).send("No Such submission Exists");
-//         }
-//         submission.SID=SID;
-//         submission.PID=PID;
-//         submission.userhandle=userhandle;
-//         submission.Status=status;
-//         // submission.DateTime=Date.now;
-//         const updatedsubmission = await Submission.save();
-//         res.status(200).send(updatedsubmission);
-//         // res.status(200).send(p1roblem);
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
-// exports.delete= async(req,res)=>{
-//     try {
-//         const{ID}=req.body;
-//         if(!ID){
-//             return res.status(400).send("Please enter the information");
-//         }
-//         // console.log(ID);
-
-//         let submission= await submission.findOneAndDelete({SID:ID});
-//         // console.log(submission);
-//         if(!submission){
-//             // submission=await submission.findOneAndDelete({PID:ID});
-//             // if(!submission){
-//                 return res.status(404).send("No Such submission Exists");
-//             // }
-//         }
-//         res.status(200).send({message:` ${ID} submission-Deleted->`,submission});
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }

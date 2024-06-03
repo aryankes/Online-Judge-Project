@@ -12,7 +12,7 @@ function Register(){
         userhandle:"",
         email:"",
         password:"",
-        // confirm_password:"",
+        confirmPassword:"",
         role:"",
     });
 
@@ -26,14 +26,16 @@ function Register(){
     
     const handleSubmit= async(e)=>{
         e.preventDefault();
-        // if(formData.password!==formData.confirm_password){
-        //     alert('Password not match with confirmPassword');
-        //     return ;
-        // }
+        if(formData.password!==formData.confirmPassword){
+            alert("Confirmation mismatch");
+            return ;
+        }
+        e.preventDefault();
         try{
             const response= await axios.post('http://localhost:5000/api/example/register',formData);
             alert(`Success: ${response.data.message}`);
-            // console.log(formData);
+            localStorage.setItem('userRole', response.data.role);
+            localStorage.setItem('userhandle', response.data.userhandle);
             navigate('/homepage');
         }
         catch(error){
@@ -50,9 +52,6 @@ function Register(){
               else {
                 console.error('Error message:', error.message);
               }
-            // console.log(error);
-            // console.log(formData);
-            // alert("An error occured. please try again.");
         }
     };
 
@@ -88,7 +87,13 @@ function Register(){
             <br /><div>
                 <label >
                     Password:
-                    <input type="text" name="password" value={formData.password} onChange={handleChange} required  />
+                    <input type="password" name="password" value={formData.password} onChange={handleChange} required  />
+                </label>
+            </div>
+            <br /><div>
+                <label >
+                    Confirm Password:
+                    <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} required  />
                 </label>
             </div>
             <br /><div>

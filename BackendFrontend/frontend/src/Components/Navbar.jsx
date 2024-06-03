@@ -44,6 +44,9 @@ function Navbar() {
         <li>
           <Link to="/SubmissionsByHandle">My Submissions</Link>
         </li>
+        <li>
+          <Link to={`/Profile/${localStorage.userhandle}`}>My Profile</Link>
+        </li>
       </ul>
     </nav>
   );

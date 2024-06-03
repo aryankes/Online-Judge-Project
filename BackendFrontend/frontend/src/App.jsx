@@ -4,7 +4,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import { CookiesProvider } from 'universal-cookie';
 // import { AuthProvider } from './AuthContext';
 // import Login from './Components/Login';
-// import Register from './Components/Register';
+import Profile from './Components/Profile';
+import ProfileSettings from './Components/ProfileSettings';
+
+
 import RegisterPage from './Components/RegisterPage';
 import Homepage from './Components/Homepage';
 import ProblemSet from './Components/ProblemSet';
@@ -44,6 +47,9 @@ function App() {
 
             <Route path="/SubmissionsByPID/:id" element={<SubmissionsByPID/>} />
             <Route path="/SubmissionsByHandle" element={<SubmissionsByHandle/>} />
+            <Route path="/Profile/:id" element={<Profile/>} />
+            <Route path="/ProfileSettings/:id" element={<ProfileSettings/>} />
+
 
           </Routes>
         </Router>

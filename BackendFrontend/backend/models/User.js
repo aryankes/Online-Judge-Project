@@ -28,6 +28,24 @@ const userSchema=new mongoose.Schema({
         type: String, 
         enum: ['user', 'admin'], 
         default: 'user' 
+    },
+    DateTime:{
+        type:Date,
+        default:Date.now,
+        required:true,
+    },
+    TotalSubmissions:{
+        type:Number,
+        default:0,
+    },
+    TotalAccepted:{
+        type:Number,
+        default:0,
+    },
+    img:
+    {
+        data: Buffer,
+        contentType: String
     }
 });
 module.exports=mongoose.model("user",userSchema);
