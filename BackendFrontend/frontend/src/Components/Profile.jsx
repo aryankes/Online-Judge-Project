@@ -64,7 +64,7 @@ function Profile(){
 return (
     <div>
         <Navbar/>
-      <h1>{user.userhandle}</h1>
+      <h1 className="mt-16">{user.userhandle}</h1>
       <br />{user.userhandle===localStorage.userhandle? (<button onClick={()=>{navigate(`/ProfileSettings/${userhandle}`)}}>Profile Settings</button>):(<></>)}
       <button onClick={()=>{navigate(`/Submissions/userhandle/${userhandle}`)}}>Submissions</button>
 
@@ -78,10 +78,8 @@ return (
       <br />
     
         <div>
-            {console.log(imgPath)}
             <img src={imgPath ? `${API_URI}/${imgPath}` : `${API_URI}/uploads/cf_blank.jpg`} alt="Profile" style={{ maxWidth: 400, height: 400*(1800/2880) }}/>
-            {/* <img src={`${API_URI}/${imgPath}`} alt="Profile" /> */}
-            <button onClick={removeImage}>Remove Image</button>
+            {(imgPath)?(<button onClick={removeImage}>Remove Image</button>):(<></>)}
         </div>
     
     <br />
@@ -92,5 +90,6 @@ return (
       <input type="file" name="img" id="img" onChange={(e)=>{setFile(e.target.files[0])}} /> */}
     </div>
   );
+
 }
 export default Profile;

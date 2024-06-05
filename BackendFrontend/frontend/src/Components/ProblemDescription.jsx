@@ -176,74 +176,176 @@ int main()
       }
     }
   };
-  return (
-    <div>
-      <Navbar />
+  // return (
+  //   <div>
+  //     <Navbar />
 
-      <h1>Problem {`${problem.PID} ${problem.ProblemName}`}</h1> 
-      <li>
-          <Link to={`/Submissions/PID/${PID}`}>Submissions</Link>
-      </li>
-      <br />
-      <br />
-      {`${problem.ProblemDescription}`}
-      <br />
-      <br />
+  //     <h1>Problem {`${problem.PID} ${problem.ProblemName}`}</h1> 
+  //     <li>
+  //         <Link to={`/Submissions/PID/${PID}`}>Submissions</Link>
+  //     </li>
+  //     <br />
+  //     <br />
+  //     {`${problem.ProblemDescription}`}
+  //     <br />
+  //     <br />
 
-      <form onSubmit={handleRun}>
-        <label for="language">Select Your Language:</label>
-        <select
-          name="language"
-          id="language"
-          value={code.language}
-          onChange={handleChange}
-        >
-          <option value="cpp">C++</option>
-          <option value="py">Python</option>
-          <option value="c">C</option>
-        </select>
-        <br />
-        <br />
-        <textarea
-          rows="10"
-          cols="50"
-          name="code"
-          value={code.code}
-          onChange={handleChange}
-        ></textarea>
-        <br />
-        <label for="input">Input: </label>
-        <br />
-        <textarea
-          rows="10"
-          cols="50"
-          name="input"
-          placeholder="Enter your input here"
-          value={code.input}
-          onChange={handleChange}
-        ></textarea>
-        <br />
-        <br />
-        <button type="submit">Run</button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <button onClick={handleSubmit}>Submit</button>
+  //     <form onSubmit={handleRun}>
+  //       <label for="language">Select Your Language:</label>
+  //       <select
+  //         name="language"
+  //         id="language"
+  //         value={code.language}
+  //         onChange={handleChange}
+  //       >
+  //         <option value="cpp">C++</option>
+  //         <option value="py">Python</option>
+  //         <option value="c">C</option>
+  //       </select>
+  //       <br />
+  //       <br />
+  //       <textarea
+  //         rows="10"
+  //         cols="50"
+  //         name="code"
+  //         value={code.code}
+  //         onChange={handleChange}
+  //       ></textarea>
+  //       <br />
+  //       <label for="input">Input: </label>
+  //       <br />
+  //       <textarea
+  //         rows="10"
+  //         cols="50"
+  //         name="input"
+  //         placeholder="Enter your input here"
+  //         value={code.input}
+  //         onChange={handleChange}
+  //       ></textarea>
+  //       <br />
+  //       <br />
+  //       <button type="submit">Run</button>&nbsp;&nbsp;&nbsp;&nbsp;
+  //       <button onClick={handleSubmit}>Submit</button>
+  //       <br />
+  //       <label htmlFor="output">Output</label>
+  //       <br />
+  //       <textarea rows="10" cols="50" name="output" value={output}></textarea>
+  //       {/* <p>{output}</p> */}
+  //       <br />
+  //     </form>
+  //     <br />
+  //     <br />
+  //     <button
+  //       onClick={() => {
+  //         handleTestcasesSet(problem.PID);
+  //       }}
+  //     >
+  //       View TestCases
+  //     </button>
+  //   </div>
+  // );
+  // ProblemDescription.jsx
+
+// ProblemDescription.jsx
+
+return (
+  <>
+  <Navbar />
+
+  <div className="w-full mx-auto px-4 py-8 mt-16 dark:bg-gray-800 dark:text-white">
+    <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+      Problem {`${problem.PID} ${problem.ProblemName}`}
+    </h1>
+    <Link to={`/Submissions/PID/${PID}`} className="text-blue-500">
+      Submissions
+    </Link>
+    <div className="flex flex-wrap mt-4">
+      {/* Left half of the screen */}
+      <div className="w-full md:w-1/2 pr-4">
+        <div className="text-lg text-gray-600 dark:text-gray-300">
+          {problem.ProblemDescription}
+        </div>
+      </div>
+      {/* Right half of the screen */}
+      <div className="w-full md:w-1/2 pl-4">
+        <form onSubmit={handleRun}>
+          <label htmlFor="language" className="mr-2">Language:</label>
+          <select
+            name="language"
+            id="language"
+            value={code.language}
+            onChange={handleChange}
+            className="mt-1 border border-gray-300 rounded-md p-1 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+          >
+            <option value="cpp">C++</option>
+            <option value="py">Python</option>
+            <option value="c">C</option>
+          </select>
+          <br />
+          <br />
+          <textarea
+            rows="10"
+            cols="50"
+            name="code"
+            value={code.code}
+            onChange={handleChange}
+            className="block mt-1 w-full border border-gray-300 rounded-md p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+          ></textarea>
+          <br />
+          <label htmlFor="input">Input: </label>
+          <br />
+          <textarea
+            rows="2"
+            cols="50"
+            name="input"
+            placeholder="Enter your input here"
+            value={code.input}
+            onChange={handleChange}
+            className="block mt-1 w-full border border-gray-300 rounded-md p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+          ></textarea>
+          <br />
+          
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded dark:bg-gray-600 dark:hover:bg-gray-700"
+          >
+            Run
+          </button>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <button
+            onClick={handleSubmit}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded dark:bg-gray-600 dark:hover:bg-gray-700"
+          >
+            Submit
+          </button>
+          <br />
+        </form>
+        
         <br />
         <label htmlFor="output">Output</label>
         <br />
-        <textarea rows="10" cols="50" name="output" value={output}></textarea>
-        {/* <p>{output}</p> */}
+        <textarea
+          rows="2"
+          cols="50"
+          name="output"
+          value={output}
+          className="block mt-1 w-full border border-gray-300 rounded-md p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
+        ></textarea>
         <br />
-      </form>
-      <br />
-      <br />
-      <button
-        onClick={() => {
-          handleTestcasesSet(problem.PID);
-        }}
-      >
-        View TestCases
-      </button>
+        <button
+          onClick={() => {
+            handleTestcasesSet(problem.PID);
+          }}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded dark:bg-gray-600 dark:hover:bg-gray-700"
+        >
+          View TestCases
+        </button>
+      </div>
     </div>
-  );
+  </div>
+  </>
+);
+
 }
 
 export default ProblemDescription;

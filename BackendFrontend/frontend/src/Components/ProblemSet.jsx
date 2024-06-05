@@ -50,7 +50,7 @@ function ProblemSet() {
   return (
     <div>
         <Navbar/>
-      <h1>Problem Set</h1>
+      <h1 className='mt-16'>Problem Set</h1>
         {userRole==='admin'?(
           <>
             <button onClick={handleCreateProblem}>Create New</button>

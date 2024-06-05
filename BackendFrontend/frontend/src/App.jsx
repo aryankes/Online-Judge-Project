@@ -11,6 +11,9 @@ import UpdateUser from './Components/UpdateUser';
 
 
 import RegisterPage from './Components/RegisterPage';
+import Register from './Components/Register';
+import Login from './Components/Login';
+
 
 import Homepage from './Components/Homepage';
 
@@ -36,7 +39,9 @@ function App() {
       // <AuthProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<RegisterPage />} />
+            <Route path="/" element={<Register />} />
+            <Route path="/Login" element={<Login />} />
+
             <Route path="/homepage" element={<Homepage />} />
 
             <Route path="/Profile/:id" element={<Profile/>} />

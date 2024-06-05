@@ -54,9 +54,9 @@ function Submissions() {
   const len=submissions.length;
   const handleViewCode = (code) => {
     return (
-      <Popup trigger={<button>ViewCode</button>} modal nested>
+      <Popup trigger={<button className='text-blue-500 underline hover:text-blue-600'>ViewCode</button>} modal nested>
         {(close) => (
-          <div className="modal" style={{backgroundColor: 'yellow',margin:10,padding:20,border:10}}>
+          <div  className=" bg-slate-400 p-2 border-10 border-blue-900 rounded">
             <div className="content">
               <pre>{code}</pre>
             </div>
@@ -68,69 +68,116 @@ function Submissions() {
       </Popup>
     );
   };
+  // return (
+  //   <div>
+  //     <Navbar />
+  //     <h1>{`${filterValue} submissions`}</h1>
+  //     <table border="1">
+  //       <thead>
+  //         <tr>
+  //           {/* <th>SID</th> */}
+  //           <th># </th>
+  //           <th>DateTime <button onClick={()=>sort('DateTime')}>Sort</button></th>
+  //           <th>User Handle <button onClick={()=>sort('userhandle')}>Sort</button></th>
+  //           <th>PID <button onClick={()=>sort('PID')}>Sort</button></th>
+  //           <th>ProblemName <button onClick={()=>sort('ProblemName')}>Sort</button></th>
+  //           <th>Language <button onClick={()=>sort('language')}>Sort</button></th>
+  //           <th>Status</th>
+  //           <th>Time <button onClick={()=>sort('Time')}>Sort</button></th>
+  //           <th>Memory <button onClick={()=>sort('Memory')}>Sort</button></th>
+  //           <th>Code</th>
+  //           {userRole==='admin'?(
+  //               <>
+  //               <th>Delete</th>
+  //               </>
+  //           ):(<></>)}
+  //         </tr>
+  //       </thead>
+  //       <tbody>
+          
+  //         {submissions.map((submission, index) => (
+  //           <tr key={index}>
+  //             {/* <td>{submission.SID}</td> */}
+  //             <td>{len-index}</td>
+  //             <td>{new Date(submission.DateTime).toLocaleString()}</td>
+  //             <td><Link to={`/Profile/${submission.userhandle}`}>{submission.userhandle}</Link></td>
+  //             <td><Link to={`/ProblemDescription/${submission.PID}`}>{submission.PID}</Link></td>
+  //             <td><Link to={`/ProblemDescription/${submission.PID}`}>{submission.ProblemName}</Link></td>
+  //             <td>{submission.language}</td>
+  //             <td>{submission.Status}</td>
+  //             <td>{submission.Time} ms</td>
+  //             <td>{submission.Memory} KB</td>
+  //             {/* <td><button onClick={()=>{handleViewCode(submission.code)}}>ViewCode</button></td> */}
+  //             <td>{handleViewCode(submission.code)}</td>
+  //             {userRole==='admin'?(
+  //               <>
+  //               <td><button onClick={()=>{handleDelete(submission._id)}}>Delete</button></td>
+  //               </>
+  //           ):(<></>)}
+  //           </tr>
+  //         ))}
+  //         </tbody>
+  //     </table>
+  //         {/* <label for="filter">Filter According</label>
+  //         <select name="filter" id="filter" value={filterField} onChange={()=>{handleChange}}>
+  //           <option value="userhandle">User Handle</option>
+  //           <option value="PID">PID</option>
+  //           <option value="ProblemName">ProblemName</option>
+  //           <option value="language">language</option>
+  //           <option value="Status">Status</option>
+
+  //         </select> */}
+        
+
+  //   </div>
+  // );
   return (
     <div>
       <Navbar />
-      <h1>{`${filterValue} submissions`}</h1>
-      <table border="1">
-        <thead>
+      <div className='min h-screen w-full mx-auto px-4 py-8 mt-16 dark:bg-gray-800 dark:text-white'>
+      <h1 className="text-3xl font-bold mb-4 text-gray-800 dark:text-white">{`${filterValue} submissions`}</h1>
+    <table className="w-full border-collapse  border border-gray-300 dark:border-gray-600">
+        <thead className="bg-gray-200 dark:bg-gray-700">
           <tr>
-            {/* <th>SID</th> */}
-            <th># </th>
-            <th>DateTime <button onClick={()=>sort('DateTime')}>Sort</button></th>
-            <th>User Handle <button onClick={()=>sort('userhandle')}>Sort</button></th>
-            <th>PID <button onClick={()=>sort('PID')}>Sort</button></th>
-            <th>ProblemName <button onClick={()=>sort('ProblemName')}>Sort</button></th>
-            <th>Language <button onClick={()=>sort('language')}>Sort</button></th>
-            <th>Status</th>
-            <th>Time <button onClick={()=>sort('Time')}>Sort</button></th>
-            <th>Memory <button onClick={()=>sort('Memory')}>Sort</button></th>
-            <th>Code</th>
-            {userRole==='admin'?(
-                <>
-                <th>Delete</th>
-                </>
-            ):(<></>)}
+            <th className="border  border-gray-300 p-2 dark:border-gray-600"># </th>
+            <th className="border  border-gray-300 p-2 dark:border-gray-600">DateTime <button onClick={() => sort('DateTime')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded dark:bg-gray-400 dark:hover:bg-gray-800'>Sort</button></th>
+            <th className="border  border-gray-300 p-2 dark:border-gray-600">User Handle <button onClick={() => sort('userhandle')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded dark:bg-gray-400 dark:hover:bg-gray-800'>Sort</button></th>
+            <th className="border  border-gray-300 p-2 dark:border-gray-600">PID <button onClick={() => sort('PID')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded dark:bg-gray-400 dark:hover:bg-gray-800'>Sort</button></th>
+            <th className="border  border-gray-300 p-2 dark:border-gray-600">ProblemName <button onClick={() => sort('ProblemName')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded dark:bg-gray-400 dark:hover:bg-gray-800'>Sort</button></th>
+            <th className="border  border-gray-300 p-2 dark:border-gray-600">Language <button onClick={() => sort('language')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded dark:bg-gray-400 dark:hover:bg-gray-800'>Sort</button></th>
+            <th className="border  border-gray-300 p-2 dark:border-gray-600">Status</th>
+            <th className="border  border-gray-300 p-2 dark:border-gray-600">Time <button onClick={() => sort('Time')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded dark:bg-gray-400 dark:hover:bg-gray-800'>Sort</button></th>
+            <th className="border  border-gray-300 p-2 dark:border-gray-600">Memory <button onClick={() => sort('Memory')} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded dark:bg-gray-400 dark:hover:bg-gray-800'>Sort</button></th>
+            <th className="border  border-gray-300 p-2 dark:border-gray-600">Code</th>
+            {userRole === 'admin' && (
+              <th className="border p-2">Delete</th>
+            )}
           </tr>
         </thead>
         <tbody>
-          
           {submissions.map((submission, index) => (
             <tr key={index}>
-              {/* <td>{submission.SID}</td> */}
-              <td>{len-index}</td>
-              <td>{new Date(submission.DateTime).toLocaleString()}</td>
-              <td><Link to={`/Profile/${submission.userhandle}`}>{submission.userhandle}</Link></td>
-              <td><Link to={`/ProblemDescription/${submission.PID}`}>{submission.PID}</Link></td>
-              <td><Link to={`/ProblemDescription/${submission.PID}`}>{submission.ProblemName}</Link></td>
-              <td>{submission.language}</td>
-              <td>{submission.Status}</td>
-              <td>{submission.Time} ms</td>
-              <td>{submission.Memory} KB</td>
-              {/* <td><button onClick={()=>{handleViewCode(submission.code)}}>ViewCode</button></td> */}
-              <td>{handleViewCode(submission.code)}</td>
-              {userRole==='admin'?(
-                <>
-                <td><button onClick={()=>{handleDelete(submission._id)}}>Delete</button></td>
-                </>
-            ):(<></>)}
+              <td className="border p-2">{len - index}</td>
+              <td className="border p-2">{new Date(submission.DateTime).toLocaleString()}</td>
+              <td className="border p-2"><Link to={`/Profile/${submission.userhandle}`} className="text-blue-500 underline hover:text-blue-600">{submission.userhandle}</Link></td>
+              <td className="border p-2"><Link to={`/ProblemDescription/${submission.PID}`} className="text-blue-500 underline hover:text-blue-600">{submission.PID}</Link></td>
+              <td className="border p-2"><Link to={`/ProblemDescription/${submission.PID}`} className="text-blue-500 underline hover:text-blue-600">{submission.ProblemName}</Link></td>
+              <td className="border p-2">{submission.language}</td>
+              <td className="border p-2">{submission.Status}</td>
+              <td className="border p-2">{submission.Time} ms</td>
+              <td className="border p-2">{submission.Memory} KB</td>
+              <td className="border p-2">{handleViewCode(submission.code)}</td>
+              {userRole === 'admin' && (
+                <td className="border p-2"><button onClick={() => handleDelete(submission._id)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button></td>
+              )}
             </tr>
           ))}
-          </tbody>
+        </tbody>
       </table>
-          {/* <label for="filter">Filter According</label>
-          <select name="filter" id="filter" value={filterField} onChange={()=>{handleChange}}>
-            <option value="userhandle">User Handle</option>
-            <option value="PID">PID</option>
-            <option value="ProblemName">ProblemName</option>
-            <option value="language">language</option>
-            <option value="Status">Status</option>
-
-          </select> */}
-        
-
+    </div>
     </div>
   );
+
 }
 
 export default Submissions;

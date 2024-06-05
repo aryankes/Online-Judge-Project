@@ -8,7 +8,7 @@ function RegisterPage(){
     };
 
     return(
-        <div>
+        <div >
             {showlogin ?(
                 <>
                     <Login/>
