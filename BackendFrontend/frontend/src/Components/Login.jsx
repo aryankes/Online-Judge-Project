@@ -68,7 +68,7 @@ function Login(){
             <br /><div>
                 <label >
                     Password:
-                    <input type="text" name="password" value={formData.password} onChange={handleChange} required  />
+                    <input type="password" name="password" value={formData.password} onChange={handleChange} required  />
                 </label>
             </div>
             <br />

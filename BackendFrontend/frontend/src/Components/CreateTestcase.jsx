@@ -11,6 +11,7 @@ function CreateTestcase(){
     // console.log("PID is ",PID);
     const navigate = useNavigate();
     const[formData,setData]=useState({
+        TestcaseName:"",
         PID:PID,
         Input:"",
         Solution:"",
@@ -51,19 +52,18 @@ function CreateTestcase(){
             // alert("An error occured. please try again.");
         }
     };
-
     return(
         <div>
             <Navbar/>
             <form onSubmit={handleSubmit}>
                 <h2>Create a New Test</h2>
                 {/* {console.log(formData)} */}
-                {/* <div>
+                <div>
                     <label >
-                        TID:
-                        <input type="text" name="TID" value={formData.TID} onChange={handleChange} required  />
+                        Test Name:
+                        <input type="text" name="TestcaseName" value={formData.TestcaseName} onChange={handleChange} required  />
                     </label>
-                </div> */}
+                </div>
                 <br /><div>
                     <label >
                         Input:

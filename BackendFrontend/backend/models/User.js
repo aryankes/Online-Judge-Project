@@ -42,10 +42,10 @@ const userSchema=new mongoose.Schema({
         type:Number,
         default:0,
     },
-    img:
-    {
-        data: Buffer,
-        contentType: String
-    }
+    imgPath:{
+        type:String,
+        default:"uploads/user.jpg",
+    },
+    
 });
 module.exports=mongoose.model("user",userSchema);

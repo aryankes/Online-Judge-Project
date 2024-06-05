@@ -12,15 +12,12 @@ function TestcasesSet() {
   const navigate = useNavigate();
   const userRole=localStorage.getItem('userRole');
   // console.log(userRole);
-  
   const [Testcases, setTestcases] = useState([]);
-
   useEffect(() => {
     async function fetchTestcases() {
       try {
         const response = await axios.get(`http://localhost:5000/api/tests/readbyPID/${PID}`);
-        // setTestcases(response.data);
-        setTestcases(response.data.sort((a,b) => a._id.localeCompare(b._id)));
+        setTestcases(response.data.sort((a,b) => a.TestcaseName.localeCompare(b.TestcaseName)));
       } 
       catch (error) {
         console.error('Error fetching Testcases:', error);
@@ -34,9 +31,9 @@ function TestcasesSet() {
   const handleUpdateTestcase=(_id)=>{
     navigate(`/UpdateTestcase/${PID}/${_id}`);
   };
-  const handleDeleteTestcase =async (_id) => {
-    if (window.confirm('Do you really want to delete?')) {
-      console.log('Deleting Testcase with ID:', _id);
+  const handleDeleteTestcase =async (_id,TestcaseName) => {
+    if (window.confirm(`Do you really want to delete ${TestcaseName}?`)) {
+      console.log('Deleting Testcase with ID:', TestcaseName);
       try {
         const response = await axios.delete(`http://localhost:5000/api/tests/deletesingle/${_id}`);
         alert(`Success: ${response.data.message}`);
@@ -58,18 +55,32 @@ function TestcasesSet() {
             <button onClick={()=>handleCreateTestcase(PID)}>Create New</button>
           </>
         ):(<></>)}
-      <ul>
-        {Testcases.map((Testcase) => (
-          <li key={Testcase._id}>
-            <Link to={`/TestcaseDescription/${Testcase._id}`}>{`${Testcase._id}`}</Link>
+        <br /><br />
+        <table border="1">
+          <thead >
+            <th>TestCase</th>
             {userRole==='admin'?(
-              <><span style={{ marginRight: '10px' }}></span>
-                <button onClick={()=>handleUpdateTestcase(Testcase._id)}>Update</button> <span style={{ marginRight: '10px' }}></span><button onClick={()=>handleDeleteTestcase(Testcase._id)}>Delete</button>
+              <>
+              <th>Update</th>
+              <th>Delete</th>
               </>
             ):(<></>)}
-          </li>
-        ))}
-      </ul>
+          </thead>
+          <tbody>
+          {Testcases.map((testcase,index)=>(
+            <tr key={index}>
+              <td><Link to={`/TestcaseDescription/${testcase.TestcaseName}`}>{testcase.TestcaseName}</Link></td>
+              {userRole==='admin'?(
+              <>
+              <td><button onClick={()=>{handleUpdateTestcase(testcase._id)}}>Update</button></td>
+              <td><button onClick={()=>{handleDeleteTestcase(testcase._id)}}>Delete</button></td>
+              </>
+            ):(<></>)}
+            </tr>
+          ))}
+          </tbody>
+        </table>
+      
     </div>
   );
 }

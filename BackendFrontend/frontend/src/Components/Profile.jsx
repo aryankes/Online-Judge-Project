@@ -24,7 +24,9 @@ return (
     <div>
         <Navbar/>
       <h1>{user.userhandle}</h1>
-      <br /><button onClick={()=>{navigate(`/ProfileSettings/${userhandle}`)}}>Profile Settings</button>
+      <br />{user.userhandle===localStorage.userhandle? (<button onClick={()=>{navigate(`/ProfileSettings/${userhandle}`)}}>Profile Settings</button>):(<></>)}
+      <button onClick={()=>{navigate(`/Submissions/userhandle/${userhandle}`)}}>Submissions</button>
+
       <br />{`${user.firstName} ${user.lastName}`}
       <br /><br /><span>Email: {user.email}</span>
       <br /><br /><span>Registered On: {(String(user.DateTime)).split('T')[0]}</span>

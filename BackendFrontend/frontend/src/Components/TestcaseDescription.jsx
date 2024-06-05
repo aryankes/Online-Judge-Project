@@ -8,7 +8,7 @@ function TestcaseDescription() {
 //   const navigate=useNavigate();
     const {id:TID}=useParams();
   const [Testcase, setTestcase] = useState({
-    TID:"",
+    TestcaseName:"",
     PID:"",
     Input:"",
     Solution:"",
@@ -17,23 +17,21 @@ function TestcaseDescription() {
 
   useEffect(() => {
     async function fetchDescription() {
-        
       try {
-        const response = await axios.get(`http://localhost:5000/api/tests/readbyTID/${TID}`);
+        const response = await axios.get(`http://localhost:5000/api/tests/read/${TID}`);
         setTestcase(response.data);
       } 
       catch (error) {
         console.error('Error fetching Testcases:', error);
       }
     }
-
     fetchDescription();
   }, []);
   
   return (
     <div>
         <Navbar/>
-      <h1>Testcase {`${Testcase.TID} `}</h1>
+      <h1>Testcase {`${Testcase.TestcaseName} `}</h1>
       <br />
       Input:
       <br />

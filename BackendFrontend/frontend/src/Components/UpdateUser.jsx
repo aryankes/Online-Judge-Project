@@ -52,6 +52,7 @@ function UpdateUser(){
         }
         catch(error){
             console.log("error in submitting while updating profile settings");
+            console.log(error);
             if (error.response) {
                 console.error('Response data:', error.response.data);
                 console.error('Response status:', error.response.status);

@@ -151,9 +151,9 @@ int main()
         setOutput(verdict);
       }
       // const userhandle = localStorage.getItem('userhandle');
-      const submissionPayload={PID:PID,language: code.language,Status:verdict};
+      const submissionPayload={code:code.code,PID:PID,language: code.language,Status:verdict};
       await axios.post("http://localhost:5000/api/submissions/create",submissionPayload)
-      navigate('/SubmissionsByHandle')
+      navigate(`/Submissions/userhandle/${localStorage.userhandle}`)
     } catch (error) {
       console.log("error in running code");
       console.log(error);
@@ -182,7 +182,7 @@ int main()
 
       <h1>Problem {`${problem.PID} ${problem.ProblemName}`}</h1> 
       <li>
-          <Link to={`/SubmissionsByPID/${PID}`}>Submissions</Link>
+          <Link to={`/Submissions/PID/${PID}`}>Submissions</Link>
       </li>
       <br />
       <br />

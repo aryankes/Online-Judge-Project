@@ -1,7 +1,11 @@
 const User = require('../models/User');
+const Submissions=require('../models/submissions');
 const bcrypt=require('bcryptjs')
 const jwt=require("jsonwebtoken");
 const dotenv = require('dotenv');
+const submissions = require('../models/submissions');
+const allowedSortFields = ['userhandle', 'DateTime', 'firstName', 'TotalSubmissions', 'TotalAccepted'];
+const allowedSortOrders = ['asc', 'desc'];
 dotenv.config();
 // GET all examples
 exports.a = async (req, res) => {
@@ -90,8 +94,17 @@ exports.read=async(req,res)=>{
     }
 };
 exports.readAll=async(req,res)=>{
+let { sortField = 'DateTime', sortOrder = 'asc' } = req.query;
+
+    if (!allowedSortFields.includes(sortField)) {
+      sortField = 'DateTime'; // Default field
+    }
+    if (!allowedSortOrders.includes(sortOrder)) {
+      sortOrder = 'asc'; // Default order
+    }
     try {
-        const Users=await User.find();
+        // const Users=await User.find();
+        const Users = await User.find().sort({ [sortField]: sortOrder === 'asc' ? 1 : -1 });
         res.status(200).send(Users);
     } catch (error) {
         res.status(400).send("error fetching the UsersList");
@@ -144,7 +157,6 @@ exports.update=async(req,res)=>{
     } catch (error) {
         console.log("error fetching the User ",error)
         return res.status(400).send("Updation Failed");
-
     }
     
 };
@@ -171,39 +183,44 @@ exports.updateAdmin=async(req,res)=>{
                 return res.status(400).send("User already exists with the same handle");
             }
         }
-        user.userhandle=handle
+        if(user.userhandle!==handle){
+            const userSubmissions=await Submissions.find({userhandle:user.userhandle});
+            for(const submission of userSubmissions){
+                submission.userhandle=handle;
+                await submission.save();
+            };
+            user.userhandle=handle;
+        }
         user.firstName=firstName;
         user.lastName=lastName;
         user.email=email;
         await user.save();
-        res.status(200).send({message:`Succesfully Updated ${userhandle}`,user});
+        res.status(200).send({message:`Succesfully Updated ${userhandle} & related submissions`,user});
     } catch (error) {
         console.log("error updating the User ",error)
         return res.status(400).send("Updation Failed");
-
     }
-    
 };
 exports.delete = async (req, res) => {
     try {
       //get all the data from the frontend
-      const {handle}=req.body;
+      const {id: handle}=req.params;
   
       //check that all the data should exist
       if(!(handle)){
           return res.status(400).send("Please enter all the information");
       }
-  
       const existingUser=await User.findOneAndDelete({ userhandle:handle });
     //   console.log(existingUser);
-
     if(!existingUser){
         return res.status(400).send("No such user exists with this handle");
     }
-      res.status(200).json({message: "You have succesfully deleted this handle !",existingUser})
+    await Submissions.deleteMany({userhandle:handle})
+      res.status(200).json({message: `You have succesfully deleted  handle ${handle}! and its related submissions`,existingUser})
   } 
   catch (error) {
       console.log(error);
+      res.status(400).send(`Deletion of handle ${handle} failed`)
   }
   };
 exports.login= async(req,res)=>{
@@ -269,3 +286,22 @@ exports.logout = (req, res) => {
     }
      
 };
+exports.upload=async (req,res)=>{
+    try {
+        const{id:userhandle}=req.params;
+        if(!req.file){
+            return res.status(400).send('No file uploaded.');
+        }
+        if(userhandle!==req.signedCookies.token.userhandle){
+            return res.status(400).send("You Don't Own this handle");
+        }
+        const user=await User.findOne({userhandle:userhandle});
+        user.imgPath=`uploads/${userhandle}.jpg`;
+        user.save();
+        res.status(200).send({message:"image uploaded succesfully"});
+    } catch (error) {
+        res.status(400).send("image uploadation failed");
+        console.log(error);
+    }
+}
+

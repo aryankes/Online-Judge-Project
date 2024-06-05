@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cookieParser=require('cookie-parser');
 const cors = require('cors');
-
 // Load environment variables
 dotenv.config({path: '../../.env'});
 

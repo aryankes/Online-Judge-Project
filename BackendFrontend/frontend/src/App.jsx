@@ -26,6 +26,7 @@ import UpdateTestcase from './Components/UpdateTestcase';
 
 import SubmissionsByHandle from './Components/SubmissionsByHandle';
 import SubmissionsByPID from './Components/SubmissionsByPID';
+import Submissions from './Components/Submissions';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -52,9 +53,10 @@ function App() {
             <Route path="/TestcaseDescription/:id" element={<TestcaseDescription/>}/>
             <Route path="/CreateTestcase/:id" element={<CreateTestcase/>}/>
             <Route path="/UpdateTestcase/:id1/:id" element={<UpdateTestcase/>}/>
-
+            
             <Route path="/SubmissionsByPID/:id" element={<SubmissionsByPID/>} />
             <Route path="/SubmissionsByHandle" element={<SubmissionsByHandle/>} />
+            <Route path="/Submissions/:filterField/:filterValue" element={<Submissions/>} />
             
 
 

@@ -1,12 +1,11 @@
 const { Int32 } = require('mongodb');
 const mongoose=require('mongoose');
 const TestSchema=new mongoose.Schema({
-    // TID:{
-    //     type:String,
-    //     default:null,
-    //     required:true,
-    //     unique:true,
-    // },
+    TestcaseName:{
+        type:String,
+        default:null,
+        required:true,
+    },
     // count:{
     //     type:Number,
     //     default:0,

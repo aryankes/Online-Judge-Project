@@ -1,24 +1,20 @@
 const Submission = require('../models/submissions');
 const User = require('../models/User');
+const problems = require('../models/problems');
+
 const dotenv = require('dotenv');
 // const mongoose=require('mongoose');
-
+const allowedFields=["userhandle","PID","ProblemName","language","Status"]
+const allowedSortFields = [ 'DateTime', 'userhandle','PID','ProblemName','language','Time','Memory'];
+const allowedSortOrders = ['asc', 'desc'];
 dotenv.config();
 // GET all examples
 exports.create = async (req, res) => {
   try {
     const userhandle=req.signedCookies.token.userhandle;
     const user=await User.findOne({userhandle:userhandle});
-    const lastSubmission = await Submission.findOne().sort({ DateTime: -1 });
-    let lastSID;
-    if (!lastSubmission || !lastSubmission.SID) {
-      lastSID = 1; // Start with 1 if there are no previous submissions
-    } else {
-      lastSID = parseInt(lastSubmission.SID) + 1; // Increment SID
-    }
-
-    const{ PID,language,Status}=req.body;
-    if(!(lastSID&&PID&&language&&Status)){
+    const{ code,PID,language,Status,time,memory}=req.body;
+    if(!(code&&PID&&language&&Status)){
         return res.status(400).send("Please enter all the submission information");
     }
     user.TotalSubmissions=user.TotalSubmissions+1;
@@ -29,9 +25,10 @@ exports.create = async (req, res) => {
         }
     }
     await user.save();
-
+    const Problem=await problems.findOne({PID:PID});
+    const name=Problem.ProblemName;
     const submission=await Submission.create({
-        SID:lastSID,userhandle,PID,language,Status,
+        code,userhandle,PID,ProblemName:name,language,Status,Time:time,Memory:memory,
     });
     res.status(200).json({message: "You have succesfully created the submission!",submission});
   } 
@@ -68,4 +65,73 @@ exports.readbyhandle=async(req,res)=>{
     catch (error) {
         console.log(error);
     }
+}
+exports.read=async(req,res)=>{
+  let {filterField,filterValue, sortField = 'DateTime', sortOrder = 'asc' } = req.query;
+    if (!allowedSortFields.includes(sortField)) {
+      sortField = 'DateTime'; // Default field
+    }
+    if (!allowedSortOrders.includes(sortOrder)) {
+      sortOrder = 'desc'; // Default order
+    }
+    let filter = {};
+    
+    if(allowedFields.includes(filterField)){
+      if (filterField && filterValue) {
+        filter[filterField] = filterValue;
+      }
+    }
+    try {
+      if(filterField==="userhandle"){
+        const user=await User.findOne({userhandle:filterValue});
+        let cnt=await Submission.countDocuments({userhandle:filterValue});
+        user.TotalSubmissions=cnt;
+        let uniqueProblems = await Submission.aggregate([
+          {
+            $match: {
+              userhandle: filterValue,
+              Status: "Accepted"
+            }
+          },
+          {
+            $group: {
+              _id: "$PID"
+            }
+          },
+          {
+            $count: "uniqueProblemCount"
+          }
+        ]);
+        cnt = uniqueProblems.length > 0 ? uniqueProblems[0].uniqueProblemCount : 0;
+        user.TotalAccepted=cnt;
+        await user.save();
+      }
+      const submission=await Submission.find(filter).sort({ [sortField]: sortOrder === 'asc' ? 1 : -1 });
+      res.status(200).send(submission);
+    } catch (error) {
+      console.log("Error reading submissions by only read",error);
+      res.status(400).send("Error reading submissions by only read");
+    }
+}
+exports.delete=async(req,res)=>{
+  try {
+    const {id}=req.params;
+    const submission=await Submission.findOneAndDelete({_id:id});
+    res.status(200).send({message: "Succesfully Deleted Submission",submission});
+    // const userhandle=submission.userhandle;
+    // const user=await User.findOne({userhandle});
+    // user.TotalSubmissions=user.TotalSubmissions--;
+    // if(submission.Status==="Accepted"){
+    //   let cnt=await Submission.countDocuments({PID:submission.PID,userhandle:submission.userhandle,Status:"Accepted"});
+    //   // console.log(cnt);
+    //   if(cnt===0){
+    //     user.TotalAccepted--;
+    //     // user.TotalAccepted=0;
+    //   }
+    // }
+    // await user.save();
+  } catch (error) {
+    res.status(400).send("Error Deleting Submission");
+    console.log(error);
+  }
 }

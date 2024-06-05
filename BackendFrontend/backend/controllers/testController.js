@@ -1,28 +1,15 @@
 const Test = require('../models/Testcases');
-// const bcrypt=require('bcryptjs')
-// const jwt=require("jsonwebtoken");
 const dotenv = require('dotenv');
-
-
-// const User = require('../models/User');
 dotenv.config();
 // GET all examples
 exports.create = async (req, res) => {
   try {
-    const{ PID,Input,Solution}=req.body;
-    if(!(PID&&Input&&Solution)){
+    const{TestcaseName,PID,Input,Solution}=req.body;
+    if(!(TestcaseName&&PID&&Input&&Solution)){
         return res.status(400).send("Please enter all the Test information");
     }
-    
-    // const existingTID=await Test.findOne({TID});
-    
-    // if(existingTID){
-    //     return res.status(400).send("TID is not unique");
-    // }
-    
-    //creating the testcase
     const testcase=await Test.create({
-        PID,Input,Solution
+        TestcaseName,PID,Input,Solution
     });
     res.status(200).json({message: "You have succesfully created the testcase!",testcase});
   } 
@@ -33,7 +20,7 @@ exports.create = async (req, res) => {
 exports.b = async (req, res) => {
   res.send("Hello,world! b");
 };
-exports.readbyTID=async(req,res)=>{
+exports.read=async(req,res)=>{
     try {
         const{id} =req.params;
         if(!id){
@@ -69,21 +56,12 @@ exports.readbyPID=async(req,res)=>{
 exports.update=async(req,res)=>{
     try {
         const {id}=req.params;
-        const{PID,Input,Solution}=req.body;
-        if(!(id&&PID&&Input&&Solution)){
+        const{TestcaseName,PID,Input,Solution}=req.body;
+        if(!(id&&TestcaseName&&PID&&Input&&Solution)){
             return res.status(400).send("Please enter all the information");
         }
         let test= await Test.findOne({_id:id});
-        // if(!test){
-        //     return res.status(404).send("No Such Test Exists");
-        // }
-        // let temp=await Test.findOne({_id:id});
-        // if(temp){
-        //     if(temp.TID!==id){
-        //         return res.status(404).send("A Testcase with the given updated TID already Exists");
-        //     }
-        // }
-        // test.TID=id;
+        test.TestcaseName=TestcaseName;
         test.PID=PID;
         test.Input=Input;
         test.Solution=Solution;
@@ -110,7 +88,7 @@ exports.deletesingle= async(req,res)=>{
         if(!test){
             return res.status(404).send("No Such Test Exists");
         }
-        res.status(200).send({message:` ${id} Test-Deleted`,test});
+        res.status(200).send({message:` ${test.TestcaseName} Test-Deleted`,test});
     } catch (error) {
         console.log(error);
     }

@@ -7,7 +7,7 @@ const auth = require('../middleware/auth.js');
 
 router.get('/b',auth(["admin","user"]), exampleController.b);
 router.post('/create',auth(["admin"]), exampleController.create);
-router.get('/readbyTID/:id',auth(["admin","user"]), exampleController.readbyTID);
+router.get('/read/:id',auth(["admin","user"]), exampleController.read);
 router.get('/readbyPID/:id',auth(["admin","user"]), exampleController.readbyPID);
 router.put('/update/:id', auth(["admin"]),exampleController.update);
 router.delete('/deletesingle/:id',auth(["admin"]), exampleController.deletesingle);

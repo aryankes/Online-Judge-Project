@@ -42,7 +42,7 @@ function Navbar() {
           <Link to="/ProblemSet">Problem Set</Link>
         </li>
         <li>
-          <Link to="/SubmissionsByHandle">My Submissions</Link>
+          <Link to={`/Submissions/a/All`}>All Submissions</Link>
         </li>
         <li>
           <Link to={`/Profile/${localStorage.userhandle}`}>My Profile</Link>

@@ -1,34 +1,4 @@
-// const jwt = require('jsonwebtoken');
-// const dotenv = require('dotenv');
-// dotenv.config();
-// const secret = process.env.SECRET_KEY; 
-// // const auth_page(permissions) => {
 
-// // }
-// const auth = (permissions,req, res, next) => {
-//     // Get token from cookies
-//     const token = req.cookies.token;
-//     // Check if not token
-//     if (!token) {
-//         return res.status(401).json({ message: 'No token, authorization denied' });
-//     }
-//     // Verify token
-//     try {
-//         const decoded = jwt.verify(token, secret);
-//         req.user = decoded.user;
-//         if(permissions.includes(req.user.role)){
-//             next();
-//         }
-//         else{
-//             return res.status(401).json({ message: "You Don't have authorization to access this page" });
-//         }
-//     } 
-//     catch (err) {
-//         res.status(401).json({ message: 'Token is not valid' });
-//     }
-// };
-
-// module.exports = auth;
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -54,10 +24,10 @@ const auth = (permissions) => {
             if (permissions.includes(req.user.role)) {
                 next();
             } else {
-                return res.status(403).json({ message: `You don't have authorization to access this page ` });
+                return res.status(400).send( `You don't have authorization to access this page ` );
             }
         } catch (err) {
-            res.status(401).json({ message: 'Token is not valid' });
+            res.status(400).send( 'Token is not valid' );
         }
     };
 };

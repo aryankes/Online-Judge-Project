@@ -11,13 +11,14 @@ function UpdateTestcase(){
     const navigate = useNavigate();
     const[formData,setData]=useState({
         PID:PID,
+        TestcaseName:"",
         Input:"",
         Solution:"",
     });
     useEffect(() => {
         async function fetchTests() {
           try {
-            const response = await axios.get(`http://localhost:5000/api/tests/readbyTId/${_id}`);
+            const response = await axios.get(`http://localhost:5000/api/tests/read/${_id}`);
             setData(response.data);
           } 
           catch (error) {
@@ -72,8 +73,14 @@ function UpdateTestcase(){
         <div>
             <Navbar/>
             <form onSubmit={handleSubmit}>
-                <h2>Update Testcase {_id}</h2>
+                <h2>Update Testcase</h2>
                 <div>
+                    <label >
+                        Test Name:
+                        <input type="text" name="TestcaseName" value={formData.TestcaseName} onChange={handleChange} required  />
+                    </label>
+                </div>
+                <br /><div>
                     <label >
                         Input:
                         <input type="text" name="Input" value={formData.Input} onChange={handleChange} required  />
