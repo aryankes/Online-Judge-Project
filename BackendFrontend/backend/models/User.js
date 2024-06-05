@@ -44,7 +44,7 @@ const userSchema=new mongoose.Schema({
     },
     imgPath:{
         type:String,
-        default:"uploads/user.jpg",
+        default:"",
     },
     
 });

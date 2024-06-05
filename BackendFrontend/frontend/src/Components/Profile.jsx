@@ -4,22 +4,63 @@ import axios from "axios";
 axios.defaults.withCredentials=true;
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
+const API_URI = 'http://localhost:5000';
 function Profile(){
     const navigate=useNavigate();
     const{id:userhandle}=useParams();
     const [user,setuser]=useState("");
-    useEffect(()=>{
+    const [File,setFile]=useState('');
+    const [imgPath,setimgPath]=useState('');
+
+    useEffect( ()=>{
         async function fetchUser(){
+            // e.preventDefault();
             try {
+                
                 const response=await axios.get(`http://localhost:5000/api/example/read/${userhandle}`)
                 setuser(response.data);
+                
+
             } catch (error) {
                 console.error("Error fetching User Details:", error); 
             }
         }
         fetchUser();
     },[]);
-    
+    useEffect(() => {
+        setimgPath(user.imgPath);
+    }, [user]);
+    useEffect(()=>{
+        const handleUpload=async ()=>{
+            if(File){
+                try {
+                    const formData = new FormData();
+                    formData.append('file', File);
+                    const response=await axios.post(`${API_URI}/api/example/upload/${userhandle}`,formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    });
+                    setimgPath(user.imgPath);
+                    alert("Image Uploaded Succesfully");
+                } catch (error) {
+                    console.log("Error Uploading Image:",error);
+                    alert("Error uploading Image");
+                }
+            }
+        }
+        handleUpload();
+    },[File])
+    const removeImage = async () => {
+        try {
+            await axios.delete(`${API_URI}/api/example/removeImg/${userhandle}`);
+            setimgPath('');
+            alert("Image Removed Successfully");
+        } catch (error) {
+            console.error("Error removing Image:", error);
+            alert("Error removing Image");
+        }
+    };
 return (
     <div>
         <Navbar/>
@@ -32,11 +73,23 @@ return (
       <br /><br /><span>Registered On: {(String(user.DateTime)).split('T')[0]}</span>
       <br /><br /><span>Total Submissions: {user.TotalSubmissions}</span>
       <br /><br /><span>Total Accepted: {user.TotalAccepted}</span>
-      <br /><br />
-      {/* <img 
-        src={`data:${user.img.contentType};base64,${Buffer.from(user.img.data).toString('base64')}`} 
-        alt="User Avatar" 
-      /> */}
+      <br />
+
+      <br />
+    
+        <div>
+            {console.log(imgPath)}
+            <img src={imgPath ? `${API_URI}/${imgPath}` : `${API_URI}/uploads/cf_blank.jpg`} alt="Profile" style={{ maxWidth: 400, height: 400*(1800/2880) }}/>
+            {/* <img src={`${API_URI}/${imgPath}`} alt="Profile" /> */}
+            <button onClick={removeImage}>Remove Image</button>
+        </div>
+    
+    <br />
+    <label htmlFor="img"> Change Photo </label>
+    <input type="file" name="img" id="img" onChange={(e)=>{setFile(e.target.files[0])}} />
+
+      {/* <label htmlFor="img"> Change Photo </label>
+      <input type="file" name="img" id="img" onChange={(e)=>{setFile(e.target.files[0])}} /> */}
     </div>
   );
 }

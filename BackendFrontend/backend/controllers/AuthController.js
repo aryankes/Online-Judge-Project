@@ -6,6 +6,8 @@ const dotenv = require('dotenv');
 const submissions = require('../models/submissions');
 const allowedSortFields = ['userhandle', 'DateTime', 'firstName', 'TotalSubmissions', 'TotalAccepted'];
 const allowedSortOrders = ['asc', 'desc'];
+const fs = require("fs");
+const path = require("path");
 dotenv.config();
 // GET all examples
 exports.a = async (req, res) => {
@@ -293,6 +295,10 @@ exports.upload=async (req,res)=>{
             return res.status(400).send('No file uploaded.');
         }
         if(userhandle!==req.signedCookies.token.userhandle){
+            if(fs.existsSync(`uploads/${userhandle}.jpg`)){
+                fs.unlinkSync(`uploads/${userhandle}.jpg`);
+                // console.log("Extra file deleted");
+            }
             return res.status(400).send("You Don't Own this handle");
         }
         const user=await User.findOne({userhandle:userhandle});
@@ -304,4 +310,22 @@ exports.upload=async (req,res)=>{
         console.log(error);
     }
 }
-
+exports.removeImg=async(req,res)=>{
+    const{id:userhandle}=req.params;
+    if(userhandle!==req.signedCookies.token.userhandle){
+        return res.status(400).send("You Don't Own this handle");
+    }
+    try {
+        if(fs.existsSync(`uploads/${userhandle}.jpg`)){
+            fs.unlinkSync(`uploads/${userhandle}.jpg`);
+            // console.log("Extra file deleted");
+        }
+        const user=await User.findOne({userhandle:userhandle});
+        user.imgPath=``;
+        user.save();
+        res.status(200).send("image Removed succesfully");
+    } catch (error) {
+        console.log("Error Removing Image",error);
+    }
+    
+}
