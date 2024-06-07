@@ -47,6 +47,7 @@ exports.readbyPID=async(req,res)=>{
         //     return res.status(404).send("No Test Exists related to this PID");
         // }
         let test= await Test.find({PID:id});
+        // console.log(test);
         res.status(200).send(test);
     } 
     catch (error) {

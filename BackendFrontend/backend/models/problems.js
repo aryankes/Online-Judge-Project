@@ -15,12 +15,17 @@ const ProblemSchema=new mongoose.Schema({
     ProblemDescription:{
         type:String,
         default:null,
-        unique:true,
+        // unique:true,
     },
     ProblemLevel:{
         type:String,
         default:null,
         required:true,
     },
+    TimeLimit:{
+        type:Number,
+        default:5,
+        required:true,
+    }
 });
 module.exports=mongoose.model("Problems",ProblemSchema);

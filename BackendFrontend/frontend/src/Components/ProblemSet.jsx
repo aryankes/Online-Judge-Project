@@ -48,27 +48,61 @@ function ProblemSet() {
     }
   };
   return (
-    <div>
+    <>
         <Navbar/>
-      <h1 className='mt-16'>Problem Set</h1>
+  <div className="min-h-screen w-full mx-auto px-4 py-8 mt-16 dark:bg-gray-800 dark:text-white">
+
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Problem Set</h1>
         {userRole==='admin'?(
-          <>
-            <button onClick={handleCreateProblem}>Create New</button>
-          </>
+          <button onClick={handleCreateProblem}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded dark:bg-gray-600 dark:hover:bg-gray-700"
+          >Create New</button>
         ):(<></>)}
-      <ul>
-        {problems.map((problem) => (
-          <li key={problem.PID}>
-            <Link to={`/ProblemDescription/${problem.PID}`}>{`${problem.PID} ${problem.ProblemName}`}</Link>
-            {userRole==='admin'?(
-              <><span style={{ marginRight: '10px' }}></span>
-                <button onClick={()=>handleUpdateProblem(problem.PID)}>Update</button> <span style={{ marginRight: '10px' }}></span><button onClick={()=>handleDeleteProblem(problem.PID)}>Delete</button>
-              </>
-            ):(<></>)}
-          </li>
-        ))}
-      </ul>
-    </div>
+        <br />
+        <br />
+        <table className="w-full border-collapse  border border-gray-300 dark:border-gray-600">
+          <thead className="bg-gray-200 dark:bg-gray-700">
+            <tr>
+            <th className="border border-gray-300 p-2 dark:border-gray-600">PID</th>
+            <th className="border border-gray-300 p-2 dark:border-gray-600">Problem Name</th>
+            <th className="border border-gray-300 p-2 dark:border-gray-600">Level</th>
+            {userRole==='admin'?(<>
+            <th className="border border-gray-300 p-2 dark:border-gray-600">Update</th>
+            <th className="border border-gray-300 p-2 dark:border-gray-600">Delete</th>
+            
+            </>):(<></>)}
+            </tr>
+          </thead>
+          <tbody>
+              {problems.map((problem) => (
+              <tr  key={problem.PID} className="hover:bg-gray-100 dark:hover:bg-gray-600 align-middle">
+                <td className="border border-gray-300 p-2 dark:border-gray-600"><Link to={`/ProblemDescription/${problem.PID}`}>{`${problem.PID}`}</Link></td>
+                <td className="border border-gray-300 p-2 dark:border-gray-600"><Link to={`/ProblemDescription/${problem.PID}`}>{`${problem.ProblemName}`}</Link></td>
+                <td className="border border-gray-300 p-2 dark:border-gray-600"><span className={(problem.ProblemLevel=="Easy")?("text-green-500"):(problem.ProblemLevel=="Medium")?("text-yellow-500"):("text-red-500")}>{problem.ProblemLevel}</span></td>
+                {userRole==='admin'?(
+                  <>
+                    <td className="border border-gray-300 p-2 dark:border-gray-600">
+                      <button 
+                        onClick={()=>handleUpdateProblem(problem.PID)}
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded "
+                      >Update
+                      </button>
+                    </td> 
+                    <td className="border border-gray-300 p-2 dark:border-gray-600">
+                      <button 
+                        onClick={()=>handleDeleteProblem(problem.PID)}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded "
+                      >Delete
+                      </button>
+                    </td>
+                  </>
+                ):(<></>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
   );
 }
 

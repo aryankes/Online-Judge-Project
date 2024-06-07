@@ -118,18 +118,6 @@ exports.delete=async(req,res)=>{
     const {id}=req.params;
     const submission=await Submission.findOneAndDelete({_id:id});
     res.status(200).send({message: "Succesfully Deleted Submission",submission});
-    // const userhandle=submission.userhandle;
-    // const user=await User.findOne({userhandle});
-    // user.TotalSubmissions=user.TotalSubmissions--;
-    // if(submission.Status==="Accepted"){
-    //   let cnt=await Submission.countDocuments({PID:submission.PID,userhandle:submission.userhandle,Status:"Accepted"});
-    //   // console.log(cnt);
-    //   if(cnt===0){
-    //     user.TotalAccepted--;
-    //     // user.TotalAccepted=0;
-    //   }
-    // }
-    // await user.save();
   } catch (error) {
     res.status(400).send("Error Deleting Submission");
     console.log(error);

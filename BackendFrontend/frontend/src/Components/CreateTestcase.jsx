@@ -89,8 +89,9 @@ function CreateTestcase(){
 return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center justify-center">
         <Navbar />
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-700 shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h2 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Create a New Test</h2>
+            
             <div className="mb-4">
                 <label className="block text-gray-700 dark:text-gray-100 text-sm font-bold mb-2" htmlFor="TestcaseName">
                     Test Name:

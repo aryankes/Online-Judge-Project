@@ -15,7 +15,7 @@ router.put('/update/:id',auth(["admin"]),exampleController.update);
 
 router.delete('/delete/:id',auth(["admin"]),exampleController.delete);
 router.get('/logout', exampleController.logout);
-router.post('/upload/:id', uploadimg.single('file'),exampleController.upload);
-router.delete('/removeImg/:id',exampleController.removeImg);
+router.post('/upload/:id',auth(["admin","user"]), uploadimg.single('file'),exampleController.upload);
+router.delete('/removeImg/:id',auth(["admin","user"]),exampleController.removeImg);
 
 module.exports = router;

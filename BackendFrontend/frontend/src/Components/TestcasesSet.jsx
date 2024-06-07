@@ -87,7 +87,7 @@ function TestcasesSet() {
 return (
   <>
   <Navbar />
-  <div className="min h-screen w-full mx-auto px-4 py-8 mt-16 dark:bg-gray-800 dark:text-white">
+  <div className="min-h-screen w-full mx-auto px-4 py-8 mt-16 dark:bg-gray-800 dark:text-white">
     
     <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Testcases Set</h1>
     {userRole === 'admin' && (

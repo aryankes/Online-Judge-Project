@@ -1,9 +1,9 @@
-import React,{useEffect,useState} from "react";
+import React,{useEffect,useState,useRef} from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 axios.defaults.withCredentials=true;
 import Navbar from "./Navbar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 const API_URI = 'http://localhost:5000';
 function Profile(){
     const navigate=useNavigate();
@@ -11,27 +11,22 @@ function Profile(){
     const [user,setuser]=useState("");
     const [File,setFile]=useState('');
     const [imgPath,setimgPath]=useState('');
-
+    const fileInputRef = useRef(null);
     useEffect( ()=>{
         async function fetchUser(){
             // e.preventDefault();
             try {
-                
                 const response=await axios.get(`http://localhost:5000/api/example/read/${userhandle}`)
                 setuser(response.data);
-                
-
             } catch (error) {
                 console.error("Error fetching User Details:", error); 
             }
         }
         fetchUser();
-    },[]);
-    useEffect(() => {
-        setimgPath(user.imgPath);
-    }, [user]);
+    },[imgPath]);
     useEffect(()=>{
         const handleUpload=async ()=>{
+            
             if(File){
                 try {
                     const formData = new FormData();
@@ -41,8 +36,10 @@ function Profile(){
                             'Content-Type': 'multipart/form-data'
                         }
                     });
-                    setimgPath(user.imgPath);
+                    // await setimgPath(user.imgPath);
                     alert("Image Uploaded Succesfully");
+                    setimgPath(response.data.imgPath);
+
                 } catch (error) {
                     console.log("Error Uploading Image:",error);
                     alert("Error uploading Image");
@@ -51,6 +48,9 @@ function Profile(){
         }
         handleUpload();
     },[File])
+    useEffect(() => {
+        setimgPath(user.imgPath);
+    }, [user]);
     const removeImage = async () => {
         try {
             await axios.delete(`${API_URI}/api/example/removeImg/${userhandle}`);
@@ -61,35 +61,89 @@ function Profile(){
             alert("Error removing Image");
         }
     };
-return (
+    const handleImageChange = () => {
+        fileInputRef.current.click();
+    };
+// return (
+//     <div>
+//         <Navbar/>
+//     <div className="mt-16 flex justify-centre">
+//       <h1 className="mt-16">{user.userhandle}</h1>
+//       <br />{user.userhandle===localStorage.userhandle? (<button onClick={()=>{navigate(`/ProfileSettings/${userhandle}`)}}>Profile Settings</button>):(<></>)}
+//       <button onClick={()=>{navigate(`/Submissions/userhandle/${userhandle}`)}}>Submissions</button>
+
+//       <br />{`${user.firstName} ${user.lastName}`}
+//       <br /><br /><span>Email: {user.email}</span>
+//       <br /><br /><span>Registered On: {(String(user.DateTime)).split('T')[0]}</span>
+//       <br /><br /><span>Total Submissions: {user.TotalSubmissions}</span>
+//       <br /><br /><span>Total Accepted: {user.TotalAccepted}</span>
+//       <br />
+
+//       <br />
+    
+//         <div>
+//             <img src={imgPath ? `${API_URI}/${imgPath}` : `${API_URI}/uploads/cf_blank.jpg`} alt="Profile" style={{ maxWidth: 400, height: 400*(1800/2880) }}/>
+//             {(imgPath)?(<button onClick={removeImage}>Remove Image</button>):(<></>)}
+//         </div>
+    
+//     <br />
+//     <label htmlFor="img"> Change Photo </label>
+//     <input type="file" name="img" id="img" onChange={(e)=>{setFile(e.target.files[0])}} />
+
+//       {/* <label htmlFor="img"> Change Photo </label>
+//       <input type="file" name="img" id="img" onChange={(e)=>{setFile(e.target.files[0])}} /> */}
+//     </div>
+//     </div>
+//   );
+  return (
     <div>
         <Navbar/>
-      <h1 className="mt-16">{user.userhandle}</h1>
-      <br />{user.userhandle===localStorage.userhandle? (<button onClick={()=>{navigate(`/ProfileSettings/${userhandle}`)}}>Profile Settings</button>):(<></>)}
-      <button onClick={()=>{navigate(`/Submissions/userhandle/${userhandle}`)}}>Submissions</button>
+    <div className="w-full min-h-screen mx-auto px-4 py-8 mt-16 dark:bg-gray-800 dark:text-white">
+      <h1 className="text-3xl font-bold text-gray-800 dark:text-white">{user.userhandle}</h1>
+      <br />{user.userhandle===localStorage.userhandle? (<Link to={`/ProfileSettings/${userhandle}`} className="text-blue-500 mr-8 underline">
+        Profile Settings
+    </Link>):(<></>)}
+    <Link to={`/Submissions/userhandle/${userhandle}`} className="text-blue-500 mr-8 underline">
+        Submissions
+    </Link>
+    <div className="flex flex-wrap mt-4">
+    <div className="w-full md:w-1/2 pr-4">
+    <div className="text-lg text-gray-600 dark:text-gray-300">
 
       <br />{`${user.firstName} ${user.lastName}`}
       <br /><br /><span>Email: {user.email}</span>
       <br /><br /><span>Registered On: {(String(user.DateTime)).split('T')[0]}</span>
-      <br /><br /><span>Total Submissions: {user.TotalSubmissions}</span>
-      <br /><br /><span>Total Accepted: {user.TotalAccepted}</span>
-      <br />
-
-      <br />
-    
-        <div>
-            <img src={imgPath ? `${API_URI}/${imgPath}` : `${API_URI}/uploads/cf_blank.jpg`} alt="Profile" style={{ maxWidth: 400, height: 400*(1800/2880) }}/>
-            {(imgPath)?(<button onClick={removeImage}>Remove Image</button>):(<></>)}
+      <br /><br /><span className="mr-16">Total Submissions: {user.TotalSubmissions}</span>
+      <span>Total Accepted: {user.TotalAccepted}</span>
+      
+    </div>
+    </div>
+    <div className="w-full md:w-1/2 pl-4">
+        <div className="inline">
+            <img  src={imgPath ? `${API_URI}/${imgPath}` : `${API_URI}/uploads/cf_blank.jpg`} alt="Profile" style={{ maxWidth: 300, height: 300*(1800/2880) }}/>
+            <br />
+            {(imgPath&&localStorage.userhandle===`${userhandle}`)?(<button onClick={removeImage} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-10">Remove Image</button>):(<></>)}
         </div>
+    {(localStorage.userhandle===`${userhandle}`)?(<>
+        <button  onClick={handleImageChange} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Change Image</button>
+        <input
+        type="file"
+        ref={fileInputRef}
+        className="hidden"
+        onChange={(e) => { setFile(e.target.files[0]) }}></input>
+        </>
+    ):(<></>)}
     
-    <br />
-    <label htmlFor="img"> Change Photo </label>
-    <input type="file" name="img" id="img" onChange={(e)=>{setFile(e.target.files[0])}} />
+    {/* <label htmlFor="img"> Change Photo </label>
+    <input type="file" name="img" id="img" onChange={(e)=>{setFile(e.target.files[0])}} /> */}
 
       {/* <label htmlFor="img"> Change Photo </label>
       <input type="file" name="img" id="img" onChange={(e)=>{setFile(e.target.files[0])}} /> */}
     </div>
-  );
+    </div>
+    </div>
 
+    </div>
+  );
 }
 export default Profile;

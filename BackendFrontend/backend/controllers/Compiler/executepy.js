@@ -1,7 +1,7 @@
 const {exec} = require("child_process");
-const executepy=(filepath,InputFilePath)=>{
+const executepy=(filepath,InputFilePath,TimeLimit)=>{
     // console.log(outPath);
-    const timeoutSeconds = 5;
+    const timeoutSeconds = TimeLimit;
     return new Promise((resolve,reject)=>{
         exec(
             `python ${filepath} < ${InputFilePath}`,

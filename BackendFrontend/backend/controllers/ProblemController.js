@@ -1,5 +1,7 @@
 const Problem = require('../models/problems');
-const Test = require('../models/Testcases');
+const Submissions = require('../models/submissions');
+const Testcases = require('../models/Testcases');
+
 // const bcrypt=require('bcryptjs')
 // const jwt=require("jsonwebtoken");
 const dotenv = require('dotenv');
@@ -10,8 +12,8 @@ dotenv.config();
 // GET all examples
 exports.create = async (req, res) => {
   try {
-    const{ PID,ProblemName,ProblemDescription,ProblemLevel}=req.body;
-    if(!(PID&&ProblemName&&ProblemDescription&&ProblemLevel)){
+    const{ PID,ProblemName,ProblemDescription,ProblemLevel,TimeLimit}=req.body;
+    if(!(PID&&ProblemName&&ProblemDescription&&ProblemLevel&&TimeLimit)){
         return res.status(400).send("Please enter all the Problem information");
     }
     
@@ -20,16 +22,8 @@ exports.create = async (req, res) => {
     if(existingPID){
         return res.status(400).send("PID is not unique");
     }
-    
-    // const existingProblemName=await Problem.findOne({ ProblemName });
-    
-    // if(existingProblemName){
-    //     return res.status(400).send("Problem Name is not unique");
-    // }
-
-    //creatnig the problem
     const problem=await Problem.create({
-        PID,ProblemName,ProblemDescription,ProblemLevel
+        PID,ProblemName,ProblemDescription,ProblemLevel,TimeLimit
     });
     res.status(200).json({message: "You have succesfully created the problem!",problem});
   } 
@@ -72,8 +66,8 @@ exports.readall=async(req,res)=>{
 exports.update=async(req,res)=>{
     try {
         const{id} =req.params;
-        const{PID,ProblemName,ProblemDescription,ProblemLevel}=req.body;
-        if(!(id&&PID&&ProblemName&&ProblemDescription&&ProblemLevel)){
+        const{PID,ProblemName,ProblemDescription,ProblemLevel,TimeLimit}=req.body;
+        if(!(id&&PID&&ProblemName&&ProblemDescription&&ProblemLevel&&TimeLimit)){
             return res.status(400).send("Please enter the information");
         }
         let problem= await Problem.findOne({PID:id});
@@ -98,7 +92,8 @@ exports.update=async(req,res)=>{
         problem.ProblemName=ProblemName;
         problem.ProblemDescription=ProblemDescription;
         problem.ProblemLevel=ProblemLevel;
-        const updatedproblem = await problem.save();
+        problem.TimeLimit=TimeLimit;
+        await problem.save();
         res.status(200).json({message: "You have succesfully updated the problem!",problem});
         
         // res.status(200).send(p1roblem);
@@ -108,21 +103,20 @@ exports.update=async(req,res)=>{
 }
 exports.delete= async(req,res)=>{
     try {
-        const{id}=req.params;
-        if(!id){
+        const{id:PID}=req.params;
+        if(!PID){
             return res.status(400).send("Please enter the information");
         }
-        // console.log(id);
-        let problem= await Problem.findOneAndDelete({PID:id});
-        // console.log(problem);
+
+        let problem= await Problem.findOneAndDelete({PID:PID});
         if(!problem){
-            // problem=await Problem.findOneAndDelete({ProblemName:id});
-            // if(!problem){
-                return res.status(404).send("No Such Problem Exists");
-            // }
+            return res.status(404).send("No Such Problem Exists");
         }
-        res.status(200).send({message:` ${id} Problem-and-Testcases-Deleted`,problem});
+        const AllSubmissions=await Submissions.deleteMany({PID:PID});
+        const AllTests=await Testcases.deleteMany({PID:PID});
+        res.status(200).send({message:` ${PID} Problem-and-Testcases-Deleted`,problem});
     } catch (error) {
         console.log(error);
+        res.status(400).send({message:"Error Deleting Problem",error});
     }
 }

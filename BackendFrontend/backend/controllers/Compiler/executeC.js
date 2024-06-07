@@ -7,10 +7,10 @@ const {exec} = require("child_process");
 //     fs.mkdirSync(outputPath,{recursive:true});
 // }
 
-const executeC=(filepath,InputFilePath,outPath)=>{
+const executeC=(filepath,InputFilePath,outPath,TimeLimit)=>{
     // const outPath=path.join(outputPath,`${uniqID}.exe`);
     // console.log(outPath);
-    const timeoutSeconds = 5;
+    const timeoutSeconds = TimeLimit;
     return new Promise((resolve,reject)=>{
         exec(
             // `gcc ${filepath} -o ${outPath}  &&cd ${outputPath} && .\\${uniqID}.exe <${InputFilePath}`,
@@ -35,9 +35,9 @@ const executeC=(filepath,InputFilePath,outPath)=>{
         );
     })
 }
-const executeC2=(InputFilePath,outPath)=>{
+const executeC2=(InputFilePath,outPath,TimeLimit)=>{
     // console.log(outPath);
-    const timeoutSeconds = 5;
+    const timeoutSeconds = TimeLimit;
     return new Promise((resolve,reject)=>{
         exec(
             // `gcc ${filepath} -o ${outPath}  &&cd ${outputPath} && .\\${uniqID}.exe <${InputFilePath}`,

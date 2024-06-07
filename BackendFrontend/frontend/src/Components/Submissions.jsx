@@ -56,12 +56,12 @@ function Submissions() {
     return (
       <Popup trigger={<button className='text-blue-500 underline hover:text-blue-600'>ViewCode</button>} modal nested>
         {(close) => (
-          <div  className=" bg-slate-400 p-2 border-10 border-blue-900 rounded">
+          <div  className=" bg-gray-200 p-2 border-10 border-blue-900 rounded">
             <div className="content">
               <pre>{code}</pre>
             </div>
             <div>
-              <button onClick={() => close()}>Close</button>
+              <button onClick={() => close()} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded dark:bg-gray-400 dark:hover:bg-gray-800'>Close</button>
             </div>
           </div>
         )}
@@ -132,11 +132,11 @@ function Submissions() {
   //   </div>
   // );
   return (
-    <div>
+    <div className=" min-h-screen dark:bg-gray-800 dark:text-white">
       <Navbar />
-      <div className='min h-screen w-full mx-auto px-4 py-8 mt-16 dark:bg-gray-800 dark:text-white'>
+      <div className='   mx-auto px-4 py-8 mt-16 **auto**'>
       <h1 className="text-3xl font-bold mb-4 text-gray-800 dark:text-white">{`${filterValue} submissions`}</h1>
-    <table className="w-full border-collapse  border border-gray-300 dark:border-gray-600">
+    <table className=" border-collapse  border border-gray-300 dark:border-gray-600">
         <thead className="bg-gray-200 dark:bg-gray-700">
           <tr>
             <th className="border  border-gray-300 p-2 dark:border-gray-600"># </th>
@@ -163,7 +163,7 @@ function Submissions() {
               <td className="border p-2"><Link to={`/ProblemDescription/${submission.PID}`} className="text-blue-500 underline hover:text-blue-600">{submission.PID}</Link></td>
               <td className="border p-2"><Link to={`/ProblemDescription/${submission.PID}`} className="text-blue-500 underline hover:text-blue-600">{submission.ProblemName}</Link></td>
               <td className="border p-2">{submission.language}</td>
-              <td className="border p-2">{submission.Status}</td>
+              <td className={submission.Status==="Accepted"?("border p-2 font-bold text-green-500"):("border p-2 text-red-500")}>{submission.Status}</td>
               <td className="border p-2">{submission.Time} ms</td>
               <td className="border p-2">{submission.Memory} KB</td>
               <td className="border p-2">{handleViewCode(submission.code)}</td>

@@ -21,6 +21,7 @@ int main()
     return 0;
 }`,
     input: "",
+    TimeLimit:10,
   });
   const [output, setOutput] = useState("");
   useEffect(() => {
@@ -30,6 +31,8 @@ int main()
           `http://localhost:5000/api/problems/read/${PID}`
         );
         setproblem(response.data);
+        // setcode({...code,TimeLimit:problem.TimeLimit})
+        setcode(prevCode => ({ ...prevCode, TimeLimit: response.data.TimeLimit }));
       } catch (error) {
         console.error("Error fetching problems:", error);
       }
@@ -48,12 +51,14 @@ int main()
   };
 
   const handleRun = async (e) => {
+    // console.log(code);
     e.preventDefault();
     try {
       const response = await axios.post(
         "http://localhost:5000/api/compiler/run",
         code
       );
+      
       // alert(`Successfully Submitted`);
       const data = response.data;
       // console.log(response.data);
@@ -89,6 +94,11 @@ int main()
         `http://localhost:5000/api/tests/readbyPID/${PID}`
       );
       const Testcases = response1.data;
+      let Time=0;
+      if(Testcases.length===0){
+        alert("No testcases added");
+        return;
+      }
       // console.log(Testcases[1]);
       let cnt = 1;
       setOutput(`Running on test ${cnt}`);
@@ -99,17 +109,27 @@ int main()
       );
       let output = response.data.output;
       let allpassed = 1;
-      if (output.trim() !== Testcases[0].Solution.trim()) {
+      if(output==="sigterm"){
+        Time=Math.max(Time,response.data.Time);
+
+        allpassed=0;
+      }
+      else if (output.trim() !== Testcases[0].Solution.trim()) {
         allpassed = 0;
       }
       if (allpassed === 0) {
-        verdict=`wrong answer on test ${cnt}`;
+        if(output==="sigterm"){
+          verdict=`Time limit exceeded on Test ${cnt}`
+        }
+        else{
+          verdict=`wrong answer on Test ${cnt}`;
+        }
         setOutput(verdict);
       }
       const outPath = response.data.outPath;
       // console.log(outPath);
 
-      for (let i = 1; i < Testcases.length; i++) {
+      for (let i = 0; i < Testcases.length; i++) {
         if(allpassed===0){
           break;
         }
@@ -119,6 +139,7 @@ int main()
           language: code.language,
           input: Testcases[i].Input,
           outPath: outPath,
+          TimeLimit:code.TimeLimit,
         };
         setOutput(`Running on test ${cnt}`);
         if (code.language === "py") {
@@ -127,6 +148,10 @@ int main()
             codePayload
           );
           let output = response.data.output;
+          Time=Math.max(Time,response.data.Time);
+          if(output==="sigterm"){
+            setOutput("sigterm");
+          }
           if (output.trim() !== Testcases[i].Solution.trim()) {
             allpassed = 0;
           }
@@ -135,13 +160,20 @@ int main()
             "http://localhost:5000/api/compiler/submit",
             TestPayload
           );
+          Time=Math.max(Time,response.data.Time);
           let output = response.data.output;
           if (output.trim() !== Testcases[i].Solution.trim()) {
             allpassed = 0;
           }
         }
         if (allpassed === 0) {
-          verdict=`wrong answer on test ${cnt}`;
+          if(output==="sigterm"){
+            verdict=`Time limit exceeded on Test ${cnt}`;
+          }
+          else{
+            verdict=`wrong answer on test ${cnt}`;
+          }
+          
           setOutput(verdict);
           break;
         }
@@ -151,7 +183,7 @@ int main()
         setOutput(verdict);
       }
       // const userhandle = localStorage.getItem('userhandle');
-      const submissionPayload={code:code.code,PID:PID,language: code.language,Status:verdict};
+      const submissionPayload={code:code.code,PID:PID,language: code.language,Status:verdict,time:parseInt(Time)};
       await axios.post("http://localhost:5000/api/submissions/create",submissionPayload)
       navigate(`/Submissions/userhandle/${localStorage.userhandle}`)
     } catch (error) {
@@ -254,7 +286,7 @@ return (
 
   <div className="w-full mx-auto px-4 py-8 mt-16 dark:bg-gray-800 dark:text-white">
     <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
-      Problem {`${problem.PID} ${problem.ProblemName}`}
+      {`${problem.PID} : ${problem.ProblemName}`}
     </h1>
     <Link to={`/Submissions/PID/${PID}`} className="text-blue-500">
       Submissions

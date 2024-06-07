@@ -304,7 +304,7 @@ exports.upload=async (req,res)=>{
         const user=await User.findOne({userhandle:userhandle});
         user.imgPath=`uploads/${userhandle}.jpg`;
         user.save();
-        res.status(200).send({message:"image uploaded succesfully"});
+        res.status(200).send({message:"image uploaded succesfully",imgPath:user.imgPath});
     } catch (error) {
         res.status(400).send("image uploadation failed");
         console.log(error);
