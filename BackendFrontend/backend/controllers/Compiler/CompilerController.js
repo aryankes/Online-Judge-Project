@@ -22,7 +22,9 @@ exports.run=async(req,res)=>{
         const filePath= await generateFile(language,code);
         const InputFilePath= await generateInputFile(input);
         const uniqID = path.basename(filePath).split(".")[0];
-        const outPath = path.join(outputPath, `${uniqID}.exe`);
+        // const outPath = path.join(outputPath, `${uniqID}.exe`);
+        const outPath = path.join(outputPath, `${uniqID}.out`);
+
         if(language==="cpp"){
             const output=await executeCpp(filePath,InputFilePath,outPath,TimeLimit);
             const en=performance.now();

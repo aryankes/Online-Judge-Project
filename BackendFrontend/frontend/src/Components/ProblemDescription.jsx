@@ -288,14 +288,20 @@ return (
     <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
       {`${problem.PID} : ${problem.ProblemName}`}
     </h1>
+    <br />
     <Link to={`/Submissions/PID/${PID}`} className="text-blue-500">
       Submissions
     </Link>
     <div className="flex flex-wrap mt-4">
       {/* Left half of the screen */}
-      <div className="w-full md:w-1/2 pr-4">
+      <div className="w-full md:w-1/2 p-4 mt-16 border rounded-md border-gray-300">
         <div className="text-lg text-gray-600 dark:text-gray-300">
           {problem.ProblemDescription}
+        </div>
+        <br />
+        <div className="text-lg text-gray-600 dark:text-gray-300">
+          TimeLimit: {problem.TimeLimit}s.
+          {/* Memory:{problem.Memory} MB */}
         </div>
       </div>
       {/* Right half of the screen */}
@@ -357,7 +363,7 @@ return (
         <label htmlFor="output">Output</label>
         <br />
         <textarea
-          rows="2"
+          rows="5"
           cols="50"
           name="output"
           value={output}

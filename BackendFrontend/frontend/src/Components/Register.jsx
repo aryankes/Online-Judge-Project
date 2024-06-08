@@ -80,7 +80,7 @@ function Register(){
                 </div>
                 <div>
                     <label className="block text-gray-700">Email:</label>
-                        <input type="text" name="email" value={formData.email} onChange={handleChange} required className="mt-1 p-2 border border-gray-300 rounded-md"  />
+                        <input type="email" name="email" value={formData.email} onChange={handleChange} required className="mt-1 p-2 border border-gray-300 rounded-md"  />
                     
                 </div>
                 

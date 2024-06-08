@@ -14,6 +14,9 @@ import RegisterPage from './Components/RegisterPage';
 import Register from './Components/Register';
 import Login from './Components/Login';
 
+import ChangePassword from './Components/ChangePassword';
+import VerifyOTP from './Components/VerifyOTP';
+import ForgotPassword from './Components/ForgotPassword';
 
 import Homepage from './Components/Homepage';
 
@@ -40,7 +43,11 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Register />} />
+            
             <Route path="/Login" element={<Login />} />
+            <Route path="/ForgotPassword" element={<ForgotPassword />} />
+            <Route path="/VerifyOTP/:id" element={<VerifyOTP />} />
+            <Route path="/ChangePassword/:id/:id1" element={<ChangePassword />} />
 
             <Route path="/homepage" element={<Homepage />} />
 

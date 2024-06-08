@@ -8,6 +8,8 @@ const allowedSortFields = ['userhandle', 'DateTime', 'firstName', 'TotalSubmissi
 const allowedSortOrders = ['asc', 'desc'];
 const fs = require("fs");
 const path = require("path");
+const nodemailer = require('nodemailer');
+const randomstring = require('randomstring');
 dotenv.config();
 // GET all examples
 exports.a = async (req, res) => {
@@ -116,9 +118,10 @@ let { sortField = 'DateTime', sortOrder = 'asc' } = req.query;
 exports.update=async(req,res)=>{
     try {
         const userhandle=req.signedCookies.token.userhandle;
+        // console.log(userhandle);
         const {id:givenHandle}=req.params;
         const {firstName,lastName,email,oldPassword,newPassword,confirmPassword}=req.body;
-        if(!(firstName&&lastName&&email)){
+        if(!(firstName&&lastName&&email&&oldPassword)){
             return res.status(400).send("Enter Complete Information");
         }
         if(givenHandle!==userhandle){
@@ -328,4 +331,86 @@ exports.removeImg=async(req,res)=>{
         console.log("Error Removing Image",error);
     }
     
+}
+const OTPs = {}; // Temporary storage for OTPs
+
+// Set up Nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    // user: 'optimalforces@gmail.com',
+    // pass: process.env.nodemailerPassword,
+    user: 'rachet032007@gmail.com',
+    pass: "pcvt rzqd olos ariw",
+  }
+// host: 'smtp.ethereal.email',
+//     port: 587,
+//     auth: {
+//         user: 'viviane23@ethereal.email',
+//         pass: 'bAgdQaxGJQaDXqDh8B'
+//     }
+// host: 'smtp.gmail.com',
+//     port: 587,
+//     auth: {
+//          user: 'optimalforces@gmail.com',
+//         pass: process.env.nodemailerPassword,
+//     }
+});
+exports.forgotPassword=async(req,res)=>{
+// console.log(transporter);
+// console.log(process.env.nodemailerPassword);
+const { email:email } = req.body;
+const user=await User.findOne({email:email});
+    if(!user){
+        return res.status(400).send("No User exists with this Email");
+    }
+    // console.log(user);
+  const OTP = randomstring.generate({ length: 6, charset: 'numeric' });
+  OTPs[email] = OTP; // Store OTP temporarily
+
+  const mailOptions = {
+    from: 'optimalforces@gmail.com',
+    to: email,
+    subject: 'Password Reset OTP',
+    text: `Your OTP for password reset is: ${OTP}`
+  };
+// console.log(OTP);
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send('Error sending OTP');
+    } else {
+    //   console.log('Email sent: ' + info.response);
+      res.status(200).send('OTP sent successfully');
+    }
+  });
+
+}
+
+exports.verifyOTP=async(req,res)=>{
+const { email, otp } = req.body;
+// console.log(otp);
+
+  if (OTPs[email] === otp) {
+    // OTP is correct, redirect to change password page
+    res.status(200).send({message:'OTP verified successfully',flag:1});
+  } else {
+    res.status(400).send('Invalid OTP');
+  }
+}
+exports.changePassword=async(req,res)=>{
+    const {newPassword,otp,email}=req.body;
+    if(!(email&&newPassword&&otp)){
+        res.status(400).send("Enter All imformation in change Passowrd controller");
+    }
+    if(OTPs[email] === otp){
+        const user=await User.findOne({email});
+        const hashedPassword= await bcrypt.hash(newPassword,10);
+        user.password=hashedPassword;
+        await user.save();
+        res.status(200).send("Password Succesfully Changed");
+    }
+    else {
+        res.status(400).send('Invalid OTP');
+    }
 }

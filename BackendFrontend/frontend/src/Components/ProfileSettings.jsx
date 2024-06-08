@@ -160,7 +160,7 @@ function ProfileSettings(){
             <input
                 className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="email"
-                type="text"
+                type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
@@ -181,7 +181,7 @@ function ProfileSettings(){
             </label>
                 <input 
                 className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                type="password" id="newPassword" name="newPassword" value={formData.password} onChange={handleChange} required  />
+                type="password" id="newPassword" name="newPassword" value={formData.password} onChange={handleChange}   />
         </div>
         <div className='mb-4'>
             <label className="block text-gray-700 dark:text-gray-100 text-sm font-bold mb-2" htmlFor="confirmPassword">
@@ -189,7 +189,7 @@ function ProfileSettings(){
             </label>
                 <input 
                 className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                type="password" id="confirmPassword" name="confirmPassword" value={formData.password} onChange={handleChange} required  />
+                type="password" id="confirmPassword" name="confirmPassword" value={formData.password} onChange={handleChange}  />
         </div>
         <div className="flex items-center justify-between">
             <button

@@ -17,5 +17,8 @@ router.delete('/delete/:id',auth(["admin"]),exampleController.delete);
 router.get('/logout', exampleController.logout);
 router.post('/upload/:id',auth(["admin","user"]), uploadimg.single('file'),exampleController.upload);
 router.delete('/removeImg/:id',auth(["admin","user"]),exampleController.removeImg);
+router.post('/forgotPassword', exampleController.forgotPassword);
+router.post('/verifyOTP', exampleController.verifyOTP);
+router.put('/changePassword',exampleController.changePassword);
 
 module.exports = router;

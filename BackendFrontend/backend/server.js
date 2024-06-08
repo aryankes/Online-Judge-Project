@@ -5,7 +5,7 @@ const cookieParser=require('cookie-parser');
 const cors = require('cors');
 const path = require('path');
 // Load environment variables
-dotenv.config({path: '../../.env'});
+dotenv.config({path: '.env'});
 // Initialize Express
 const app = express();
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -41,5 +41,7 @@ app.use('/api/compiler', require('./routes/compilerRoutes'));
 // app.use('/api', require('./routes/solutionRoutes'));
 
 // Start the server
-const PORT = process.env.PORT || 5001;
+// const PORT = parseInt(process.env.PORT);// || 5001;
+// console.log(process.env);
+const PORT=process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
