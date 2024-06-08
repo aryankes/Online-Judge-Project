@@ -4,7 +4,9 @@ import axios from "axios";
 axios.defaults.withCredentials=true;
 import Navbar from "./Navbar";
 import { useNavigate,Link } from "react-router-dom";
-const API_URI = 'http://localhost:5000';
+import { API_BASE_URL } from './config';
+
+const API_URI = `${API_BASE_URL}`;
 function Profile(){
     const navigate=useNavigate();
     const{id:userhandle}=useParams();
@@ -16,7 +18,7 @@ function Profile(){
         async function fetchUser(){
             // e.preventDefault();
             try {
-                const response=await axios.get(`http://localhost:5000/api/example/read/${userhandle}`)
+                const response=await axios.get(`${API_BASE_URL}/api/example/read/${userhandle}`)
                 setuser(response.data);
             } catch (error) {
                 console.error("Error fetching User Details:", error); 

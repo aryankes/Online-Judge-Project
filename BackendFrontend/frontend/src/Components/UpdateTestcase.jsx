@@ -4,6 +4,7 @@ axios.defaults.withCredentials = true;
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Navbar from './Navbar';
+import { API_BASE_URL } from './config';
 
 function UpdateTestcase(){
     const {id1:PID,id:_id}=useParams();
@@ -18,7 +19,7 @@ function UpdateTestcase(){
     useEffect(() => {
         async function fetchTests() {
           try {
-            const response = await axios.get(`http://localhost:5000/api/tests/read/${_id}`);
+            const response = await axios.get(`${API_BASE_URL}/api/tests/read/${_id}`);
             setData(response.data);
           } 
           catch (error) {
@@ -43,7 +44,7 @@ function UpdateTestcase(){
         try{
             // console.log(formData);
 
-            const response= await axios.put(`http://localhost:5000/api/tests/update/${_id}`,formData);
+            const response= await axios.put(`${API_BASE_URL}/api/tests/update/${_id}`,formData);
             alert(`Success: ${response.data.message}`);
             // navigate('/homepage');
             navigate(`/TestcaseDescription/${formData._id}`);

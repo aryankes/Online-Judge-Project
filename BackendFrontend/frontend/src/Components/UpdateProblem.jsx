@@ -4,6 +4,7 @@ axios.defaults.withCredentials = true;
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Navbar from './Navbar';
+import { API_BASE_URL } from './config';
 
 function UpdateProblem(){
     const {id:PID}=useParams();
@@ -18,7 +19,7 @@ function UpdateProblem(){
     useEffect(() => {
         async function fetchProblem() {
           try {
-            const response = await axios.get(`http://localhost:5000/api/problems/read/${PID}`);
+            const response = await axios.get(`${API_BASE_URL}/api/problems/read/${PID}`);
             setData(response.data);
           } 
           catch (error) {
@@ -39,7 +40,7 @@ function UpdateProblem(){
     const handleSubmit= async(e)=>{
         e.preventDefault();
         try{
-            const response= await axios.put(`http://localhost:5000/api/problems/update/${PID}`,formData);
+            const response= await axios.put(`${API_BASE_URL}/api/problems/update/${PID}`,formData);
             alert(`Success: ${response.data.message}`);
             // console.log(formData);
             // navigate('/homepage');

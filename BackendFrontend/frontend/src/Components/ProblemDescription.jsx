@@ -4,6 +4,13 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from './config';
+import { API_COMPILER_URL } from './config';
+import Editor from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/themes/prism.css';
 function ProblemDescription() {
   const navigate = useNavigate();
   const { id: PID } = useParams();
@@ -28,7 +35,7 @@ int main()
     async function fetchDescription() {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/problems/read/${PID}`
+          `${API_BASE_URL}/api/problems/read/${PID}`
         );
         setproblem(response.data);
         // setcode({...code,TimeLimit:problem.TimeLimit})
@@ -53,9 +60,10 @@ int main()
   const handleRun = async (e) => {
     // console.log(code);
     e.preventDefault();
+    
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/compiler/run",
+        `${API_COMPILER_URL}/api/compiler/run`,
         code
       );
       
@@ -91,7 +99,7 @@ int main()
     try {
       let verdict="";
       const response1 = await axios.get(
-        `http://localhost:5000/api/tests/readbyPID/${PID}`
+        `${API_BASE_URL}/api/tests/readbyPID/${PID}`
       );
       const Testcases = response1.data;
       let Time=0;
@@ -104,7 +112,7 @@ int main()
       setOutput(`Running on test ${cnt}`);
       const codePayload = { ...code, input: Testcases[0].Input };
       let response = await axios.post(
-        "http://localhost:5000/api/compiler/run",
+        `${API_COMPILER_URL}/api/compiler/run`,
         codePayload
       );
       let output = response.data.output;
@@ -144,7 +152,7 @@ int main()
         setOutput(`Running on test ${cnt}`);
         if (code.language === "py") {
           const response = await axios.post(
-            "http://localhost:5000/api/compiler/run",
+            `${API_COMPILER_URL}/api/compiler/run`,
             codePayload
           );
           let output = response.data.output;
@@ -157,7 +165,7 @@ int main()
           }
         } else {
           const response = await axios.post(
-            "http://localhost:5000/api/compiler/submit",
+            `${API_COMPILER_URL}/api/compiler/submit`,
             TestPayload
           );
           Time=Math.max(Time,response.data.Time);
@@ -184,7 +192,7 @@ int main()
       }
       // const userhandle = localStorage.getItem('userhandle');
       const submissionPayload={code:code.code,PID:PID,language: code.language,Status:verdict,time:parseInt(Time)};
-      await axios.post("http://localhost:5000/api/submissions/create",submissionPayload)
+      await axios.post(`${API_BASE_URL}/api/submissions/create`,submissionPayload)
       navigate(`/Submissions/userhandle/${localStorage.userhandle}`)
     } catch (error) {
       console.log("error in running code");

@@ -4,6 +4,7 @@ axios.defaults.withCredentials = true;
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Navbar from './Navbar';
+import { API_BASE_URL } from './config';
 
 function ChangePassword(){
     const {id:OTP,id1:Email}=useParams();
@@ -31,7 +32,7 @@ function ChangePassword(){
         }
         try{
             // console.log(formData);
-            const response= await axios.put(`http://localhost:5000/api/example/changePassword`,formData);
+            const response= await axios.put(`${API_BASE_URL}/api/example/changePassword`,formData);
             alert(`Success: ${response.data}`);
             // navigate('/homepage');
             navigate(`/Login`);

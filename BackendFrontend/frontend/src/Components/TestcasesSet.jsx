@@ -4,6 +4,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import { API_BASE_URL } from './config';
 
 import Navbar from './Navbar';
 // import { useAuth } from '../AuthContext';
@@ -16,7 +17,7 @@ function TestcasesSet() {
   useEffect(() => {
     async function fetchTestcases() {
       try {
-        const response = await axios.get(`http://localhost:5000/api/tests/readbyPID/${PID}`);
+        const response = await axios.get(`${API_BASE_URL}/api/tests/readbyPID/${PID}`);
         setTestcases(response.data.sort((a,b) => a.TestcaseName.localeCompare(b.TestcaseName)));
       } 
       catch (error) {
@@ -35,7 +36,7 @@ function TestcasesSet() {
     if (window.confirm(`Do you really want to delete ${TestcaseName}?`)) {
       console.log('Deleting Testcase with ID:', TestcaseName);
       try {
-        const response = await axios.delete(`http://localhost:5000/api/tests/deletesingle/${_id}`);
+        const response = await axios.delete(`${API_BASE_URL}/api/tests/deletesingle/${_id}`);
         alert(`Success: ${response.data.message}`);
         //refreshing the list of problems
         setTestcases(Testcases.filter(Testcase => Testcase._id !== _id));

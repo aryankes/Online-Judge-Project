@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from './config';
 
 import Navbar from './Navbar';
 // import { useAuth } from '../AuthContext';
@@ -16,7 +17,7 @@ function ProblemSet() {
   useEffect(() => {
     async function fetchProblems() {
       try {
-        const response = await axios.get('http://localhost:5000/api/problems/readall');
+        const response = await axios.get(`${API_BASE_URL}/api/problems/readall`);
         setProblems(response.data.sort((a,b) => a.PID.localeCompare(b.PID)));
       } 
       catch (error) {
@@ -36,7 +37,7 @@ function ProblemSet() {
     if (window.confirm('Do you really want to delete?')) {
       console.log('Deleting problem with ID:', PID);
       try {
-        const response = await axios.delete(`http://localhost:5000/api/problems/delete/${PID}`);
+        const response = await axios.delete(`${API_BASE_URL}/api/problems/delete/${PID}`);
         alert(`Success: ${response.data.message}`);
         //refreshing the list of problems
         setProblems(problems.filter(problem => problem.PID !== PID));

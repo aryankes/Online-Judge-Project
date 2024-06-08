@@ -4,6 +4,7 @@ axios.defaults.withCredentials = true;
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Navbar from './Navbar';
+import { API_BASE_URL } from './config';
 
 function UpdateUser(){
     const {id:userhandle}=useParams();
@@ -17,7 +18,7 @@ function UpdateUser(){
     useEffect(() => {
         async function fetchUser() {
           try {
-            const response = await axios.get(`http://localhost:5000/api/example/read/${userhandle}`);
+            const response = await axios.get(`${API_BASE_URL}/api/example/read/${userhandle}`);
             setData({
                 handle:response.data.userhandle,
                 firstName:response.data.firstName,
@@ -45,7 +46,7 @@ function UpdateUser(){
         e.preventDefault();
         try{
             // console.log(formData);
-            const response= await axios.put(`http://localhost:5000/api/example/updateAdmin/${userhandle}`,formData);
+            const response= await axios.put(`${API_BASE_URL}/api/example/updateAdmin/${userhandle}`,formData);
             alert(`Success: ${response.data.message}`);
             // navigate('/homepage');
             navigate(`/Profile/${response.data.user.userhandle}`);

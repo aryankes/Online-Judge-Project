@@ -4,6 +4,8 @@ axios.defaults.withCredentials = true;
 import Navbar from './Navbar';
 import { Link,useParams } from 'react-router-dom';
 import Popup from 'reactjs-popup';
+import { API_BASE_URL } from './config';
+
 // import 'reactjs-popup/dist/index.css';
 function Submissions() {
   const userRole=localStorage.getItem('userRole');
@@ -15,7 +17,7 @@ function Submissions() {
   useEffect(() => {
     async function fetchSubmissions() {
       try {
-        const response = await axios.get(`http://localhost:5000/api/submissions/read?filterField=${filterField}&filterValue=${filterValue}&sortField=${sortConfig.key}&sortOrder=${sortConfig.direction}`);
+        const response = await axios.get(`${API_BASE_URL}/api/submissions/read?filterField=${filterField}&filterValue=${filterValue}&sortField=${sortConfig.key}&sortOrder=${sortConfig.direction}`);
         setSubmissions(response.data);
       } catch (error) {
         console.error('Error fetching submissions:', error);
@@ -40,7 +42,7 @@ function Submissions() {
   const handleDelete=async (id)=>{
     if (window.confirm('Do you really want to delete?')) {
         try {
-          const response = await axios.delete(`http://localhost:5000/api/submissions/delete/${id}`);
+          const response = await axios.delete(`${API_BASE_URL}/api/submissions/delete/${id}`);
           alert(`Success: ${response.data.message}`);
           //refreshing the list of problems
           setSubmissions(submissions.filter(submission => submission._id !== id));

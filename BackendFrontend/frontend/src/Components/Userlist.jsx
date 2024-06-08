@@ -4,6 +4,8 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';  
+import { API_BASE_URL } from './config';
+
 function Userlist() {
   const navigate = useNavigate();
   const userRole=localStorage.getItem('userRole');
@@ -12,7 +14,7 @@ function Userlist() {
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const response = await axios.get(`http://localhost:5000/api/example/readAll/?sortField=${sortConfig.key}&sortOrder=${sortConfig.direction}`);
+        const response = await axios.get(`${API_BASE_URL}/api/example/readAll/?sortField=${sortConfig.key}&sortOrder=${sortConfig.direction}`);
         setUsers(response.data);
       } 
       catch (error) {
@@ -29,7 +31,7 @@ function Userlist() {
     if (window.confirm('Do you really want to delete?')) {
       console.log('Deleting user with handle:', userhandle);
       try {
-        const response = await axios.delete(`http://localhost:5000/api/example/delete/${userhandle}`);
+        const response = await axios.delete(`${API_BASE_URL}/api/example/delete/${userhandle}`);
         alert(`Success: ${response.data.message}`);
         //refreshing the list of problems
         setUsers(Users.filter(user => user.userhandle !== userhandle));

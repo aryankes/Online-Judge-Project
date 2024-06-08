@@ -60,7 +60,7 @@ function Register(){
         <div className="min-h-screen flex items-center justify-center bg-gray-200 py-5 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-4">
             <form className="mt-0 space-y-2"onSubmit={handleSubmit}>
-            <h1 className="text-center text-3xl font-extrabold text-blue-900">Aryan Online Judge</h1>
+            <h1 className="text-center text-3xl font-extrabold text-blue-900">OPTIMAL Forces</h1>
 
                 <h2 className="text-center text-2xl font-extrabold text-gray-900">Register</h2>
                 <div>
@@ -96,14 +96,14 @@ function Register(){
                 </div>
                 <br />
                 
-                <div>
+                {/* <div>
                     <span className=" text-gray-700 mr-3">Role: </span>
                     <label htmlFor="user" className=" text-gray-700 mr-1">User</label>
                     <input id="user" type="radio" name="role" value={"user"} onChange={handleChange} required className='mr-2 p-2' />
 
                     <label htmlFor="admin" className=" text-gray-700 mr-1">Admin</label>
                     <input id="admin" type="radio" name="role" value={"admin"} onChange={handleChange} required className='mr-2 p-2' />
-                </div>
+                </div> */}
                 <br />
                 <div className="flex items-center justify-between">
                 <button type="submit" className="mt-0 w-full inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"> Register </button>

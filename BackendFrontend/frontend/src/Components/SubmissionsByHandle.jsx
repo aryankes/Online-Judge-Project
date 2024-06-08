@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 import Navbar from './Navbar';
+import { API_BASE_URL } from './config';
 
 function SubmissionsByHandle() {
   const [submissions, setSubmissions] = useState([]);
@@ -9,7 +10,7 @@ function SubmissionsByHandle() {
   useEffect(() => {
     async function fetchSubmissions() {
       try {
-        const response = await axios.get(`http://localhost:5000/api/submissions/readbyhandle`);
+        const response = await axios.get(`${API_BASE_URL}/api/submissions/readbyhandle`);
         setSubmissions(response.data);
       } catch (error) {
         console.error('Error fetching submissions:', error);

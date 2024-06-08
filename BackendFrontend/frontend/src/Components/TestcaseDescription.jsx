@@ -4,6 +4,8 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from './config';
+
 function TestcaseDescription() {
 //   const navigate=useNavigate();
     const {id}=useParams();
@@ -18,7 +20,7 @@ function TestcaseDescription() {
   useEffect(() => {
     async function fetchDescription() {
       try {
-        const response = await axios.get(`http://localhost:5000/api/tests/read/${id}`);
+        const response = await axios.get(`${API_BASE_URL}/api/tests/read/${id}`);
         setTestcase(response.data);
       } 
       catch (error) {

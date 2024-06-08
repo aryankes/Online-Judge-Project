@@ -3,6 +3,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from './config';
 
 function CreateProblem(){
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ function CreateProblem(){
         //     return ;
         // }
         try{
-            const response= await axios.post('http://localhost:5000/api/problems/create',formData);
+            const response= await axios.post(`${API_BASE_URL}/api/problems/create`,formData);
             alert(`Success: ${response.data.message}`);
             // console.log(formData);
             navigate(`/ProblemDescription/${formData.PID}`);

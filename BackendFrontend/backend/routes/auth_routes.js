@@ -11,7 +11,7 @@ router.get('/read/:id',exampleController.read);
 router.get('/readAll',exampleController.readAll);
 
 router.put('/updateAdmin/:id',auth(["admin"]),exampleController.updateAdmin);
-router.put('/update/:id',auth(["admin"]),exampleController.update);
+router.put('/update/:id',auth(["admin","user"]),exampleController.update);
 
 router.delete('/delete/:id',auth(["admin"]),exampleController.delete);
 router.get('/logout', exampleController.logout);

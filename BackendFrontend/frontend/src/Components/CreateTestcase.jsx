@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 import Navbar from './Navbar';
+import { API_BASE_URL } from './config';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -28,7 +29,7 @@ function CreateTestcase(){
     const handleSubmit= async(e)=>{
         e.preventDefault();
         try{
-            const response= await axios.post('http://localhost:5000/api/tests/create',formData);
+            const response= await axios.post(`${API_BASE_URL}/api/tests/create`,formData);
             alert(`Success: ${response.data.message}`);
             // console.log(formData);
             navigate(`/TestcaseDescription/${response.data.testcase._id}`);

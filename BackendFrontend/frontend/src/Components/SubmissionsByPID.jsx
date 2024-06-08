@@ -3,6 +3,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 import Navbar from './Navbar';
 import { useParams } from "react-router-dom";
+import { API_BASE_URL } from './config';
 
 function SubmissionsByPID() {
   const [submissions, setSubmissions] = useState([]);
@@ -10,7 +11,7 @@ function SubmissionsByPID() {
   useEffect(() => {
     async function fetchSubmissions() {
       try {
-        const response = await axios.get(`http://localhost:5000/api/submissions/readbyPID/${PID}`);
+        const response = await axios.get(`${API_BASE_URL}/api/submissions/readbyPID/${PID}`);
         setSubmissions(response.data);
       } catch (error) {
         console.error('Error fetching submissions:', error);

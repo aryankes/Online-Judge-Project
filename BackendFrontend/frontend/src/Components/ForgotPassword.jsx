@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from './config';
 
 function ForgotPassword()  {
 const navigate = useNavigate();
@@ -12,7 +13,7 @@ const[formData,setData]=useState({
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response=await axios.post('http://localhost:5000/api/example/forgotPassword', formData);
+      const response=await axios.post(`${API_BASE_URL}/api/example/forgotPassword`, formData);
       navigate(`/VerifyOTP/${formData.email}`);
     } catch (error) {
       console.error('Error sending email:', error);

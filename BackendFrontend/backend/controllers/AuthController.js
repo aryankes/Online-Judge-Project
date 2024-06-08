@@ -2,7 +2,7 @@ const User = require('../models/User');
 const Submissions=require('../models/submissions');
 const bcrypt=require('bcryptjs')
 const jwt=require("jsonwebtoken");
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 const submissions = require('../models/submissions');
 const allowedSortFields = ['userhandle', 'DateTime', 'firstName', 'TotalSubmissions', 'TotalAccepted'];
 const allowedSortOrders = ['asc', 'desc'];
@@ -10,7 +10,7 @@ const fs = require("fs");
 const path = require("path");
 const nodemailer = require('nodemailer');
 const randomstring = require('randomstring');
-dotenv.config();
+// dotenv.config();
 // GET all examples
 exports.a = async (req, res) => {
   res.send("Hello,world! a");
@@ -22,13 +22,15 @@ exports.register = async (req, res) => {
   
   try {
     //get all the data from the frontend
-    const {firstName,lastName,userhandle,email,password,role}=req.body;
+    // const {firstName,lastName,userhandle,email,password,role}=req.body;// use when to decide role admin acess
+    const {firstName,lastName,userhandle,email,password}=req.body;
+    const role="user";
 
     //check that all the data should exist
-    if(!(firstName&&lastName&&userhandle&&email&&password&&role)){
+    if(!(firstName&&lastName&&userhandle&&email&&password)){
         return res.status(400).send("Please enter all the information");
     }
-
+    
     //add more valiidations/constraints
 
     //check for existing userhandle and email
