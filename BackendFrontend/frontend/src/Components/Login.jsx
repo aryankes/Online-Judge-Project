@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate,Link } from 'react-router-dom';
+import { API_BASE_URL } from './config';
 
 axios.defaults.withCredentials = true;
 
@@ -23,7 +24,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/example/login', formData);
+            const response = await axios.post(`${API_BASE_URL}/api/example/login`, formData);
             alert(`Success: ${response.data.message}`);
             localStorage.setItem('userRole', response.data.role);
             localStorage.setItem('userhandle', response.data.userhandle);

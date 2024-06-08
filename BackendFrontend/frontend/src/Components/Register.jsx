@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
+import { API_BASE_URL } from './config';
 
 import { useNavigate ,Link} from 'react-router-dom';
 
@@ -32,7 +33,7 @@ function Register(){
         }
         e.preventDefault();
         try{
-            const response= await axios.post('http://localhost:5000/api/example/register',formData);
+            const response= await axios.post(`${API_BASE_URL}/api/example/register`,formData);
             alert(`Success: ${response.data.message}`);
             localStorage.setItem('userRole', response.data.role);
             localStorage.setItem('userhandle', response.data.userhandle);
