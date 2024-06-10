@@ -1,2 +1,6 @@
 .env
 node_modules
+keys
+codes
+inputs
+outputs

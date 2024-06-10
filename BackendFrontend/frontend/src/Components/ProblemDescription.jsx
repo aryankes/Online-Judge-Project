@@ -9,6 +9,9 @@ import { API_COMPILER_URL } from './config';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
+// import 'prismjs/components/prism-cpp';
+
+
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism.css';
 function ProblemDescription() {
@@ -216,78 +219,16 @@ int main()
       }
     }
   };
-  // return (
-  //   <div>
-  //     <Navbar />
-
-  //     <h1>Problem {`${problem.PID} ${problem.ProblemName}`}</h1> 
-  //     <li>
-  //         <Link to={`/Submissions/PID/${PID}`}>Submissions</Link>
-  //     </li>
-  //     <br />
-  //     <br />
-  //     {`${problem.ProblemDescription}`}
-  //     <br />
-  //     <br />
-
-  //     <form onSubmit={handleRun}>
-  //       <label for="language">Select Your Language:</label>
-  //       <select
-  //         name="language"
-  //         id="language"
-  //         value={code.language}
-  //         onChange={handleChange}
-  //       >
-  //         <option value="cpp">C++</option>
-  //         <option value="py">Python</option>
-  //         <option value="c">C</option>
-  //       </select>
-  //       <br />
-  //       <br />
-  //       <textarea
-  //         rows="10"
-  //         cols="50"
-  //         name="code"
-  //         value={code.code}
-  //         onChange={handleChange}
-  //       ></textarea>
-  //       <br />
-  //       <label for="input">Input: </label>
-  //       <br />
-  //       <textarea
-  //         rows="10"
-  //         cols="50"
-  //         name="input"
-  //         placeholder="Enter your input here"
-  //         value={code.input}
-  //         onChange={handleChange}
-  //       ></textarea>
-  //       <br />
-  //       <br />
-  //       <button type="submit">Run</button>&nbsp;&nbsp;&nbsp;&nbsp;
-  //       <button onClick={handleSubmit}>Submit</button>
-  //       <br />
-  //       <label htmlFor="output">Output</label>
-  //       <br />
-  //       <textarea rows="10" cols="50" name="output" value={output}></textarea>
-  //       {/* <p>{output}</p> */}
-  //       <br />
-  //     </form>
-  //     <br />
-  //     <br />
-  //     <button
-  //       onClick={() => {
-  //         handleTestcasesSet(problem.PID);
-  //       }}
-  //     >
-  //       View TestCases
-  //     </button>
-  //   </div>
-  // );
-  // ProblemDescription.jsx
-
-// ProblemDescription.jsx
-
+  
+  // useEffect(() => {
+  //   const editor = document.getElementById('code-editor');
+  //   if (editor.scrollHeight > 200) {
+  //     editor.classList.add('overflow-y-auto');
+  //   } else {
+  //     editor.classList.remove('overflow-y-auto');
+  //   }
+  // }, [code.code]);
+// const [text,settext]=useState("");
 return (
   <>
   <Navbar />
@@ -329,14 +270,33 @@ return (
           </select>
           <br />
           <br />
-          <textarea
+          {/* <textarea
             rows="10"
             cols="50"
             name="code"
             value={code.code}
             onChange={handleChange}
+            
             className="block mt-1 w-full border border-gray-300 rounded-md p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300"
-          ></textarea>
+          ></textarea> */}
+         <Editor
+         id="code-editor"
+         name="code"
+      value={code.code}
+      onValueChange={(val)=>setcode({...code,code:val})}
+      highlight={ code=> highlight(code, languages.clike)}
+      // highlight={(codeObject) => highlight(codeObject.code, languages.clike)}
+
+      padding={10}
+      
+      className="bg-gray-700 border border-gray-300 rounded-md p-2"
+      style={{
+        fontFamily: '"Fira code", "Fira Mono", monospace',
+        fontSize: 12,
+        // height: '300px', // Adjust this value as needed
+        // overflowY: 'auto', // Add vertical scroll when content exceeds he
+      }}
+    />
           <br />
           <label htmlFor="input">Input: </label>
           <br />

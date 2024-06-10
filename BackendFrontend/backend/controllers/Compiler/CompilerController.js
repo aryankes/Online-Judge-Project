@@ -1,10 +1,10 @@
-const {generateFile} =require('./generateFile');
-const {generateInputFile} =require('./generateInputFile');
-const { executeCpp ,executeCpp2} = require('./executeCpp');
-const { executeC ,executeC2} = require('./executeC');
-const { executepy } = require('./executepy');
-const fs = require("fs");
-const path = require("path");
+// const {generateFile} =require('./generateFile');
+// const {generateInputFile} =require('./generateInputFile');
+// const { executeCpp ,executeCpp2} = require('./executeCpp');
+// const { executeC ,executeC2} = require('./executeC');
+// const { executepy } = require('./executepy');
+// const fs = require("fs");
+// const path = require("path");
 const axios=require('axios');
 
 exports.b = async (req, res) => {
