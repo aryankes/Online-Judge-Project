@@ -8,8 +8,9 @@ const secret = process.env.SECRET_KEY;
 const auth = (permissions) => {
     return (req, res, next) => {
         // Get token from cookies
-        const token = req.signedCookies.token.jwtToken;
+        // console.log(req.signedCookies.token);
 
+        const token = req.signedCookies.token.jwtToken;
         // Check if not token
         if (!token) {
             return res.status(401).json({ message: 'No token, authorization denied' });

@@ -13,7 +13,7 @@ exports.b = async (req, res) => {
 exports.run=async(req,res)=>{
     try{
         const response=await axios.post(
-            `${process.env.API_COMPILER_URL}/api/compiler/run`,
+            `${process.env.INSTANCE_IP}:8000/api/compiler/run`,
             req.body
         );
         res.status(200).send(response.data);
@@ -27,7 +27,7 @@ exports.run=async(req,res)=>{
 exports.submit=async (req,res)=>{
     try {
         const response=await axios.post(
-            `${process.env.API_COMPILER_URL}/api/compiler/submit`,
+            `${process.env.INSTANCE_IP}:8000/api/compiler/submit`,
             req.body
         );
         res.status(200).send(response.data);
