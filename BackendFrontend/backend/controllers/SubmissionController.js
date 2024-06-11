@@ -68,6 +68,7 @@ exports.readbyhandle=async(req,res)=>{
 }
 exports.read=async(req,res)=>{
   let {filterField,filterValue, sortField = 'DateTime', sortOrder = 'asc' } = req.query;
+  // console.log("YES");
     if (!allowedSortFields.includes(sortField)) {
       sortField = 'DateTime'; // Default field
     }

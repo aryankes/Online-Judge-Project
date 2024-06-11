@@ -5,6 +5,7 @@ axios.defaults.withCredentials=true;
 import Navbar from "./Navbar";
 import { useNavigate,Link } from "react-router-dom";
 import { API_BASE_URL } from './config';
+import SubmissionHeatmap from "./SubmissionHeatmap";
 
 const API_URI = `${API_BASE_URL}`;
 function Profile(){
@@ -41,6 +42,7 @@ function Profile(){
                     // await setimgPath(user.imgPath);
                     alert("Image Uploaded Succesfully");
                     setimgPath(response.data.imgPath);
+                //  window.location.reload();
 
                 } catch (error) {
                     console.log("Error Uploading Image:",error);
@@ -66,37 +68,7 @@ function Profile(){
     const handleImageChange = () => {
         fileInputRef.current.click();
     };
-// return (
-//     <div>
-//         <Navbar/>
-//     <div className="mt-16 flex justify-centre">
-//       <h1 className="mt-16">{user.userhandle}</h1>
-//       <br />{user.userhandle===localStorage.userhandle? (<button onClick={()=>{navigate(`/ProfileSettings/${userhandle}`)}}>Profile Settings</button>):(<></>)}
-//       <button onClick={()=>{navigate(`/Submissions/userhandle/${userhandle}`)}}>Submissions</button>
 
-//       <br />{`${user.firstName} ${user.lastName}`}
-//       <br /><br /><span>Email: {user.email}</span>
-//       <br /><br /><span>Registered On: {(String(user.DateTime)).split('T')[0]}</span>
-//       <br /><br /><span>Total Submissions: {user.TotalSubmissions}</span>
-//       <br /><br /><span>Total Accepted: {user.TotalAccepted}</span>
-//       <br />
-
-//       <br />
-    
-//         <div>
-//             <img src={imgPath ? `${API_URI}/${imgPath}` : `${API_URI}/uploads/cf_blank.jpg`} alt="Profile" style={{ maxWidth: 400, height: 400*(1800/2880) }}/>
-//             {(imgPath)?(<button onClick={removeImage}>Remove Image</button>):(<></>)}
-//         </div>
-    
-//     <br />
-//     <label htmlFor="img"> Change Photo </label>
-//     <input type="file" name="img" id="img" onChange={(e)=>{setFile(e.target.files[0])}} />
-
-//       {/* <label htmlFor="img"> Change Photo </label>
-//       <input type="file" name="img" id="img" onChange={(e)=>{setFile(e.target.files[0])}} /> */}
-//     </div>
-//     </div>
-//   );
   return (
     <div>
         <Navbar/>
@@ -136,15 +108,12 @@ function Profile(){
         </>
     ):(<></>)}
     
-    {/* <label htmlFor="img"> Change Photo </label>
-    <input type="file" name="img" id="img" onChange={(e)=>{setFile(e.target.files[0])}} /> */}
-
-      {/* <label htmlFor="img"> Change Photo </label>
-      <input type="file" name="img" id="img" onChange={(e)=>{setFile(e.target.files[0])}} /> */}
+    
     </div>
     </div>
+        {/* <SubmissionHeatmap userhandle={userhandle}/> */}
     </div>
-
+        
     </div>
   );
 }

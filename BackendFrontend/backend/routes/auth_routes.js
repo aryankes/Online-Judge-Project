@@ -20,5 +20,5 @@ router.delete('/removeImg/:id',auth(["admin","user"]),exampleController.removeIm
 router.post('/forgotPassword', exampleController.forgotPassword);
 router.post('/verifyOTP', exampleController.verifyOTP);
 router.put('/changePassword',exampleController.changePassword);
-
+router.post('/createAdmin/:id',auth(["admin"]),exampleController.createAdmin);
 module.exports = router;

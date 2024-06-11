@@ -10,7 +10,6 @@ import ProfileSettings from './Components/ProfileSettings';
 import Userlist from './Components/Userlist';
 import UpdateUser from './Components/UpdateUser';
 
-
 import RegisterPage from './Components/RegisterPage';
 import Register from './Components/Register';
 import Login from './Components/Login';

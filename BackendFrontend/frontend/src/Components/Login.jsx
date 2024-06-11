@@ -5,7 +5,6 @@ import { useNavigate,Link } from 'react-router-dom';
 import { API_BASE_URL } from './config';
 
 axios.defaults.withCredentials = true;
-
 function Login() {
     const navigate = useNavigate();
     const [formData, setData] = useState({

@@ -70,69 +70,6 @@ function Submissions() {
       </Popup>
     );
   };
-  // return (
-  //   <div>
-  //     <Navbar />
-  //     <h1>{`${filterValue} submissions`}</h1>
-  //     <table border="1">
-  //       <thead>
-  //         <tr>
-  //           {/* <th>SID</th> */}
-  //           <th># </th>
-  //           <th>DateTime <button onClick={()=>sort('DateTime')}>Sort</button></th>
-  //           <th>User Handle <button onClick={()=>sort('userhandle')}>Sort</button></th>
-  //           <th>PID <button onClick={()=>sort('PID')}>Sort</button></th>
-  //           <th>ProblemName <button onClick={()=>sort('ProblemName')}>Sort</button></th>
-  //           <th>Language <button onClick={()=>sort('language')}>Sort</button></th>
-  //           <th>Status</th>
-  //           <th>Time <button onClick={()=>sort('Time')}>Sort</button></th>
-  //           <th>Memory <button onClick={()=>sort('Memory')}>Sort</button></th>
-  //           <th>Code</th>
-  //           {userRole==='admin'?(
-  //               <>
-  //               <th>Delete</th>
-  //               </>
-  //           ):(<></>)}
-  //         </tr>
-  //       </thead>
-  //       <tbody>
-          
-  //         {submissions.map((submission, index) => (
-  //           <tr key={index}>
-  //             {/* <td>{submission.SID}</td> */}
-  //             <td>{len-index}</td>
-  //             <td>{new Date(submission.DateTime).toLocaleString()}</td>
-  //             <td><Link to={`/Profile/${submission.userhandle}`}>{submission.userhandle}</Link></td>
-  //             <td><Link to={`/ProblemDescription/${submission.PID}`}>{submission.PID}</Link></td>
-  //             <td><Link to={`/ProblemDescription/${submission.PID}`}>{submission.ProblemName}</Link></td>
-  //             <td>{submission.language}</td>
-  //             <td>{submission.Status}</td>
-  //             <td>{submission.Time} ms</td>
-  //             <td>{submission.Memory} KB</td>
-  //             {/* <td><button onClick={()=>{handleViewCode(submission.code)}}>ViewCode</button></td> */}
-  //             <td>{handleViewCode(submission.code)}</td>
-  //             {userRole==='admin'?(
-  //               <>
-  //               <td><button onClick={()=>{handleDelete(submission._id)}}>Delete</button></td>
-  //               </>
-  //           ):(<></>)}
-  //           </tr>
-  //         ))}
-  //         </tbody>
-  //     </table>
-  //         {/* <label for="filter">Filter According</label>
-  //         <select name="filter" id="filter" value={filterField} onChange={()=>{handleChange}}>
-  //           <option value="userhandle">User Handle</option>
-  //           <option value="PID">PID</option>
-  //           <option value="ProblemName">ProblemName</option>
-  //           <option value="language">language</option>
-  //           <option value="Status">Status</option>
-
-  //         </select> */}
-        
-
-  //   </div>
-  // );
   return (
     <div className=" min-h-screen dark:bg-gray-800 dark:text-white">
       <Navbar />

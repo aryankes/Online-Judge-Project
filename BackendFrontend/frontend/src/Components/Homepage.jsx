@@ -16,6 +16,7 @@ function Homepage() {
                     <li>Problem Set Page Referring to All the Problems</li>
                     <li>Submissions Page Showing all the recent Submissions</li>
                     <li>Users Page showing all the current users</li>
+                    <li>Profile Page showing details of the user</li>
                 </ul>
             </div>
         </>

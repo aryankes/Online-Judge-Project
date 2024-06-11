@@ -47,43 +47,7 @@ function TestcasesSet() {
       }
     }
   };
-//   return (
-//     <div>
-//         <Navbar/>
-//       <h1>Testcases Set</h1>
-//         {userRole==='admin'?(
-//           <>
-//             <button onClick={()=>handleCreateTestcase(PID)}>Create New</button>
-//           </>
-//         ):(<></>)}
-//         <br /><br />
-//         <table border="1">
-//           <thead >
-//             <th>TestCase</th>
-//             {userRole==='admin'?(
-//               <>
-//               <th>Update</th>
-//               <th>Delete</th>
-//               </>
-//             ):(<></>)}
-//           </thead>
-//           <tbody>
-//           {Testcases.map((testcase,index)=>(
-//             <tr key={index}>
-//               <td><Link to={`/TestcaseDescription/${testcase.TestcaseName}`}>{testcase.TestcaseName}</Link></td>
-//               {userRole==='admin'?(
-//               <>
-//               <td><button onClick={()=>{handleUpdateTestcase(testcase._id)}}>Update</button></td>
-//               <td><button onClick={()=>{handleDeleteTestcase(testcase._id)}}>Delete</button></td>
-//               </>
-//             ):(<></>)}
-//             </tr>
-//           ))}
-//           </tbody>
-//         </table>
-      
-//     </div>
-//   );
+
 
 return (
   <>

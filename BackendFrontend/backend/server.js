@@ -12,8 +12,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(cookieParser(process.env.CookieSecret));
 // Middleware
 app.use(cors({
-  origin: `${process.env.INSTANCE_IP}:5173`,
-  // origin: `http://localhost:5173`,
+  // origin: `${process.env.INSTANCE_IP}:5173`,
+  origin: `http://localhost:5173`,
 
   // origin: 'https://online-judge-project-one.vercel.app',
   credentials: true,

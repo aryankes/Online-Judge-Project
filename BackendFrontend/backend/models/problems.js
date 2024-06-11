@@ -26,6 +26,18 @@ const ProblemSchema=new mongoose.Schema({
         type:Number,
         default:5,
         required:true,
+    },
+    Input:{
+        type :String,
+        default:null,
+    },
+    Output:{
+        type:String,
+        default:null,
+    },
+    Constraints:{
+        type:String,
+        default:null,
     }
 });
 module.exports=mongoose.model("Problems",ProblemSchema);

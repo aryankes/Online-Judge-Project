@@ -12,7 +12,7 @@ dotenv.config();
 // GET all examples
 exports.create = async (req, res) => {
   try {
-    const{ PID,ProblemName,ProblemDescription,ProblemLevel,TimeLimit}=req.body;
+    const{ PID,ProblemName,ProblemDescription,ProblemLevel,TimeLimit,Input,Output,Constraints}=req.body;
     if(!(PID&&ProblemName&&ProblemDescription&&ProblemLevel&&TimeLimit)){
         return res.status(400).send("Please enter all the Problem information");
     }
@@ -23,7 +23,7 @@ exports.create = async (req, res) => {
         return res.status(400).send("PID is not unique");
     }
     const problem=await Problem.create({
-        PID,ProblemName,ProblemDescription,ProblemLevel,TimeLimit
+        PID,ProblemName,ProblemDescription,ProblemLevel,TimeLimit,Input,Output,Constraints
     });
     res.status(200).json({message: "You have succesfully created the problem!",problem});
   } 
@@ -66,7 +66,7 @@ exports.readall=async(req,res)=>{
 exports.update=async(req,res)=>{
     try {
         const{id} =req.params;
-        const{PID,ProblemName,ProblemDescription,ProblemLevel,TimeLimit}=req.body;
+        const{PID,ProblemName,ProblemDescription,ProblemLevel,TimeLimit,Input,Output,Constraints}=req.body;
         if(!(id&&PID&&ProblemName&&ProblemDescription&&ProblemLevel&&TimeLimit)){
             return res.status(400).send("Please enter the information");
         }
@@ -88,13 +88,29 @@ exports.update=async(req,res)=>{
         //     PID,ProblemName,ProblemDescription,ProblemLevel
         // };//this method don't works because isme id and __v change ho jati hai
         
+        if(problem.PID!=PID){
+            const problemSubmissions=await Submissions.find({PID:problem.PID});
+            for(const submission of problemSubmissions){
+                submission.PID=PID;
+                await submission.save();
+            };
+            const testcases=await Testcases.find({PID:problem.PID});
+            for(const testcase of testcases){
+                testcase.PID=PID;
+                await testcase.save();
+            };
+        }
         problem.PID=PID;
         problem.ProblemName=ProblemName;
         problem.ProblemDescription=ProblemDescription;
         problem.ProblemLevel=ProblemLevel;
         problem.TimeLimit=TimeLimit;
+        problem.Input=Input;
+        problem.Output=Output;
+        problem.Constraints=Constraints;
+        
         await problem.save();
-        res.status(200).json({message: "You have succesfully updated the problem!",problem});
+        res.status(200).json({message: "You have succesfully updated the problem !",problem});
         
         // res.status(200).send(p1roblem);
     } catch (error) {

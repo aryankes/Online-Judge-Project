@@ -34,12 +34,29 @@ function Userlist() {
         const response = await axios.delete(`${API_BASE_URL}/api/example/delete/${userhandle}`);
         alert(`Success: ${response.data.message}`);
         //refreshing the list of problems
+        
+
         setUsers(Users.filter(user => user.userhandle !== userhandle));
       } catch (error) {
         console.error('Error deleting problem:', error);
         alert(`Error: ${error.response.data}`); // Include server error response in alert message
 
       }
+    }
+  };
+  const handleSwitchRole =async (userhandle) => {
+    if (window.confirm('Do you really want to Switch Role?')) {
+      console.log('Changing Role user with handle:', userhandle);
+      try {
+        const response = await axios.post(`${API_BASE_URL}/api/example/createAdmin/${userhandle}`);
+        alert(`Success: ${response.data.message}`);
+        // setUsers(Users.filter(user => user.role==="admin"));
+        window.location.reload();
+      } catch (error) {
+        console.error('Error deleting problem:', error);
+        alert(`Error: ${error.response.data}`); // Include server error response in alert message
+      }
+
     }
   };
   const sortUsers=(key)=>{
@@ -55,69 +72,7 @@ function Userlist() {
     }
     setSortConfig({ key, direction });
   }
-  // return (
-  //   <div>
-  //       <Navbar/>
-  //     <h1>Users</h1>
-  //     <table border="1">
-  //       <thead>
-  //         <tr>
-  //           {/* <th>User Handle</th>
-  //           <th>Name</th>
-  //           <th>Registered On</th>
-  //           <th>Total Submissions</th>
-  //           <th>Total Accepted</th> */}
-  //           <th>
-  //             User Handle 
-  //             <button onClick={() => sortUsers('userhandle')}>Sort</button>
-  //           </th>
-  //           <th>
-  //             Name
-  //             <button onClick={() => sortUsers('firstName')}>Sort</button>
-  //           </th>
-  //           <th>
-  //             Registered On
-  //             <button onClick={() => sortUsers('DateTime')}>Sort</button>
-  //           </th>
-  //           <th>
-  //             Total Submissions
-  //             <button onClick={() => sortUsers('TotalSubmissions')}>Sort</button>
-  //           </th>
-  //           <th>
-  //             Total Accepted
-  //             <button onClick={() => sortUsers('TotalAccepted')}>Sort</button>
-  //           </th>
-  //           {userRole==='admin'?(
-  //             <>
-  //             <th>Update</th>
-  //             <th>Delete</th>
-  //             </>
-  //           ):(<></>)}
-            
-  //         </tr>
-  //       </thead>
-  //       <tbody>
-  //         {Users.map((user,index)=>(
-  //           <tr key={index}>
-  //             <td><Link to={`/Profile/${user.userhandle}`}>{user.userhandle}</Link></td>
-  //             <td>{`${user.firstName} ${user.lastName}`}</td>
-  //             <td>{(String(user.DateTime)).split('T')[0]}</td>
-  //             <td>{user.TotalSubmissions}</td>
-  //             <td>{user.TotalAccepted}</td>
-  //             {userRole==='admin'?(
-  //             <>
-  //             <td><button onClick={()=>{handleUpdateUser(user.userhandle)}}>Update</button></td>
-  //             <td><button onClick={()=>{handleDeleteUser(user.userhandle)}}>Delete</button></td>
-  //             </>
-  //           ):(<></>)}
-  //           </tr>
-  //         ))}
-  //       </tbody>
-  //     </table>
-        
-          
-  //   </div>
-  // );
+  
   return (
     <div>
       <Navbar />
@@ -133,8 +88,10 @@ function Userlist() {
               <th className="border border-gray-300 p-2 dark:border-gray-600">Total Accepted <button onClick={() => sortUsers('TotalAccepted')} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded dark:bg-gray-400 dark:hover:bg-gray-800">Sort</button></th>
               {userRole === 'admin' && (
                 <>
-                  <th className="border p-2">Update</th>
-                  <th className="border p-2">Delete</th>
+                  <th className="border  border-gray-300 p-2 dark:border-gray-600">Update</th>
+                  <th className="border  border-gray-300 p-2 dark:border-gray-600">Delete</th>
+                  <th className="border  border-gray-300 p-2 dark:border-gray-600">Role</th>
+                  <th className="border  border-gray-300 p-2 dark:border-gray-600">Switch Role</th>
                 </>
               )}
             </tr>
@@ -151,6 +108,9 @@ function Userlist() {
                   <>
                     <td className="border p-2"><button onClick={() => handleUpdateUser(user.userhandle)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Update</button></td>
                     <td className="border p-2"><button onClick={() => handleDeleteUser(user.userhandle)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button></td>
+                    <td className="border p-2">{user.role}</td>
+                    <td className="border p-2"><button onClick={() => handleSwitchRole(user.userhandle)} className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded">Switch</button></td>
+
                   </>
                 )}
               </tr>

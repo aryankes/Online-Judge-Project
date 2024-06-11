@@ -70,37 +70,7 @@ function UpdateTestcase(){
         }
     };
 
-    // return(
-    //     <div>
-    //         <Navbar/>
-    //         <form onSubmit={handleSubmit}>
-    //             <h2>Update Testcase</h2>
-    //             <div>
-    //                 <label >
-    //                     Test Name:
-    //                     <input type="text" name="TestcaseName" value={formData.TestcaseName} onChange={handleChange} required  />
-    //                 </label>
-    //             </div>
-    //             <br /><div>
-    //                 <label >
-    //                     Input:
-    //                     <input type="text" name="Input" value={formData.Input} onChange={handleChange} required  />
-    //                 </label>
-    //             </div>
-    //             <br /><div>
-    //                 <label >
-    //                     Solution:
-    //                     <input type="text" name="Solution" value={formData.Solution} onChange={handleChange} required  />
-    //                 </label>
-    //             </div>
-    //             <br />
-    //             <button type="submit"> Update </button>
-    //             <br />
-    //         </form>
-    //     </div>
-            
-        
-    // )
+    
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center justify-center">
         <Navbar />
@@ -124,10 +94,10 @@ function UpdateTestcase(){
                 <label className="block text-gray-700 dark:text-gray-100 text-sm font-bold mb-2" htmlFor="Input">
                     Input:
                 </label>
-                <input
+                <textarea
                     className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="Input"
-                    type="text"
+                    
                     name="Input"
                     value={formData.Input}
                     onChange={handleChange}
@@ -138,10 +108,9 @@ function UpdateTestcase(){
                 <label className="block text-gray-700 dark:text-gray-100 text-sm font-bold mb-2" htmlFor="Solution">
                     Solution:
                 </label>
-                <input
+                <textarea
                     className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="Solution"
-                    type="text"
                     name="Solution"
                     value={formData.Solution}
                     onChange={handleChange}

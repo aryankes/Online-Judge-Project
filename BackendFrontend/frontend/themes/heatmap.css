@@ -1,0 +1,40 @@
+/* Container styles */
+.heatmap-container {
+    width: 100%;
+    max-width: 600px; /* Adjust as needed */
+    /* margin: auto; */
+  }
+  
+  /* Calendar heatmap styles */
+  .calendar-heatmap {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 columns for each day of the week */
+    gap: 1px; /* Gap between cells */
+  }
+  
+  /* Individual heatmap cell styles */
+  .calendar-heatmap-cell {
+    width: 100%; /* Ensure cells take up entire width */
+    height: 40px; /* Adjust height as needed */
+    background-color: #f0f0f0; /* Default cell background color */
+    border: 1px solid #ccc; /* Cell border */
+  }
+  
+  /* Color scale for heatmap cells */
+  .color-scale-low {
+    background-color: #ffdddd; /* Low count color */
+  }
+  
+  .color-scale-medium {
+    background-color: #ffd699; /* Medium count color */
+  }
+  
+  .color-scale-high {
+    background-color: #99ff99; /* High count color */
+  }
+  
+  /* Empty cell color */
+  .color-empty {
+    background-color: transparent; /* Empty cell color */
+  }
+  

@@ -10,7 +10,7 @@ import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 // import 'prismjs/components/prism-cpp';
-
+import '../../themes/prism-ghcolors.css'
 
 import 'prismjs/components/prism-javascript';
 import 'prismjs/themes/prism.css';
@@ -24,10 +24,9 @@ function ProblemDescription() {
 using namespace std;
 int main()
 {
-  int a,b;cin>>a>>b;cout<<a+b<<endl;
-    // cout<<"Hello World";
+    cout<<"Hello World";
+    //int a,b;cin>>a>>b;cout<<a+b<<endl;
     //Enter your code here
-
     return 0;
 }`,
     input: "",
@@ -219,7 +218,19 @@ int main()
       }
     }
   };
-  
+  const [Testcases, setTestcases] = useState([]);
+  useEffect(() => {
+    async function fetchTestcases() {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/api/tests/readbyPID/${PID}`);
+        setTestcases(response.data.sort((a,b) => a.TestcaseName.localeCompare(b.TestcaseName)));
+      } 
+      catch (error) {
+        console.error('Error fetching Testcases:', error);
+      }
+    }
+    fetchTestcases();
+  }, []);
   // useEffect(() => {
   //   const editor = document.getElementById('code-editor');
   //   if (editor.scrollHeight > 200) {
@@ -238,23 +249,46 @@ return (
       {`${problem.PID} : ${problem.ProblemName}`}
     </h1>
     <br />
-    <Link to={`/Submissions/PID/${PID}`} className="text-blue-500">
+    <Link to={`/Submissions/PID/${PID}`} className="text-blue-500 underline">
       Submissions
     </Link>
-    <div className="flex flex-wrap mt-4">
+    <div className="flex flex-wrap mt-0">
       {/* Left half of the screen */}
-      <div className="w-full md:w-1/2 p-4 mt-16 border rounded-md border-gray-300">
+      <div className="w-full md:w-1/2 p-4 mt-5 ">
         <div className="text-lg text-gray-600 dark:text-gray-300">
+          <h4 className="underline text-gray-100">Description:-</h4>
           {problem.ProblemDescription}
-        </div>
-        <br />
+        </div><br />
         <div className="text-lg text-gray-600 dark:text-gray-300">
-          TimeLimit: {problem.TimeLimit}s.
+          <h4 className="underline text-gray-100">Input:-</h4>
+          {problem.Input}
+        </div><br />
+        <div className="text-lg text-gray-600 dark:text-gray-300">
+          <h4 className="underline text-gray-100">Output:-</h4>
+          {problem.Output}
+        </div><br />
+        <div className="text-lg text-gray-600 dark:text-gray-300">
+          <h4 className="underline text-gray-100">Constraints:-</h4>
+          {problem.Constraints}
+        </div><br />
+        <div className="text-lg text-gray-600 dark:text-gray-300">
+        <h4 className="underline text-gray-100">TimeLimit:-</h4>
+         {problem.TimeLimit}s.
           {/* Memory:{problem.Memory} MB */}
         </div>
+        <br /><br />
+        {(Testcases.length>0)?(
+          <div className="text-lg text-gray-600 dark:text-gray-300">
+          <h2 className="underline text-gray-100">Sample:</h2>
+          <h3 className=" text-gray-100">Input:-</h3>
+          {Testcases[0].Input}
+          <h3 className=" text-gray-100">Output:-</h3>
+          {Testcases[0].Solution}
+        </div>
+        ):(<></>)}
       </div>
       {/* Right half of the screen */}
-      <div className="w-full md:w-1/2 pl-4">
+      <div className="w-full md:w-1/2 pl-4 mt-7">
         <form onSubmit={handleRun}>
           <label htmlFor="language" className="mr-2">Language:</label>
           <select

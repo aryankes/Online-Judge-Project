@@ -208,6 +208,35 @@ exports.updateAdmin=async(req,res)=>{
         return res.status(400).send("Updation Failed");
     }
 };
+exports.createAdmin=async(req,res)=>{
+    const {id:userhandle}=req.params;
+    try {
+        if(userhandle==='abc'){
+            return res.status(400).send("Cannot Change Role of this user");
+        }
+        const existingUser=await User.findOne({userhandle:userhandle});
+        
+        if(!existingUser){
+            return res.status(400).send("No Such User exists with this handle");
+        }
+        if(userhandle===req.signedCookies.token.userhandle){
+            return res.status(400).send("You cannot change your own role");
+        }
+        if(existingUser.role==='admin'){
+            existingUser.role='user';
+        }
+        else if(existingUser.role==='user'){
+            existingUser.role='admin';
+        }
+        await existingUser.save();
+        return res.status(200).send({message:"Successfully changed user role",existingUser});
+    } catch (error) {
+        console.log("Error at create admin");
+        console.log(error);
+        return res.status(400).send("Failed to change user role ");
+    }
+    
+}
 exports.delete = async (req, res) => {
     try {
       //get all the data from the frontend
@@ -334,6 +363,7 @@ exports.removeImg=async(req,res)=>{
     }
     
 }
+
 const OTPs = {}; // Temporary storage for OTPs
 
 // Set up Nodemailer transporter
