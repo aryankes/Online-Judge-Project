@@ -58,7 +58,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#roadmap">ProjectStructure</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -71,7 +71,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 This web application, built using the MERN stack (MongoDB, Express, React, and Node.js), serves as an online judge for algorithm questions. It enables users to practice programming by solving algorithmic challenges. The platform compiles and executes code, testing it against pre-constructed TestCases. 
 
@@ -111,7 +110,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
+
 
 ### Prerequisites
 
@@ -196,31 +195,72 @@ INSTANCE_IP=yourInstanceIp(If pushing to aws else use "http://localhost")
 Once the installation is complete, you can start using the platform by navigating to `http://localhost:5173` in your web browser.
 
 - **Register Page**: Create a new account.
-- ![Register](https://github.com/aryankes/Online-Judge-Project/blob/main/images/register.png)
+![Register](https://github.com/aryankes/Online-Judge-Project/blob/main/images/register.png)
 - **Login**: Login to your account.
-- ![Register](https://github.com/aryankes/Online-Judge-Project/blob/main/images/login.png)
-- **Submit Code**: Choose a problem, write your solution in the editor, and submit it for evaluation.
-- **View Results**: Check the results of your submissions in the verdict.
-- **See stats**: Check the number and distributions of problems solved.
+![Register](https://github.com/aryankes/Online-Judge-Project/blob/main/images/login.png)
+- **Homepage**:
+![Register](https://github.com/aryankes/Online-Judge-Project/blob/main/images/homepage.png)
+- **ProblemSet**: Page Listing all the available problems.
+![Register](https://github.com/aryankes/Online-Judge-Project/blob/main/images/problemset.png)
+- **ProblemDescription**: Page Describing the Problem.
+![Register](https://github.com/aryankes/Online-Judge-Project/blob/main/images/problemdescription.png)
+- **Testcase**: Page Listing the Testcases.
+![Register](https://github.com/aryankes/Online-Judge-Project/blob/main/images/testcaseset.png)
+- **Submissions**: Page Listing all user submissions.
+![Register](https://github.com/aryankes/Online-Judge-Project/blob/main/images/submissions.png)
+- **Userlist**: Page Listing the users.
+![Register](https://github.com/aryankes/Online-Judge-Project/blob/main/images/userlist.png)
+- **Profile**: Profile Page of users.
+![Register](https://github.com/aryankes/Online-Judge-Project/blob/main/images/profile.png)
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+Role respective crud functionality has also been provided
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- ROADMAP -->
-## Roadmap
+## Project Structure
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
+```plaintext
+BackendFrontend/
+├── backend/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── uploads/
+│   ├── Dockerfile
+│   ├── .env
+│   ├── .gitignore
+│   ├── server.js
+│   └── package.json
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── App.jsx
+│   │   ├── App.css
+│   │   ├── AuthContext.jsx
+│   │   └── main.jsx
+│   ├── themes/
+│   ├── .env
+│   ├── Dockerfile
+│   ├── tailwind.config.js
+│   ├── vite.config.js
+│   └── package.json
+├── Compiler/
+│   ├── server.js
+│   ├── executeCpp.js
+│   ├── executeC.js
+│   ├── executepy.js
+│   ├── generaterFile.js
+│   ├── generateInputFile.js
+│   └── package.json
+└── README.md
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -228,8 +268,6 @@ See the [open issues](https://github.com/othneildrew/Best-README-Template/issues
 
 <!-- CONTRIBUTING -->
 ## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
@@ -256,29 +294,16 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Aryan Kesharwani -  aryankesharwani142004@gmail.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/aryankes/Online-Judge-Project](https://github.com/aryankes/Online-Judge-Project)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
