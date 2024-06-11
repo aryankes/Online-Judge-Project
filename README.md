@@ -44,6 +44,8 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
+    <li><a href="#feature">Features</a></li>
+
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
@@ -62,12 +64,39 @@
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
 
-
+## Features
+- User Authentication
+  - Registration
+  - Login
+  - Logout
+  - Forgot Password
+- User Authorization
+  - Two types of Users- Admin and User
+  - Different rendering for each type
+- Problem Management
+  - Add/Edit/Delete Problems
+  - Problem Set list
+  - Problem Description
+  - Testcase Management Read/Add/Delete/Update Testcases
+- Code Submission and Evaluation
+  - Support for multiple languages (C, C++, Python)
+  - Code Compilation
+  - Code Execution
+  - Test Case Validation
+  - Isolation Achieved using Docker
+- Submission Verdict
+  - View All Submissions
+  - Submission filter by userhandle/ProblemId
+- Profile Page
+  - User Details
+  - Profile Photo
+  - User Submissions
+- User List
+  - Admin access to switch roles/ update /delete user
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
