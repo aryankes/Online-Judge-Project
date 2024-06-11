@@ -120,7 +120,7 @@ Make sure you have the following software installed on your local machine:
 - [MongoDB](https://www.mongodb.com/)
 - [Docker](https://www.docker.com/) (Optional, for running the judge in a containerized environment)
 
-  ```
+  
 
 ### Installation
 
@@ -151,14 +151,14 @@ Make sure you have the following software installed on your local machine:
 
 5. **Set up environment variables**
     Create a `.env` file in the `backend` directory and add your configuration details:
-    ```env
+    ```
     MONGO_URI=Your_mongo_DB_link
-PORT=5000
-SECRET_KEY =your_secret_key
-salt_rounds=x(no.of rounds)
-CookieSecret=your_secret
-nodemailerPassword=yourSystemEmailPassword
-INSTANCE_IP=yourInstanceIp(If pushing to aws else use "http://localhost")
+    PORT=5000
+    SECRET_KEY =your_secret_key
+    salt_rounds=x(no.of rounds)
+    CookieSecret=your_secret
+    nodemailerPassword=yourSystemEmailPassword
+    INSTANCE_IP=yourInstanceIp(If pushing to aws else use "http://localhost")
     ```
 
 6. **Set up environment variables**
