@@ -30,9 +30,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
+  
 
   <h1 align="center">Optimal Forces</h1>
 
@@ -129,7 +128,7 @@ Make sure you have the following software installed on your local machine:
 
 1. **Clone the repository**
     ```bash
-    git clone https://github.com/aryankes/Online-Judge-Project
+    git clone https://github.com/aryankes/Online-Judge-Project.git
     cd BackendFrontend
     ```
 
@@ -197,7 +196,9 @@ INSTANCE_IP=yourInstanceIp(If pushing to aws else use "http://localhost")
 Once the installation is complete, you can start using the platform by navigating to `http://localhost:5173` in your web browser.
 
 - **Register Page**: Create a new account.
+- ![Register](https://github.com/aryankes/Online-Judge-Project/blob/main/images/register.png)
 - **Login**: Login to your account.
+- ![Register](https://github.com/aryankes/Online-Judge-Project/blob/main/images/login.png)
 - **Submit Code**: Choose a problem, write your solution in the editor, and submit it for evaluation.
 - **View Results**: Check the results of your submissions in the verdict.
 - **See stats**: Check the number and distributions of problems solved.
