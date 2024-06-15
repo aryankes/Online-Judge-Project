@@ -77,51 +77,7 @@ function ProfileSettings(){
     };
     return(
 
-        // <div>
-        //     <Navbar/>
-        //     <form onSubmit={handleSubmit}>
-        //         <h2>Update Settings</h2>
-        //         <div>
-        //             <label >
-        //                 FirstName:
-        //                 <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} required  />
-        //             </label>
-        //         </div>
-        //         <br /><div>
-        //             <label >
-        //                 LastName:
-        //                 <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} required  />
-        //             </label>
-        //         </div>
-        //         <br /><div>
-        //             <label >
-        //                 Email:
-        //                 <input type="text" name="email" value={formData.email} onChange={handleChange} required  />
-        //             </label>
-        //         </div>
-        //         <br /><div>
-        //             <label >
-        //                 Old Password:
-        //                 <input type="password" name="oldPassword" value={formData.oldPassword} onChange={handleChange} required  />
-        //             </label>
-        //         </div>
-        //         <br /><div>
-        //             <label >
-        //                 New Password:
-        //                 <input type="password" name="newPassword" value={formData.newPassword} onChange={handleChange} placeholder="Leave it blank if you do not want to change the password" />
-        //             </label>
-        //         </div>
-        //         <br /><div>
-        //             <label >
-        //                 Confirm Password:
-        //                 <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange}   />
-        //             </label>
-        //         </div>
-        //         <br />
-        //         <button type="submit"> Update </button>
-        //         <br />
-        //     </form>
-        // </div>
+       
         <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col items-center justify-center">
         <Navbar/>
         <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 shadow-md rounded px-8 pt-6 pb-8 mb-4">
