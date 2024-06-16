@@ -11,6 +11,9 @@ function Userlist() {
   const userRole=localStorage.getItem('userRole');
   const [Users, setUsers] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: 'DateTime', direction: 'asc' });
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredUsers, setFilteredUsers] = useState([]);
+
   useEffect(() => {
     async function fetchUsers() {
       try {
@@ -24,6 +27,19 @@ function Userlist() {
     }
     fetchUsers();
   }, [sortConfig]);
+  const filterUsers = (searchTerm) => {
+    setSearchTerm(searchTerm);
+    if (searchTerm === '') {
+      setFilteredUsers([]);
+    } else {
+      const filtered = Users.filter(user =>
+        user.userhandle.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setFilteredUsers(filtered);
+    }
+  };
   const handleUpdateUser=(userhandle)=>{
     navigate(`/UpdateUser/${userhandle}`);
   };
@@ -34,8 +50,6 @@ function Userlist() {
         const response = await axios.delete(`${API_BASE_URL}/api/example/delete/${userhandle}`);
         alert(`Success: ${response.data.message}`);
         //refreshing the list of problems
-        
-
         setUsers(Users.filter(user => user.userhandle !== userhandle));
       } catch (error) {
         console.error('Error deleting problem:', error);
@@ -56,7 +70,6 @@ function Userlist() {
         console.error('Error deleting problem:', error);
         alert(`Error: ${error.response.data}`); // Include server error response in alert message
       }
-
     }
   };
   const sortUsers=(key)=>{
@@ -78,6 +91,15 @@ function Userlist() {
       <Navbar />
       <div className="min-h-screen w-full mx-auto px-4 py-8 mt-16 dark:bg-gray-800 dark:text-white">
         <h1 className="text-3xl font-bold mb-4 text-gray-800 dark:text-white">Users</h1>
+        <div className="mb-4">
+          <input
+            type="text"
+            className="border border-gray-300 rounded-md p-2 w-80 text-gray-800"
+            placeholder="Search by User Handle or Name"
+            value={searchTerm}
+            onChange={(e) => filterUsers(e.target.value)}
+          />
+        </div>
         <table className="w-full border-collapse border border-gray-300 ">
           <thead className="bg-gray-200 dark:bg-gray-700">
             <tr>
@@ -97,7 +119,8 @@ function Userlist() {
             </tr>
           </thead>
           <tbody>
-            {Users.map((user, index) => (
+          {searchTerm.length > 0 ? (
+            filteredUsers.map((user, index) => (
               <tr key={index}>
                 <td className="border p-2"><Link to={`/Profile/${user.userhandle}`} className="text-blue-500 underline hover:text-blue-600">{user.userhandle}</Link></td>
                 <td className="border p-2">{`${user.firstName} ${user.lastName}`}</td>
@@ -114,7 +137,28 @@ function Userlist() {
                   </>
                 )}
               </tr>
-            ))}
+            ))
+          ) : (
+            Users.map((user, index) => (
+              <tr key={index}>
+                <td className="border p-2"><Link to={`/Profile/${user.userhandle}`} className="text-blue-500 underline hover:text-blue-600">{user.userhandle}</Link></td>
+                <td className="border p-2">{`${user.firstName} ${user.lastName}`}</td>
+                <td className="border p-2">{String(user.DateTime).split('T')[0]}</td>
+                <td className="border p-2">{user.TotalSubmissions}</td>
+                <td className="border p-2">{user.TotalAccepted}</td>
+                {userRole === 'admin' && (
+                  <>
+                    <td className="border p-2"><button onClick={() => handleUpdateUser(user.userhandle)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Update</button></td>
+                    <td className="border p-2"><button onClick={() => handleDeleteUser(user.userhandle)} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">Delete</button></td>
+                    <td className="border p-2">{user.role}</td>
+                    <td className="border p-2"><button onClick={() => handleSwitchRole(user.userhandle)} className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded">Switch</button></td>
+
+                  </>
+                )}
+              </tr>
+            ))
+            )}
+            
           </tbody>
         </table>
       </div>

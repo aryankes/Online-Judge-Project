@@ -91,14 +91,45 @@ exports.read=async(req,res)=>{
             return res.status(400).send("Please enter handle correctlly in parametres ");
         }
         const user=await User.findOne({userhandle:userhandle});
+        const currentUser = await User.findOne({ userhandle: req.signedCookies.token.userhandle });
         if(!user){
             return res.status(400).send("No User exists with this handle");
         }
-        res.status(200).send(user);
+        const flag=currentUser.Friends.includes(userhandle);
+        // console.log(flag);
+        res.status(200).send({user:user,isFriend:flag});
     } catch (error) {
         console.log("error fetching the User ",error)
     }
 };
+exports.friendToggle=async(req,res)=>{
+    try {
+        const {id:userhandle}=req.params;
+        if(!userhandle){
+            return res.status(400).send("Please Enter all the imformation");
+        }
+        if(userhandle===req.signedCookies.token.userhandle){
+            return res.status(400).send("Cannot make onself one's own friend");
+        }
+        const currentUser = await User.findOne({ userhandle: req.signedCookies.token.userhandle });
+        if (!currentUser) {
+            return res.status(404).send("User not found");
+        }
+        const index = currentUser.Friends.indexOf(userhandle);
+        if (index !== -1) {
+            currentUser.Friends.splice(index, 1);
+        } else {
+            currentUser.Friends.push(userhandle);
+        }
+
+        await currentUser.save();
+
+        res.status(200).send("Friend status toggled successfully");
+    } catch (error) {
+        console.log("error toggling friend status of user ",error)
+        
+    }
+}
 exports.readAll=async(req,res)=>{
 let { sortField = 'DateTime', sortOrder = 'asc' } = req.query;
 

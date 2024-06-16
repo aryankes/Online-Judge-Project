@@ -24,7 +24,6 @@ function SubmissionHeatmap(userhandle) {
             }
         }
         fetchSub();
-        
     }, []);
     useEffect( ()=>{
         async function fetchUser(){
@@ -49,7 +48,7 @@ function SubmissionHeatmap(userhandle) {
             aggregatedData[date] = 1;
         }
     });
-
+    
     const heatmapData = Object.keys(aggregatedData).map(date => ({
         date: new Date(date),
         count: aggregatedData[date]
@@ -75,17 +74,16 @@ function SubmissionHeatmap(userhandle) {
                         return 'color-scale-medium';
                     }
                     return 'color-scale-high';
+                    
                 }}
-                // style={{
-                //     width: '100%',
-                //     height: '400px',
-                //     margin: 'auto',
-                //     border: '1px solid #ccc',
-                //     borderRadius: '5px',
-                //     padding: '10px',
-                //     boxSizing: 'border-box',
-                //     // Add more styles as needed
-                // }}
+                onMouseOver={(e, value) => {
+                if (value) {
+                    const date = value.date.toDateString();
+                    const count = value.count;
+                    e.target.setAttribute('data-tip', `${date}: ${count} submissions`);
+                    e.target.style = "cursor: pointer;";
+                }
+            }}
             />
             <br /><br /><span className="mr-16">Total Submissions: {user.TotalSubmissions}</span>
             <span>Total Accepted: {user.TotalAccepted}</span>

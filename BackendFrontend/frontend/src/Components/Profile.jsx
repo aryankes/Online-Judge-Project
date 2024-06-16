@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 axios.defaults.withCredentials=true;
 import Navbar from "./Navbar";
+import FriendStar from "./FriendStar";
+
 import { useNavigate,Link } from "react-router-dom";
 import { API_BASE_URL } from './config';
 import SubmissionHeatmap from "./SubmissionHeatmap";
@@ -15,22 +17,25 @@ function Profile(){
     const [File,setFile]=useState('');
     const [imgPath,setimgPath]=useState('');
     const fileInputRef = useRef(null);
+    const [isFriend, setIsFriend] = useState(false); // State to track friend status
     useEffect( ()=>{
         async function fetchUser(){
             // e.preventDefault();
             try {
                 const response=await axios.get(`${API_BASE_URL}/api/example/read/${userhandle}`)
-                setuser(response.data);
-            }
+                setuser(response.data.user);
+                // console.log(isFriend);
+                setIsFriend(response.data.isFriend);
+            }       
             catch (error) {
                 console.error("Error fetching User Details:", error); 
             }
         }
         fetchUser();
     },[imgPath]);
+
     useEffect(()=>{
         const handleUpload=async ()=>{
-            
             if(File){
                 try {
                     const formData = new FormData();
@@ -67,12 +72,12 @@ function Profile(){
     const handleImageChange = () => {
         fileInputRef.current.click();
     };
-
   return (
     <div>
         <Navbar/>
     <div className="w-full min-h-screen mx-auto px-20 py-8 mt-16 dark:bg-gray-800 dark:text-white">
       <h1 className="text-3xl font-bold text-gray-800 dark:text-white">{user.userhandle}</h1>
+      <FriendStar userhandle={user.userhandle} isFriend={isFriend}  />
       <br />
     <div className="flex flex-wrap ">
         <div className="w-full md:w-1/2 pr-4">
@@ -82,9 +87,14 @@ function Profile(){
                 <br /><br /><span><span className="font-bold block">Email:</span> {user.email}</span>
                 <br /><br /><span><span className="font-bold block">Registered On:</span> {(String(user.DateTime)).split('T')[0]}</span>
                 <br /><br />
-                {user.userhandle===localStorage.userhandle? (<Link to={`/ProfileSettings/${userhandle}`} className="text-blue-500 underline">
+                {user.userhandle===localStorage.userhandle? (<><Link to={`/ProfileSettings/${userhandle}`} className="text-blue-500 underline">
                     Change Settings
-                </Link>):(<></>)}
+                </Link><br /><br />
+                <Link to={`/Friends/${userhandle}`} className="text-blue-500 underline">
+                    My Friends
+                </Link>
+                </>
+            ):(<></>)}
                 <br /><br />
                 <Link to={`/Submissions/userhandle/${userhandle}`} className="text-blue-500 mr-8 underline">
                     Submissions
