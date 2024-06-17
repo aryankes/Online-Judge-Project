@@ -67,7 +67,7 @@ exports.readbyhandle=async(req,res)=>{
     }
 }
 exports.read=async(req,res)=>{
-  let {filterField,filterValue, sortField = 'DateTime', sortOrder = 'asc' } = req.query;
+  let {filterField,filterValue, sortField = 'DateTime', sortOrder = 'asc',friendsOnly=false,myOnly=false } = req.query;
   // console.log("YES");
     if (!allowedSortFields.includes(sortField)) {
       sortField = 'DateTime'; // Default field
@@ -75,11 +75,11 @@ exports.read=async(req,res)=>{
     if (!allowedSortOrders.includes(sortOrder)) {
       sortOrder = 'desc'; // Default order
     }
-    let filter = {};
+    let query={};
     
     if(allowedFields.includes(filterField)){
       if (filterField && filterValue) {
-        filter[filterField] = filterValue;
+        query[filterField] = filterValue;
       }
     }
     try {
@@ -107,7 +107,25 @@ exports.read=async(req,res)=>{
         user.TotalAccepted=cnt;
         await user.save();
       }
-      const submission=await Submission.find(filter).sort({ [sortField]: sortOrder === 'asc' ? 1 : -1 });
+      let submission;
+      const currentUser=await User.findOne({userhandle:req.signedCookies.token.userhandle});
+      const currenthandle=req.signedCookies.token.userhandle;
+      // console.log(myOnly,friendsOnly);
+      if(myOnly===false&&friendsOnly===false){
+        submission=await Submission.find(query).sort({ [sortField]: sortOrder === 'asc' ? 1 : -1 });
+      }
+      else if(friendsOnly){
+        const Friends=currentUser.Friends;
+        query.userhandle={$in:[...Friends,currenthandle]};
+
+        submission=await Submission.find(query).sort({ [sortField]: sortOrder === 'asc' ? 1 : -1 });
+      }
+      else if(myOnly){
+        query.userhandle=currenthandle;
+        // console.log(query);
+        submission=await Submission.find(query).sort({ [sortField]: sortOrder === 'asc' ? 1 : -1 });
+      }
+
       res.status(200).send(submission);
     } catch (error) {
       console.log("Error reading submissions by only read",error);

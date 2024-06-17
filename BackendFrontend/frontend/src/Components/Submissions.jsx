@@ -14,10 +14,17 @@ function Submissions() {
     // console.log(filterField,filterValue);
   const [submissions, setSubmissions] = useState([]);
   const [sortConfig, setSortConfig] = useState({ key: 'DateTime', direction: 'desc' });
+  const [filterType, setFilterType] = useState('');
   useEffect(() => {
     async function fetchSubmissions() {
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/submissions/read?filterField=${filterField}&filterValue=${filterValue}&sortField=${sortConfig.key}&sortOrder=${sortConfig.direction}`);
+        let url=`${API_BASE_URL}/api/submissions/read?filterField=${filterField}&filterValue=${filterValue}&sortField=${sortConfig.key}&sortOrder=${sortConfig.direction}`;
+        if (filterType === 'friends') {
+          url += '&friendsOnly=true';
+        } else if (filterType === 'mine') {
+          url += '&myOnly=true';
+        }
+        const response = await axios.get(url);
         setSubmissions(response.data);
       } catch (error) {
         console.error('Error fetching submissions:', error);
@@ -25,7 +32,7 @@ function Submissions() {
     }
 
     fetchSubmissions();
-  }, [sortConfig,filterField]);
+  }, [sortConfig,filterField,filterType]);
   const sort=(key)=>{
     let direction = 'asc';
     if (sortConfig.key === key)  {
@@ -74,7 +81,20 @@ function Submissions() {
     <div className=" min-h-screen dark:bg-gray-800 dark:text-white">
       <Navbar />
       <div className='   mx-auto px-4 py-8 mt-16 **auto**'>
-      <h1 className="text-3xl font-bold mb-4 text-gray-800 dark:text-white">{`${filterValue} submissions`}</h1>
+      {/* <h1 className="text-3xl font-bold mb-4 text-gray-800 dark:text-white">{`${filterValue} submissions`}</h1> */}
+      <div className="flex justify-between items-center mb-4">
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">{`${filterValue} submissions`}</h1>
+          <div>
+            <label className="inline-flex items-center ml-4">
+              <input type="radio" className="form-radio h-5 w-5 text-blue-500" value="friends" checked={filterType === 'friends'} onChange={() => setFilterType('friends')} />
+              <span className="ml-2 text-gray-700 dark:text-gray-300">Friends only</span>
+            </label>
+            <label className="inline-flex items-center ml-4">
+              <input type="radio" className="form-radio h-5 w-5 text-blue-500" value="mine" checked={filterType === 'mine'} onChange={() => setFilterType('mine')} />
+              <span className="ml-2 text-gray-700 dark:text-gray-300">My only</span>
+            </label>
+          </div>
+        </div>
     <table className=" border-collapse  border border-gray-300 dark:border-gray-600">
         <thead className="bg-gray-200 dark:bg-gray-700">
           <tr>

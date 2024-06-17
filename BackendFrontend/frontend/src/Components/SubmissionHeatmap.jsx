@@ -54,10 +54,10 @@ function SubmissionHeatmap(userhandle) {
         count: aggregatedData[date]
     }));
     // console.log(heatmapData);
+    let tot=user.TotalAccepted;
     return (
         <div className='p-1 '>
             <h1 className='text-gray-200'>Submission Heatmap</h1>
-            <div className='p-8 border-2 border-gray-500 rounded-lg'>
             <CalendarHeatmap
                 startDate={new Date(new Date().getFullYear() - 1, new Date().getMonth(), new Date().getDate())}
                 endDate={new Date()}
@@ -85,9 +85,7 @@ function SubmissionHeatmap(userhandle) {
                 }
             }}
             />
-            <br /><br /><span className="mr-16">Total Submissions: {user.TotalSubmissions}</span>
-            <span>Total Accepted: {user.TotalAccepted}</span>
-            </div>
+            
         </div>
     );
 }

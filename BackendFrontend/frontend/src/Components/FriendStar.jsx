@@ -4,7 +4,6 @@ import { API_BASE_URL } from './config';
 import star_gray from '../assets/star_gray_24.png';
 import star_yellow from '../assets/star_yellow_24.png';
 const FriendStar = ({ userhandle, isFriend }) => {
-  console.log(isFriend);
   const handleToggleFriend = async () => {
     
     try {

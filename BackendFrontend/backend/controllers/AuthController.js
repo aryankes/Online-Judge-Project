@@ -130,6 +130,17 @@ exports.friendToggle=async(req,res)=>{
         
     }
 }
+exports.myFriends=async(req,res)=>{
+    try {
+        const currentUser = await User.findOne({ userhandle: req.signedCookies.token.userhandle });
+        if (!currentUser) {
+            return res.status(404).send("User not found");
+        }
+        res.status(200).send(currentUser.Friends);
+    } catch (error) {
+        return res.status(400).send("Error Showing all friends");
+    }
+}
 exports.readAll=async(req,res)=>{
 let { sortField = 'DateTime', sortOrder = 'asc' } = req.query;
 

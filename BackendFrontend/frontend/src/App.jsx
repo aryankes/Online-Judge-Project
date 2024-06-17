@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Profile from './Components/Profile';
 import ProfileSettings from './Components/ProfileSettings';
 import Userlist from './Components/Userlist';
+import Friends from './Components/Friends';
 import UpdateUser from './Components/UpdateUser';
 
 import RegisterPage from './Components/RegisterPage';
@@ -53,7 +54,9 @@ function App() {
 
             <Route path="/Profile/:id" element={<Profile/>} />
             <Route path="/ProfileSettings/:id" element={<ProfileSettings/>} />
+            <Route path="/Friends" element={<Friends/>} />
             <Route path="/Userlist" element={<Userlist/>} />
+
             <Route path="/UpdateUser/:id" element={<UpdateUser/>}/>
             
             <Route path="/ProblemSet" element={<ProblemSet />} />

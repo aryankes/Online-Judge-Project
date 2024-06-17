@@ -77,7 +77,8 @@ function Profile(){
         <Navbar/>
     <div className="w-full min-h-screen mx-auto px-20 py-8 mt-16 dark:bg-gray-800 dark:text-white">
       <h1 className="text-3xl font-bold text-gray-800 dark:text-white">{user.userhandle}</h1>
-      <FriendStar userhandle={user.userhandle} isFriend={isFriend}  />
+      {localStorage.userhandle!==userhandle?(<FriendStar userhandle={user.userhandle} isFriend={isFriend}  />):
+      (<></>)}
       <br />
     <div className="flex flex-wrap ">
         <div className="w-full md:w-1/2 pr-4">
@@ -90,7 +91,7 @@ function Profile(){
                 {user.userhandle===localStorage.userhandle? (<><Link to={`/ProfileSettings/${userhandle}`} className="text-blue-500 underline">
                     Change Settings
                 </Link><br /><br />
-                <Link to={`/Friends/${userhandle}`} className="text-blue-500 underline">
+                <Link to={`/Friends`} className="text-blue-500 underline">
                     My Friends
                 </Link>
                 </>
@@ -122,7 +123,11 @@ function Profile(){
             
         </div>
         <div className="w-full md:w-3/4  mt-2">
+        <div className='p-8 border-2 border-gray-500 rounded-lg'>
             <SubmissionHeatmap userhandle={userhandle}/>
+        <br /><br /><span className="mr-16">Total Submissions: {user.TotalSubmissions}</span>
+        <span>Total Accepted: {user.TotalAccepted}</span>
+        </div>
         </div>
         </div>
         </div>
