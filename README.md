@@ -73,7 +73,7 @@
 
 ## Demo Video
 
-[Watch the demo video](https://www.loom.com/share/9805fee7ccda4f97ba1bb06592d4093c?sid=3af903bf-bfc8-4db1-8386-091618285fe3)
+[Watch the demo video](https://www.loom.com/share/fb9fc77493e340bd8956f0bf7041de87?sid=dc255fb5-b3f8-4838-84bb-bdac88fe9d10)
 
 *Click the link to watch the demo video*
 ## About The Project
