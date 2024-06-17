@@ -36,5 +36,4 @@ exports.submit=async (req,res)=>{
         res.status(400).json(error.response.data);
         
     }
-    
 }
