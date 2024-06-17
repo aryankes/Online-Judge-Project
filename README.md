@@ -29,15 +29,16 @@
 ## Table of Contents
 - [Features](#features)
 - [Demo Video](#demo-video)
+- [About Project](#about-the-project)
 - [Technologies Used](#technologies-used)
 - [Getting Started](#getting-started)
+- [Prerequisites](#Prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
-- [Acknowledgements](#acknowledgements)
 
 
 ## Features
@@ -69,7 +70,12 @@
   - User Submissions
 - User List
   - Admin access to switch roles/ update /delete user
-<!-- ABOUT THE PROJECT -->
+
+## Demo Video
+
+[Watch the demo video](https://www.loom.com/share/9805fee7ccda4f97ba1bb06592d4093c?sid=3af903bf-bfc8-4db1-8386-091618285fe3)
+
+*Click the link to watch the demo video*
 ## About The Project
 
 
@@ -81,7 +87,7 @@ This application also assigns each user the ability to view their submissions, u
 
 
 
-### Built With
+### Technologies Used
 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
